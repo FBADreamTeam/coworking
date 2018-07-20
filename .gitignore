@@ -25,4 +25,3 @@ yarn-error.log
 /.idea/
 /gestion_projet/modelisation/*.bak*
 /gestion_projet/modelisation/*.lck
-composer.lock
