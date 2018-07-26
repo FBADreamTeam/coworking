@@ -45,6 +45,11 @@ class Booking
      */
     private $bookingOptions;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Order", mappedBy="booking", cascade={"persist", "remove"})
+     */
+    private $order;
+
     public function __construct()
     {
         $this->bookingOptions = new ArrayCollection();
@@ -129,6 +134,23 @@ class Booking
             if ($bookingOption->getBooking() === $this) {
                 $bookingOption->setBooking(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getOrder(): ?Order
+    {
+        return $this->order;
+    }
+
+    public function setOrder(Order $order): self
+    {
+        $this->order = $order;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $order->getBooking()) {
+            $order->setBooking($this);
         }
 
         return $this;
