@@ -1,3 +1,5 @@
+{% trans_default_domain 'navigation' %}
+
 <!-- Header -->
 
 <header class="header d-flex flex-row justify-content-end align-items-center">
@@ -8,8 +10,85 @@
             <a href="#"><span>D</span>DreamTeamCoworking<span>.</span></a>
         </div>
     </div>
-    {% include 'components/_nav.html.twig' %}
+    <!-- Main Navigation -->
+    <nav class="main_nav justify-self-end">
+        <ul class="nav_items">
+            <li class="active"><a href="#"><span>{{ 'nav.home' | trans }}</span></a></li>
+            <li><a href="services.html"><span>{{ 'nav.our_philosophy' | trans }}</span></a></li>
+            <li><a href="blog.html"><span>{{ 'nav.pricing' | trans }}</span></a></li>
+            <li><a href="contact.html"><span>{{ 'nav.contact' | trans }}</span></a></li>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <li >
+                    <a href="#">{{ 'nav.logout' | trans }} </a>
+                </li>
+            {% else %}
+                {#<li {% if (active == 'adduser') %} class="active" {% endif %}>#}
+                <li>
+                    <a href="#">{{ 'nav.register' | trans }} </a>
+                </li>
+                {#<li {% if (active == 'login') %} class="active" {% endif %}>#}
+                <li>
+                    <a href="#">{{ 'nav.login' | trans }} </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <!-- Hamburger -->
+    <div class="hamburger_container">
+        <span class="hamburger_text">Menu</span>
+        <span class="hamburger_icon"></span>
+    </div>
+
 
 
 
 </header>
+
+<!-- Menu -->
+
+<div class="fs_menu_overlay"></div>
+<div class="fs_menu_container">
+    <div class="fs_menu_shapes"><img src="{{ asset('images/menu_shapes.png') }}" alt=""></div>
+    <nav class="fs_menu_nav">
+        <ul class="fs_menu_list">
+            <li>
+                <a href="#"><span><span>{{ 'nav.home' | trans |first }}</span>{{ 'nav.home' | trans }}</span></a>
+            </li>
+            <li>
+                <a href="#"><span><span>{{ 'nav.our_philosophy' | trans |first }}</span>{{ 'nav.our_philosophy' | trans }}</span></a>
+            </li>
+            <li>
+                <a href="#"><span><span>{{ 'nav.pricing' | trans |first }}</span>{{ 'nav.pricing' | trans }}</span></a>
+            </li>
+            <li>
+                <a href="#"><span><span>{{ 'nav.contact' | trans |first }}</span>{{ 'nav.contact' | trans }}</span></a>
+            </li>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <li >
+                    <a href="#"><span><span>{{ 'nav.logout' | trans |first }}</span>{{ 'nav.logout' | trans }}</span></a>
+                </li>
+            {% else %}
+                {#<li {% if (active == 'adduser') %} class="active" {% endif %}>#}
+                <li>
+                    <a href="#"><span><span>{{ 'nav.register' | trans |first }}</span>{{ 'nav.register' | trans }}</span> </a>
+                </li>
+                {#<li {% if (active == 'login') %} class="active" {% endif %}>#}
+                <li>
+                    <a href="#"><span><span>{{ 'nav.login' | trans |first }}</span>{{ 'nav.login' | trans }}</span></a>
+                </li>
+            {% endif %}
+
+        </ul>
+    </nav>
+    <div class="fs_social_container d-flex flex-row justify-content-end align-items-center">
+        <ul class="fs_social">
+            <li><a href="#"><i class="fab fa-pinterest trans_300"></i></a></li>
+            <li><a href="#"><i class="fab fa-facebook-f trans_300"></i></a></li>
+            <li><a href="#"><i class="fab fa-twitter trans_300"></i></a></li>
+            <li><a href="#"><i class="fab fa-dribbble trans_300"></i></a></li>
+            <li><a href="#"><i class="fab fa-behance trans_300"></i></a></li>
+            <li><a href="#"><i class="fab fa-linkedin-in trans_300"></i></a></li>
+        </ul>
+    </div>
+</div>
