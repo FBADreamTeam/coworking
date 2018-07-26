@@ -1,7 +1,15 @@
 security:
+    encoders:
+        App\Entity\Customer: bcrypt
+
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory: { memory: ~ }
+
+        customer_provider:
+            entity:
+                class: App\Entity\Customer
+                property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -14,8 +22,17 @@ security:
             # http_basic: true
             # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
 
-            # form_login: true
-            # https://symfony.com/doc/current/security/form_login_setup.html
+            form_login:
+                login_path: profile_login # Permet à symfony de connaitre notre route de connexion
+                check_path: profile_login # Route généré par symfony pour vérifier nos informations de connexion à partir de notre route connexion
+                username_parameter: customer_login[email]
+                password_parameter: customer_login[password]
+                default_target_path: /
+
+            provider: customer_provider
+            logout:
+                path: /profile/logout
+                target: /
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
