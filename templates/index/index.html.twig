@@ -11,9 +11,229 @@
 {% endblock %}
 
 {% block content %}
+    {# Social bar#}
+    <div class="home_social_container d-flex flex-row justify-content-end align-items-center">
+        <ul class="home_social">
+            <li><a href="#"><i class="fab fa-pinterest trans_300"></i></a></li>
+            <li><a href="#"><i class="fab fa-facebook-f trans_300"></i></a></li>
+            <li><a href="#"><i class="fab fa-twitter trans_300"></i></a></li>
+            <li><a href="#"><i class="fab fa-dribbble trans_300"></i></a></li>
+            <li><a href="#"><i class="fab fa-behance trans_300"></i></a></li>
+            <li><a href="#"><i class="fab fa-linkedin-in trans_300"></i></a></li>
+        </ul>
+    </div>
+    <!-- Features -->
 
+    <div class="features">
+        <div class="container">
+            <div class="row align-items-end">
 
+                <!-- Features Item -->
+                <div class="col-lg-4 features_col">
+                    <div class="features_item d-flex flex-column align-items-center justify-content-end text-center">
+                        <!-- <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                        <div class="icon_container d-flex flex-column justify-content-end">
+                            <img src="{{ asset('images/icon_1.svg') }}" alt="">
+                        </div>
+                        <h3>Dream Team Coworking</h3>
+                        <p>Une équipe d'experts pour vous accueillir et rendre votre expérience agréable et efficace </p>
+                    </div>
+                </div>
 
+                <!-- Features Item -->
+                <div class="col-lg-4 features_col">
+                    <div class="features_item d-flex flex-column align-items-center justify-content-center text-center">
+                        <!-- <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                        <div class="icon_container d-flex flex-column justify-content-end">
+                            <img src="{{ asset('images/icon_2.svg') }}" alt="">
+                        </div>
+                        <h3>Propulser vos projets</h3>
+                        <p>Dans nos bureaux ou nos salles de réunion. Propulsez vos idées au sommet !</p>
+                    </div>
+                </div>
+
+                <!-- Features Item -->
+                <div class="col-lg-4 features_col">
+                    <div class="features_item d-flex flex-column align-items-center justify-content-center text-center">
+                        <!-- <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                        <div class="icon_container d-flex flex-column justify-content-end">
+                            <img src="{{ asset('images/icon_3.svg') }}" alt="">
+                        </div>
+                        <h3>Nos valeurs</h3>
+                        <p>Cohésion, partage, synergie. Un cadre sain et agréable. Un écrin de choix à vos projets</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- About -->
+
+    <div class="about prlx_parent">
+        <!-- https://unsplash.com/@nativemello -->
+        <div class="about_background prlx" style="background-image:url({{ asset('images/office/conference-room-beautiful-view.jpg') }})"></div>
+        <div class="about_shapes"><img src="{{ asset('images/about_shapes.png') }}" alt=""></div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3 text-center section_title">
+                    <h2>Notre projet<span>DtCw</span></h2>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-lg-8">
+                    <div class="about_text">
+                        <p>Nous croyons fermement qu'un espace conviviale est propice à un travail de qualité.
+                            C'est pourquoi nous souhaitons mettre en place un lieu qui verra se créer, grandir, évoluer vos projets.
+                        </p>
+                    </div>
+                </div>
+
+                {#<div class="col-lg-6">#}
+                    {#<div class="skills_container">#}
+                        {#<ul class="progress_bar_container col_12 clearfix">#}
+                            {#<li class="pb_item">#}
+                                {#<div id="skill_1_pbar" class="skill_bars" data-perc="0.85" data-name="skill_1_pbar"></div>#}
+                                {#<h5>management</h5>#}
+                            {#</li>#}
+                            {#<li class="pb_item">#}
+                                {#<div id="skill_2_pbar" class="skill_bars" data-perc="1" data-name="skill_2_pbar"></div>#}
+                                {#<h5>design</h5>#}
+                            {#</li>#}
+                            {#<li class="pb_item">#}
+                                {#<div id="skill_3_pbar" class="skill_bars" data-perc="0.75" data-name="skill_3_pbar"></div>#}
+                                {#<h5>projects</h5>#}
+                            {#</li>#}
+                            {#<li class="pb_item">#}
+                                {#<div id="skill_4_pbar" class="skill_bars" data-perc="0.95" data-name="skill_4_pbar"></div>#}
+                                {#<h5>inspiration</h5>#}
+                            {#</li>#}
+                        {#</ul>#}
+                    {#</div>#}
+                {#</div>#}
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Features -->
+
+    <div class="features">
+        <div class="container">
+            <div class="row align-items-end">
+
+                <!-- Features Item -->
+                <div class="col-lg-4 features_col">
+                    <div class="features_item d-flex flex-column align-items-center justify-content-end text-center">
+                        <!-- <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                        <div class="icon_container d-flex flex-column justify-content-end">
+                            <img src="{{asset('images/icon_6.svg')}}" alt="">
+                        </div>
+                        <h3>Un design moderne</h3>
+                        <p>De multiples ambiances différentes pour vous permettre d'être créatif et concentré sur vos objectifs.</p>
+                    </div>
+                </div>
+
+                <!-- Features Item -->
+                <div class="col-lg-4 features_col">
+                    <div class="features_item d-flex flex-column align-items-center justify-content-center text-center">
+                        <!-- <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                        <div class="icon_container d-flex flex-column justify-content-end">
+                            <img src="{{asset('images/icon_2.svg')}}" alt="">
+                        </div>
+                        <h3>Une facturation Simple</h3>
+                        <p>Vous payez ce que vous consommez. Vous pouvez suivre votre consomation simplement</p>
+                    </div>
+                </div>
+
+                <!-- Features Item -->
+                <div class="col-lg-4 features_col">
+                    <div class="features_item d-flex flex-column align-items-center justify-content-center text-center">
+                        <!-- <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                        <div class="icon_container d-flex flex-column justify-content-end">
+                            <img src="{{asset('images/icon_3.svg')}}" alt="">
+                        </div>
+                        <h3>Une haute disponibilité</h3>
+                        <p>Nous sommes ouvert de 7h à 22h, 7j/7. Nos locaux sont accessibles pour nos clients via une carte d'accès.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Services -->
+
+    <div class="services prlx_parent">
+        <!-- artist: https://unsplash.com/@nativemello -->
+        <div class="services_background prlx" style="background-image:url({{asset('images/services_background.jpg')}})"></div>
+        <div class="services_shapes"><img src="images/services_shapes.png" alt=""></div>
+
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
+                    <div class="icon_container d-flex flex-column justify-content-end">
+                        <img src="{{asset('images/icon_1.svg')}}" alt="">
+                    </div>
+                    <h3>Communauté</h3>
+                    <p>Rejoindre nos bureaux c'est rejoindre une communauté active.</p>
+                </div>
+
+                <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
+                    <div class="icon_container d-flex flex-column justify-content-end">
+                        <img src="{{asset('images/icon_2.svg')}}" alt="">
+                    </div>
+                    <h3>Facilité du contacte</h3>
+                    <p>Appéritif, espace cuisine, tout est mis en place afin multiplier les échanges</p>
+                </div>
+
+                <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
+                    <div class="icon_container d-flex flex-column justify-content-end">
+                        <img src="{{asset('images/icon_3.svg')}}" alt="">
+                    </div>
+                    <h3>L'esprit de partage</h3>
+                    <p>La communication est importante pour nous. Nous croyons à la synergie de l'échange</p>
+                </div>
+
+                <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
+                    <div class="icon_container d-flex flex-column justify-content-end">
+                        <img src="{{asset('images/icon_4.svg')}}" alt="">
+                    </div>
+                    <h3>Espace de travail étudié</h3>
+                    <p>Envie de bureau individuel? De travailler en openspace? Nous avons tout prévu.</p>
+                </div>
+
+                <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
+                    <div class="icon_container d-flex flex-column justify-content-end">
+                        <img src="{{asset('images/icon_5.svg')}}" alt="">
+                    </div>
+                    <h3>Alchimie</h3>
+                    <p>Nous croyons qu'un espace bien agencé et décoré permet de maximiser l'efficacité du travail</p>
+                </div>
+
+                <div class="col-lg-4 service_item text-left d-flex flex-column align-items-start justify-content-start">
+                    <div class="icon_container d-flex flex-column justify-content-end">
+                        <img src="{{asset('images/icon_6.svg')}}" alt="">
+                    </div>
+                    <h3>Sérénité</h3>
+                    <p>Coût maitrisé, adapté à votre besoin, pratique et rapide. Réservez à l'heure, jour, semaine, mois.</p>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col text-center">
+                    <div class="button services_button">
+                        <a href="services.html" class="d-flex flex-row align-items-center justify-content-center">
+                            Plus d'info<img src="images/arrow_right.svg" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block final_javascripts %}
