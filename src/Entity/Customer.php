@@ -90,4 +90,12 @@ class Customer extends AbstractUser
         return $this;
     }
 
+    /**
+     * @return null
+     */
+    public function getRoles()
+    {
+        return ['ROLE_USER'];
+    }
+
 }

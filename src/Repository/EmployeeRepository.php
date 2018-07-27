@@ -20,7 +20,7 @@ class EmployeeRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Employee[] Returns an array of Employee objects
+//     * @return EmployeeFixtures[] Returns an array of EmployeeFixtures objects
 //     */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class EmployeeRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Employee
+    public function findOneBySomeField($value): ?EmployeeFixtures
     {
         return $this->createQueryBuilder('e')
             ->andWhere('e.exampleField = :val')

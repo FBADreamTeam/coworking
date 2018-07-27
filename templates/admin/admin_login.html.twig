@@ -1,0 +1,39 @@
+{% extends 'layout.html.twig' %}
+
+{% block page_title %}
+    Login
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="container ">
+        <div class="row">
+            {# Affichage formulaire #}
+            <div class="col-lg-5 features_col">
+                <h2>Authentifiez-vous</h2>
+
+                {% for message in app.flashes('notice') %}
+                    <div>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
+                {% if error %}
+                    <div> {{ error.messageKey|trans(error.messageData, 'security') }} </div>
+                {% endif %}
+
+                {{ form(form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block final_javascripts %}
+
+{% endblock %}
+

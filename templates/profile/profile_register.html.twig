@@ -1,0 +1,36 @@
+{% extends 'layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block page_title %}
+    Register
+{% endblock %}
+
+
+{% block content %}
+    <div class="container ">
+        <div class="row">
+            <div class="col-lg-5 features_col">
+                <h2>Inscription</h2>
+                {{ form(form) }}
+
+                {# Affichage message flash notice #}
+                {% for message in app.flashes('notice') %}
+                    <div>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
+                {# Affichage message flash success #}
+                {% for message in app.flashes('success') %}
+                    <div>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

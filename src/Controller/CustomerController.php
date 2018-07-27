@@ -20,7 +20,7 @@ class CustomerController extends Controller
     public function login(Request $request, AuthenticationUtils $authenticationUtils)
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('/');
+            return $this->redirectToRoute('index');
         }
 
         $form = $this->createForm(CustomerLoginType::class, [
@@ -30,7 +30,7 @@ class CustomerController extends Controller
         // Récupération du message d'erreur
         $error = $authenticationUtils->getLastAuthenticationError();
 
-        return $this->render('profile/profile_custom.html.twig', [
+        return $this->render('/profile/profile_login.html.twig', [
             'form' => $form->createView(),
             'error' => $error
         ]);
@@ -52,10 +52,10 @@ class CustomerController extends Controller
             $em = $this->getDoctrine()->getManager();
 
             //$data = $form->getData();
-            $emailCustomForm = $customer->getEmail();
+            $emailCustom = $customer->getEmail();
 
             // Gestion des doublons
-            $emailCustomBdd = $em->getRepository(Customer::class)->findByEmail($emailCustomForm);
+            $emailCustomBdd = $em->getRepository(Customer::class)->findByEmail($emailCustom);
 
             if (!empty($emailCustomBdd)) {
                 $this->addFlash('notice', "L'email saisi est déjà enregistré");
@@ -68,16 +68,8 @@ class CustomerController extends Controller
             }
         }
 
-        return $this->render('profile/profile_login.twig', [
+        return $this->render('/profile/profile_register.html.twig', [
             'form' => $form->createView()
         ]);
-    }
-
-    /**
-     * @Route("/logout", name="security_logout")
-     */
-    public function logout()
-    {
-
     }
 }

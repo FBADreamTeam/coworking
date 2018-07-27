@@ -1,6 +1,7 @@
 security:
     encoders:
         App\Entity\Customer: bcrypt
+        App\Entity\Employee: bcrypt
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
@@ -10,10 +11,31 @@ security:
             entity:
                 class: App\Entity\Customer
                 property: email
+
+        employee_provider:
+            entity:
+                class: App\Entity\Employee
+                property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        employee:
+            anonymous: true
+            pattern: ^/admin
+            form_login:
+                login_path: admin_login # Permet à symfony de connaitre notre route de connexion
+                check_path: admin_login # Route généré par symfony pour vérifier nos informations de connexion à partir de notre route connexion
+                username_parameter: customer_login[email]
+                password_parameter: customer_login[password]
+                default_target_path: /admin/index # page de redirection après connexion
+
+            provider: employee_provider
+            logout:
+                path: /admin/logout
+                target: /admin/index # page de redirection après déconnexion
+
         main:
             anonymous: true
 
@@ -34,8 +56,14 @@ security:
                 path: /profile/logout
                 target: /
 
+
+
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_ADMIN
+        ROLE_EMPLOYEE: ROLE_EMPLOYEE
