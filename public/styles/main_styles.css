@@ -82,7 +82,7 @@ ul
 p
 {
 	font-family: 'Open Sans', sans-serif;
-	font-size: 15px;
+	font-size: 17px;
 	line-height: 2;
 	font-weight: 400;
 	color: #6e6e6e;
@@ -904,9 +904,10 @@ section
 	font-weight: 600;
 	letter-spacing: 0.2em;
 	text-transform: uppercase;
-	color: #FFFFFF;
+	color: #ff4200;
 	line-height: 1.35;
 	margin-bottom: 116px;
+	font-size: 50px;
 }
 .section_title h2 span
 {
@@ -919,7 +920,7 @@ section
 	-ms-transform: translate(-50%, -50px);
 	-o-transform: translate(-50%, -50px);
 	transform: translate(-50%, -50px);
-	font-size: 72px;
+	font-size: 30px;
 	font-weight: 900;
 	color: #ff0000;
 	opacity: 0.32;
@@ -1177,7 +1178,8 @@ section
 }
 .service_item h3
 {
-	color: #FFFFFF;
+	color: #ff4200;
+	font-weight: 900;
 	text-transform: uppercase;
 	letter-spacing: 0.2em;
 	margin-bottom: 31px;
