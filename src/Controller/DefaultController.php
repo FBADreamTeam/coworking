@@ -4,12 +4,13 @@
 
 
 	use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+    use Symfony\Component\Routing\Annotation\Route;
 
-	class DefaultController extends Controller
+    class DefaultController extends Controller
 	{
 
 		/**
-		 * Just test route
+		 * @Route("/", name="index")
 		 */
 		public function index()
 		{

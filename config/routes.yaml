@@ -1,9 +1,15 @@
 index:
     path: /
     controller: App\Controller\DefaultController::index
-
+    
 admin_test:
     path: /admin/test
     controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
     defaults:
         template: admin/test.html.twig
+
+security_logout:
+    path: /profile/logout
+
+admin_logout:
+    path: /admin/logout

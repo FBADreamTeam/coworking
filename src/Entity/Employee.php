@@ -20,6 +20,14 @@ class Employee extends AbstractUser
         return $this->role;
     }
 
+    /**
+     * @return null
+     */
+    public function getRoles()
+    {
+        return [$this->role->getLabel()];
+    }
+
     public function setRole(?Role $role): self
     {
         $this->role = $role;

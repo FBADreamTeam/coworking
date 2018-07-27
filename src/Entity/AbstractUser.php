@@ -91,14 +91,6 @@ abstract class AbstractUser implements UserInterface
     }
 
     /**
-     * @return null
-     */
-    public function getRoles()
-    {
-        return ['ROLE_USER'];
-    }
-
-    /**
      * @return null|string
      */
     public function getSalt()
