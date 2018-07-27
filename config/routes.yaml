@@ -2,7 +2,7 @@ index:
     path: /
     controller: App\Controller\DefaultController::index
 
-security_logout:
+profile_logout:
     path: /profile/logout
 
 admin_logout:

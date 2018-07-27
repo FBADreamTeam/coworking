@@ -65,5 +65,5 @@ security:
         # - { path: ^/profile, roles: ROLE_USER }
 
     role_hierarchy:
-        ROLE_ADMIN: ROLE_ADMIN
         ROLE_EMPLOYEE: ROLE_EMPLOYEE
+        ROLE_ADMIN: [ROLE_EMPLOYEE, ROLE_ALLOWED_TO_SWITCH]
