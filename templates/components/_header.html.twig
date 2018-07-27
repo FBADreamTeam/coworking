@@ -19,16 +19,16 @@
             <li><a href="contact.html"><span>{{ 'nav.contact' | trans }}</span></a></li>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <li >
-                    <a href="#">{{ 'nav.logout' | trans }} </a>
+                    <a href="{{ path('profile_logout') }}">{{ 'nav.logout' | trans }} </a>
                 </li>
             {% else %}
                 {#<li {% if (active == 'adduser') %} class="active" {% endif %}>#}
                 <li>
-                    <a href="#">{{ 'nav.register' | trans }} </a>
+                    <a href="{{ path('profile_new') }}">{{ 'nav.register' | trans }} </a>
                 </li>
                 {#<li {% if (active == 'login') %} class="active" {% endif %}>#}
                 <li>
-                    <a href="#">{{ 'nav.login' | trans }} </a>
+                    <a href="{{ path('profile_login') }}">{{ 'nav.login' | trans }} </a>
                 </li>
             {% endif %}
         </ul>
@@ -66,16 +66,16 @@
             </li>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <li >
-                    <a href="#"><span><span>{{ 'nav.logout' | trans |first }}</span>{{ 'nav.logout' | trans }}</span></a>
+                    <a href="{{ path('profile_logout') }}"><span><span>{{ 'nav.logout' | trans |first }}</span>{{ 'nav.logout' | trans }}</span></a>
                 </li>
             {% else %}
                 {#<li {% if (active == 'adduser') %} class="active" {% endif %}>#}
                 <li>
-                    <a href="#"><span><span>{{ 'nav.register' | trans |first }}</span>{{ 'nav.register' | trans }}</span> </a>
+                    <a href="{{ path('profile_new') }}"><span><span>{{ 'nav.register' | trans |first }}</span>{{ 'nav.register' | trans }}</span> </a>
                 </li>
                 {#<li {% if (active == 'login') %} class="active" {% endif %}>#}
                 <li>
-                    <a href="#"><span><span>{{ 'nav.login' | trans |first }}</span>{{ 'nav.login' | trans }}</span></a>
+                    <a href="{{ path('profile_login') }}"><span><span>{{ 'nav.login' | trans |first }}</span>{{ 'nav.login' | trans }}</span></a>
                 </li>
             {% endif %}
 

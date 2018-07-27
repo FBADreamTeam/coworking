@@ -8,7 +8,7 @@ admin_test:
     defaults:
         template: admin/test.html.twig
 
-security_logout:
+profile_logout:
     path: /profile/logout
 
 admin_logout:
