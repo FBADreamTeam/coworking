@@ -15,3 +15,8 @@ admin.forms.btn.submit: Valider
 admin.links.new-account: 'Créer un nouveau compte'
 admin.titles.signin: Connexion
 admin.tables.actions: Actions
+admin:
+  tables:
+    view: Infos
+    edit: Editer
+    delete: Supprimer

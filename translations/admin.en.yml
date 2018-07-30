@@ -15,3 +15,8 @@ admin.forms.btn.submit: Submit
 admin.links.new-account: 'New account'
 admin.titles.signin: 'Please Sign In'
 admin.tables.actions: Actions
+admin:
+  tables:
+    view: View
+    edit: Edit
+    delete: Delete

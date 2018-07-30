@@ -19,7 +19,7 @@
                         <th scope="col">{{ 'admin.tables.firstname'|trans }}</th>
                         <th scope="col">{{ 'admin.tables.lastname'|trans }}</th>
                         <th scope="col">{{ 'admin.tables.email'|trans }}</th>
-                        <th scope="col" colspan="3">{{ 'admin.tables.actions'|trans }}</th>
+                        <th scope="col">{{ 'admin.tables.actions'|trans }}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -29,9 +29,17 @@
                             <td>{{ employee.firstName }}</td>
                             <td>{{ employee.lastName }}</td>
                             <td>{{ employee.email }}</td>
-                            <td><a href="#"><span class="ti-eye"></span></a></td>
-                            <td><a href="#"><span class="ti-pencil"></span></a></td>
-                            <td><a href="#"><span class="ti-trash"></span></a></td>
+                            <td>
+                                <a href="#" class="btn btn-info">
+                                    <i class="pr-2 ti-eye"></i>{{ 'admin.tables.view'|trans }}
+                                </a>
+                                <a href="#" class="btn btn-success">
+                                    <i class="pr-2 ti-pencil"></i>{{ 'admin.tables.edit'|trans }}
+                                </a>
+                                <a href="#" class="btn btn-danger">
+                                    <i class="pr-2 ti-trash"></i>{{ 'admin.tables.delete'|trans }}
+                                </a>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>
