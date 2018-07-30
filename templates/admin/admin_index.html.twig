@@ -1,14 +1,12 @@
-{% extends 'layout.html.twig' %}
+{% extends 'admin/layout.html.twig' %}
 
-{% block page_title %}
-    Admin login
+{% trans_default_domain 'admin' %}
+
+{% block title %}
+    Home
 {% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-{% endblock %}
-
-{% block content %}
+{% block main_content %}
 
     <div class="container ">
         <div class="row">
@@ -33,14 +31,10 @@
 
             {# uniquement l'admin peut créer des compte#}
             {% if (is_granted('ROLE_ADMIN')) %}
-                <a class="btn btn-primary" href="{{ path('admin_add_employee') }}">Create account</a>
+                <a class="btn btn-primary" href="{{ path('admin_employee_new') }}">Create account</a>
             {% endif %}
         </div>
     </div>
-
-{% endblock %}
-
-{% block final_javascripts %}
 
 {% endblock %}
 

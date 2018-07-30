@@ -1,0 +1,19 @@
+sProcessing: Processing...
+sSearch: 'Search:'
+sLengthMenu: 'Show _MENU_ entries'
+sInfo: 'Showing _START_ to _END_ of _TOTAL_ entries'
+sInfoEmpty: 'Showing 0 to 0 of 0 entries'
+sInfoFiltered: '(filtered from _MAX_ total entries)'
+sLoadingRecords: Loading...
+sInfoThousands: ','
+sZeroRecord: 'No matching records found'
+sEmptyTable: 'No data available in table'
+sFirst: First
+sPrevious: Previous
+sNext: Next
+sLast: Last
+sSortAscending: ': activate to sort column ascending'
+sSortDescending: ': activate to sort column descending'
+s_: '%d selected lines'
+s0: 'no line selected'
+s1: '1 selected line'

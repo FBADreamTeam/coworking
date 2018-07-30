@@ -37,6 +37,22 @@ abstract class AbstractUser implements UserInterface
      */
     private $password;
 
+    /**
+     * AbstractUser constructor.
+     * @param string|null $firstName
+     * @param string|null $lastName
+     * @param string|null $email
+     * @param string|null $password
+     */
+    public function __construct(?string $firstName = null, ?string $lastName = null, ?string $email = null, ?string $password = null)
+    {
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->email = $email;
+        $this->password = $password;
+    }
+
+
     public function getId()
     {
         return $this->id;

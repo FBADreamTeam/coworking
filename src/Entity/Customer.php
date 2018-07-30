@@ -22,11 +22,20 @@ class Customer extends AbstractUser
      */
     private $bookings;
 
-    public function __construct()
+    /**
+     * Customer constructor.
+     * @param null|string $firstName
+     * @param null|string $lastName
+     * @param null|string $email
+     * @param null|string $password
+     */
+    public function __construct(?string $firstName = null, ?string $lastName = null, ?string $email = null, ?string $password = null)
     {
+        parent::__construct($firstName, $lastName, $email, $password);
         $this->addresses = new ArrayCollection();
         $this->bookings = new ArrayCollection();
     }
+
 
     /**
      * @return Collection|Address[]
