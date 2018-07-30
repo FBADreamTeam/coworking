@@ -1,0 +1,51 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% trans_default_domain 'admin' %}
+
+{% block title %}
+    {{ 'admin.titles.employees-list'|trans }}
+{% endblock %}
+
+{% block main_content %}
+<div class="container-fluid">
+    <h4 class="c-grey-900 mT-10 mB-30">{{ 'admin.titles.employees-list'|trans }}</h4>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="bgc-white bd bdrs-3 p-20 mB-20">
+                <table id="dataTable" class="table table-striped table-hover table-bordered" cellspacing="0" width="100%">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">{{ 'admin.tables.firstname'|trans }}</th>
+                        <th scope="col">{{ 'admin.tables.lastname'|trans }}</th>
+                        <th scope="col">{{ 'admin.tables.email'|trans }}</th>
+                        <th scope="col" colspan="3">{{ 'admin.tables.actions'|trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for employee in employees %}
+                        <tr>
+                            <th scope="row">{{ employee.id }}</th>
+                            <td>{{ employee.firstName }}</td>
+                            <td>{{ employee.lastName }}</td>
+                            <td>{{ employee.email }}</td>
+                            <td><a href="#"><span class="ti-eye"></span></a></td>
+                            <td><a href="#"><span class="ti-pencil"></span></a></td>
+                            <td><a href="#"><span class="ti-trash"></span></a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="bgc-white bd bdrs-3 p-20 mB-20">
+                <a href="{{ path('admin_employee_new') }}" class="btn btn-primary">{{ 'admin.links.new-account'|trans }}</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

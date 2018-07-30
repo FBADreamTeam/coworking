@@ -21,20 +21,20 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        employee:
+        admin:
             anonymous: true
-            pattern: ^/admin
+            pattern: ^/_secure
             form_login:
                 login_path: admin_login # Permet à symfony de connaitre notre route de connexion
                 check_path: admin_login # Route généré par symfony pour vérifier nos informations de connexion à partir de notre route connexion
                 username_parameter: customer_login[email]
                 password_parameter: customer_login[password]
-                default_target_path: /admin/index # page de redirection après connexion
+                default_target_path: /_secure/ # page de redirection après connexion
 
             provider: employee_provider
             logout:
-                path: /admin/logout
-                target: /admin/index # page de redirection après déconnexion
+                path: /_secure/logout
+                target: /_secure/ # page de redirection après déconnexion
 
         main:
             anonymous: true
@@ -63,7 +63,9 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/_secure/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/_secure, roles: ROLE_EMPLOYEE }
 
     role_hierarchy:
-        ROLE_EMPLOYEE: ROLE_EMPLOYEE
+        ROLE_EMPLOYEE: ROLE_USER
         ROLE_ADMIN: [ROLE_EMPLOYEE, ROLE_ALLOWED_TO_SWITCH]

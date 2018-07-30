@@ -21,6 +21,15 @@ class Role
      */
     private $label;
 
+    /**
+     * Role constructor.
+     * @param string|null $label
+     */
+    public function __construct(string $label = null)
+    {
+        $this->label = $label;
+    }
+
     public function getId()
     {
         return $this->id;

@@ -1,5 +1,7 @@
 {% extends 'admin/base.html.twig' %}
 
+{% trans_default_domain 'admin' %}
+
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('build/js/app.css') }}">
     <style>
@@ -84,7 +86,7 @@
 
     <!-- @App Content -->
     <!-- =================================================== -->
-    <div>
+    <div style="width: 100%">
 
         {% include 'admin/components/sidebar.html.twig' %}
 
@@ -101,9 +103,7 @@
             </main>
 
             <!-- ### $App Screen Footer ### -->
-            <footer class="bdT ta-c p-30 lh-0 fsz-sm c-grey-600">
-                <span>Copyright © 2017 Designed by <a href="https://colorlib.com" target='_blank' title="Colorlib">Colorlib</a>. All rights reserved.</span>
-            </footer>
+            {% include 'admin/components/footer.html.twig' %}
         </div>
     </div>
 {% endblock %}

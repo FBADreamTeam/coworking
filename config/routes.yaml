@@ -3,7 +3,7 @@ index:
     controller: App\Controller\DefaultController::index
     
 admin_test:
-    path: /admin/test
+    path: /_secure/test
     controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
     defaults:
         template: admin/test.html.twig
@@ -12,4 +12,4 @@ profile_logout:
     path: /profile/logout
 
 admin_logout:
-    path: /admin/logout
+    path: /_secure/logout

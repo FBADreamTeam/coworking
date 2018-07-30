@@ -30,7 +30,7 @@ class CustomerLoginType extends AbstractType
             ->add('password', PasswordType::class,[
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Password'
+                    'placeholder' => '********'
                 ]
             ])
             ->add('submit', SubmitType::class, [

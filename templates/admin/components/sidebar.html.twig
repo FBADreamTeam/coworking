@@ -1,3 +1,5 @@
+{% trans_default_domain 'admin' %}
+
 <!-- #Left Sidebar ==================== -->
 <div class="sidebar">
     <div class="sidebar-inner">
@@ -5,7 +7,7 @@
         <div class="sidebar-logo">
             <div class="peers ai-c fxw-nw">
                 <div class="peer peer-greed">
-                    <a class="sidebar-link td-n" href="index.html">
+                    <a class="sidebar-link td-n" href="{{ path('admin_index') }}">
                         <div class="peers ai-c fxw-nw">
                             <div class="peer">
                                 <div class="logo">
@@ -13,7 +15,7 @@
                                 </div>
                             </div>
                             <div class="peer peer-greed">
-                                <h5 class="lh-1 mB-0 logo-text">Adminator</h5>
+                                <h5 class="lh-1 mB-0 logo-text">DreamTeamCoworking</h5>
                             </div>
                         </div>
                     </a>
@@ -31,11 +33,19 @@
         <!-- ### $Sidebar Menu ### -->
         <ul class="sidebar-menu scrollable pos-r">
             <li class="nav-item mT-30 active">
-                <a class="sidebar-link" href="index.html">
+                <a class="sidebar-link" href="{{ path('admin_index') }}">
                 <span class="icon-holder">
                   <i class="c-blue-500 ti-home"></i>
                 </span>
-                    <span class="title">Dashboard</span>
+                    <span class="title">{{ 'admin.links.dashboard'|trans }}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class='sidebar-link' href="{{ path('admin_employee_list') }}">
+                <span class="icon-holder">
+                  <i class="c-orange-500 ti-user"></i>
+                </span>
+                    <span class="title">{{ 'admin.links.accounts'|trans }}</span>
                 </a>
             </li>
             <li class="nav-item">

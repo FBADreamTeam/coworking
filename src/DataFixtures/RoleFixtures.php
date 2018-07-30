@@ -17,11 +17,8 @@ class RoleFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $role = new Role();
-        $role->setLabel('ROLE_ADMIN');
-
-        $role2 = new Role();
-        $role2->setLabel('ROLE_EMPLOYEE');
+        $role = new Role('ROLE_ADMIN');
+        $role2 = new Role('ROLE_EMPLOYEE');
 
         $manager->persist($role);
         $manager->persist($role2);

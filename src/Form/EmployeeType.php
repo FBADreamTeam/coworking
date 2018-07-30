@@ -6,11 +6,11 @@
  * Time: 11:38
  */
 
-namespace App\Form\admin;
-
+namespace App\Form;
 
 use App\Entity\Employee;
 use App\Entity\Role;
+use App\Traits\TranslatorTrait;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -27,43 +27,50 @@ class EmployeeType extends AbstractType
         $builder
             ->add('firstName', TextType::class, [
                 'required' => true,
-                'label' => 'First name',
+                'translation_domain' => 'admin',
+                'label' => 'admin.forms.firstname',
                 'attr'  => [
-                    'placeholder' => 'First name'
+                    'placeholder' => 'admin.forms.firstname',
                 ]
             ])
             ->add('lastName', TextType::class, [
                 'required' => true,
-                'label' => 'Last name',
+                'translation_domain' => 'admin',
+                'label' => 'admin.forms.lastname',
                 'attr' => [
-                    'placeholder' => 'Last name'
+                    'placeholder' => 'admin.forms.lastname',
                 ]
             ])
             ->add('email', EmailType::class, [
                 'required' => true,
-                'label' => 'Email',
+                'translation_domain' => 'admin',
+                'label' => 'admin.forms.email',
                 'attr' => [
-                    'placeholder' => 'Email'
+                    'placeholder' => 'admin.forms.email',
                 ]
             ])
             ->add('password', PasswordType::class, [
                 'required' => true,
-                'label' => 'Password',
+                'translation_domain' => 'admin',
+                'label' => 'admin.forms.password',
                 'attr' => [
-                    'placeholder' => 'Password'
+                    'placeholder' => 'admin.forms.pwd-placeholder',
                 ]
             ])
             ->add('role', EntityType::class, [
                 'class' => Role::class,
                 'choice_label'   => 'label',
                 'required' => true,
-                'label' => "Fonction",
+                'translation_domain' => 'admin',
+                'label' => 'admin.forms.role',
                 'attr' => [
-                    'placeholder' => "Fonction"
-                ]
+                    'placeholder' => 'admin.forms.role',
+                ],
             ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Valider'
+            ->add('submit', SubmitType::class, [
+                'label' => 'admin.forms.btn.submit',
+                'translation_domain' => 'admin',
+                'attr' => ['class' => 'btn btn-primary'],
             ]);
     }
 
