@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RoomRepository")
@@ -20,41 +21,52 @@ class Room
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="admin.room.name.not_blank")
+     * @Assert\Length(max="255", maxMessage="admin.room.name.max_length")
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\GreaterThan(value="0", message="admin.room.capacity.greater_than")
      */
     private $capacity;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="admin.room.desc.not_blank")
+     * @Assert\Length(max="255", maxMessage="admin.room.desc.max_length")
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="admin.room.status.not_blank")
+     * @Assert\Length(max="255", maxMessage="admin.room.status.max_length")
      */
     private $status;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\GreaterThan(value="0", message="admin.room.hourly_price.greater_than")
      */
     private $hourlyPrice;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\GreaterThan(value="0", message="admin.room.daily_price.greater_than")
      */
     private $dailyPrice;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\GreaterThan(value="0", message="admin.room.weekly_price.greater_than")
      */
     private $weeklyPrice;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\GreaterThan(value="0", message="admin.room.monthly_price.greater_than")
      */
     private $monthlyPrice;
 
