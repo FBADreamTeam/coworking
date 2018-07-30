@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AddressRepository")
@@ -18,32 +19,42 @@ class Address
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="admin.address.street.not_blank")
+     * @Assert\Length(max="255", maxMessage="admin.address.street.max_length")
      */
     private $street;
 
     /**
      * @ORM\Column(type="string", length=10)
+     * @Assert\NotBlank(message="admin.address.zip.not_blank")
+     * @Assert\Length(max="255", maxMessage="admin.address.zip.max_length")
      */
     private $postalCode;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="admin.address.city.not_blank")
+     * @Assert\Length(max="255", maxMessage="admin.address.city.max_length")
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="admin.address.country.not_blank")
+     * @Assert\Length(max="255", maxMessage="admin.address.country.max_length")
      */
     private $country;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(max="255", maxMessage="admin.address.cpl.max_length")
      */
     private $addressCpl;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="addresses")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull(message="admin.address.customer.not_null")
      */
     private $customer;
 

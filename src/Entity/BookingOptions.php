@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookingOptionsRepository")
@@ -18,6 +19,7 @@ class BookingOptions
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\GreaterThanOrEqual(value="1", message="admin.booking_options.quantity.greater_than")
      */
     private $quantity;
 

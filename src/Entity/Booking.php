@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookingRepository")
@@ -20,11 +21,15 @@ class Booking
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank(message="admin.booking.start_date.not_blank")
+     * @Assert\DateTime(message="admin.booking.start_date.valid")
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank(message="admin.booking.end_date.not_blank")
+     * @Assert\DateTime(message="admin.booking.end_date.valid")
      */
     private $endDate;
 

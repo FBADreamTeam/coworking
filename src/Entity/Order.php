@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\OrderRepository")
@@ -19,11 +20,13 @@ class Order
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\GreaterThan(value="0", message="admin.order.totalht.greater_than")
      */
     private $totalHT;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\DateTime(message="admin.order.date.valid")
      */
     private $date;
 

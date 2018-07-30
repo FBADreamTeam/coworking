@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\MappedSuperclass()
@@ -19,21 +20,30 @@ abstract class AbstractUser implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="admin.user.firstname.not_blank")
+     * @Assert\Length(max="255", maxMessage="admin.user.firstname.max_length")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="admin.user.lastname.not_blank")
+     * @Assert\Length(max="255", maxMessage="admin.user.lastname.max_length")
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="admin.user.email.not_blank")
+     * @Assert\Email(message="admin.user.email.valid")
+     * @Assert\Length(max="255", maxMessage="admin.user.email.max_length")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank(message="admin.user.password.not_blank")
+     * @Assert\Length(min="8", minMessage="admin.user.password.min_length")
      */
     private $password;
 
