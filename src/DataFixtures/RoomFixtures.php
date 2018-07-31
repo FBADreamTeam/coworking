@@ -65,11 +65,11 @@ class RoomFixtures extends Fixture
         for ($i = 0; $i < 5; ++$i) {
             $room = new Room();
             $room->setName('Salle n°'.$i);
-            $room->setCapacity(10);
-            $room->setDailyPrice(10);
-            $room->setHourlyPrice(2);
-            $room->setWeeklyPrice(40);
-            $room->setMonthlyPrice(140);
+            $room->setCapacity(1000);
+            $room->setDailyPrice(1000);
+            $room->setHourlyPrice(200);
+            $room->setWeeklyPrice(4000);
+            $room->setMonthlyPrice(14000);
             $room->setDescription('Super jolie bureau');
             $room->setStatus('dispo');
             $room->setRoomType($roomType);
@@ -90,7 +90,7 @@ class RoomFixtures extends Fixture
             $roomOption = new RoomOption();
             $roomOption->setLabel('Option n°'.$i);
             $roomOption->setDescription('Description de l\'option');
-            $roomOption->setPrice(10);
+            $roomOption->setPrice(1000);
             $roomOption->addRoomType($roomType);
             $om->persist($roomOption);
 
