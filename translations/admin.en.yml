@@ -18,3 +18,4 @@ admin.tables.actions: Actions
 admin.tables.view: View
 admin.tables.edit: Edit
 admin.tables.delete: Delete
+admin.links.manage_room: Manage rooms

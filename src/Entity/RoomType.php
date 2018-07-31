@@ -67,6 +67,13 @@ class RoomType
         return $this->roomOptions;
     }
 
+    public function setRoomOptions($roomOptions)
+    {
+        $this->roomOptions = $roomOptions;
+
+        return $this;
+    }
+
     public function addRoomOption(RoomOption $roomOption): self
     {
         if (!$this->roomOptions->contains($roomOption)) {
