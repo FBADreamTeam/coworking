@@ -18,3 +18,4 @@ admin.tables.actions: Actions
 admin.tables.view: Infos
 admin.tables.edit: Editer
 admin.tables.delete: Supprimer
+admin.links.manage_room: Gestion des pièces

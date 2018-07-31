@@ -19,12 +19,16 @@ class RoomManager
         $this->em = $em;
     }
 
-    public function createRoom()
+    public function createRoom(Room $room)
     {
+        //insertion en BDD
+        $this->em->persist($room);
+        $this->em->flush();
     }
 
     public function editRoom()
     {
+        $this->em->flush();
     }
 
     /**

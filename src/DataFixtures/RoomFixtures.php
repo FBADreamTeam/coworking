@@ -40,10 +40,10 @@ class RoomFixtures extends Fixture
             $room = new Room();
             $room->setName('bureau n°'.$i);
             $room->setCapacity(10);
-            $room->setDailyPrice(10);
-            $room->setHourlyPrice(2);
-            $room->setWeeklyPrice(40);
-            $room->setMonthlyPrice(140);
+            $room->setDailyPrice(1000);
+            $room->setHourlyPrice(200);
+            $room->setWeeklyPrice(4000);
+            $room->setMonthlyPrice(14000);
             $room->setDescription('Super jolie bureau');
             $room->setStatus('dispo');
             $room->setRoomType($roomType);
