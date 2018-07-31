@@ -19,32 +19,25 @@ class RoomOptionRepository extends ServiceEntityRepository
         parent::__construct($registry, RoomOption::class);
     }
 
-//    /**
-//     * @return RoomOption[] Returns an array of RoomOption objects
-//     */
-    /*
-    public function findByExampleField($value)
+    public function findAllWithRoomTypes()
     {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('ro')
+            ->select('ro.id, ro.label, ro.description, ro.price, rt.label AS rtlabel')
+            ->join('ro.roomTypes', 'rt')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?RoomOption
+    public function findOneRoomOptionWithRoomTypes($id_room_option)
     {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
+        return $this->createQueryBuilder('ro')
+            ->select('ro.id, ro.label, ro.description, ro.price, rt.label AS rtlabel')
+            ->join('ro.roomTypes', 'rt')
+            ->where('ro.id = :optionRoom_id')
+            ->setParameter('optionRoom_id', $id_room_option)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult()
+            ;
     }
-    */
 }

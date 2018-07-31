@@ -48,14 +48,36 @@
                     <span class="title">{{ 'admin.links.accounts'|trans }}</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class='sidebar-link' href="{{ path('room_index') }}">
-                <span class="icon-holder">
-                  <i class="c-light-blue-500 ti-package"></i>
-                </span>
-                    <span class="title">{{ 'admin.links.manage_room'|trans }}</span>
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                 <span class="icon-holder">
+                          <i class="c-light-blue-500 ti-package"></i>
+                        </span>
+                    <span class="title">{{ 'admin.links.manage_room_and_option'|trans }}</span>
+                    <span class="arrow">
+                    <i class="ti-angle-right"></i>
+                  </span>
                 </a>
+                <ul class="dropdown-menu">
+                    <li >
+                        <a class='sidebar-link' href="{{ path('room_index') }}">
+                        <span class="icon-holder">
+                          <i class="c-light-blue-500 ti-package"></i>
+                        </span>
+                        <span class="title">{{ 'admin.links.manage_room'|trans }}</span>
+                        </a>
+                    </li>
+                    <li >
+                        <a class='sidebar-link' href="{{ path('room_option_index') }}">
+                        <span class="icon-holder">
+                          <i class="c-light-blue-500 ti-package"></i>
+                        </span>
+                            <span class="title">{{ 'admin.links.manage_room_option'|trans }}</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
+
             <li class="nav-item">
                 <a class='sidebar-link' href="email.html">
                 <span class="icon-holder">

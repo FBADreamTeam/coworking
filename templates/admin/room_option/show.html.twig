@@ -1,0 +1,33 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block title %}
+    {{roomOption.label}}
+{% endblock %}
+{% block main_content %}
+<div class="container-fluid">
+    <div class="row justify-content-md-center">
+        <div class="col-lg-8">
+            <div class="bgc-white bd bdrs-3 p-20">
+                <h1>{{ roomOption.label }}</h1>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <p><strong class="d-inline-block mb-2 text-success">Type :</strong> {{ roomOption.rtlabel }}</p>
+                        <p><strong class="d-inline-block mb-2 text-success">Description :</strong> {{ roomOption.description }}</p>
+                    </div>
+                    <div class="col-lg-6">
+                        <p><strong class="d-inline-block mb-2 text-success">Prix :</strong> {{ roomOption.price |price(2,',', ' ') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block final_javascripts %}
+
+{% endblock %}

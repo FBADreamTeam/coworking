@@ -19,3 +19,5 @@ admin.tables.view: Infos
 admin.tables.edit: Editer
 admin.tables.delete: Supprimer
 admin.links.manage_room: Gestion des pièces
+admin.links.manage_room_option: Gestion des options
+admin.links.manage_room_and_option: Pièces & options

@@ -72,7 +72,7 @@ class RoomController extends Controller
      */
     public function showRoom(Room $room): \Symfony\Component\HttpFoundation\Response
     {
-        return $this->render('show.html.twig', [
+        return $this->render('admin/room/show.html.twig', [
             'room' => $room,
         ]);
     }
