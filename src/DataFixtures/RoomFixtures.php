@@ -35,16 +35,15 @@ class RoomFixtures extends Fixture
         $roomType->setRoomOptions($this->addRoomOptions($om, $roomType));
         $om->persist($roomType);
 
-        // on créé 10 personnes
         for ($i = 0; $i < 5; ++$i) {
             $room = new Room();
-            $room->setName('bureau n°'.$i);
+            $room->setName('bureau n°'.($i+1));
             $room->setCapacity(10);
             $room->setDailyPrice(1000);
             $room->setHourlyPrice(200);
             $room->setWeeklyPrice(4000);
             $room->setMonthlyPrice(14000);
-            $room->setDescription('Super jolie bureau');
+            $room->setDescription('Super joli bureau');
             $room->setStatus('dispo');
             $room->setRoomType($roomType);
             $om->persist($room);
@@ -61,16 +60,15 @@ class RoomFixtures extends Fixture
         $roomType->setRoomOptions($this->addRoomOptions($om, $roomType));
         $om->persist($roomType);
 
-        // on créé 10 personnes
         for ($i = 0; $i < 5; ++$i) {
             $room = new Room();
-            $room->setName('Salle n°'.$i);
+            $room->setName('Salle n°'.($i+1));
             $room->setCapacity(1000);
             $room->setDailyPrice(1000);
             $room->setHourlyPrice(200);
             $room->setWeeklyPrice(4000);
             $room->setMonthlyPrice(14000);
-            $room->setDescription('Super jolie bureau');
+            $room->setDescription('Super joli bureau');
             $room->setStatus('dispo');
             $room->setRoomType($roomType);
             $om->persist($room);
@@ -83,7 +81,6 @@ class RoomFixtures extends Fixture
      */
     private function addRoomOptions(ObjectManager $om, RoomType $roomType)
     {
-        // on créé 10 personnes
         for ($i = 0; $i < 5; ++$i) {
             $roomOption = new RoomOption();
             $roomOption->setLabel('Option n°'.$i);
