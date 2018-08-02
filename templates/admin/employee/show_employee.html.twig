@@ -1,0 +1,34 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% trans_default_domain 'admin' %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main_content %}
+
+    <div class="container ">
+        <div class="row">
+            {# Affichage formulaire #}
+            <div class="col-lg-6 features_col">
+
+                <table id="dataTable" class="table table-striped table-hover table-bordered" cellspacing="0" width="100%">
+                    <tr>
+                        <td>{{ employee.lastname }}</td>
+                        <td>{{ employee.firstname }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ employee.email }}</td>
+                        <td>{{ employee.role.label }}</td>
+                    </tr>
+                </table>
+
+            </div>
+
+
+        </div>
+    </div>
+
+{% endblock %}
+
