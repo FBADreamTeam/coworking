@@ -6,61 +6,64 @@
     {{ 'booking.title.index'|trans }}
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {#<link rel="stylesheet" href="{{ asset('build/js/app.css') }}">#}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" integrity="sha256-Tu3DN+5kwrhzlzhNUMuGht2h7cR6ARgKcYemB9u5SzA=" crossorigin="anonymous" />
+{% endblock %}
+
 {% block content %}
 <div class="features">
     <div class="container-fluid">
         <div class="row bg-light">
-            <div class="col-md-4 features_col">
-
-            </div>
-            <div class="col-md-8 features_col">
+            <div class="col-md-4 features_col bg-white">
                 {# --CALENDAR-- #}
+                <div id="calendar"></div>
             </div>
-        </div>
-        <div class="row bg-light">
-            <div class="col-md-4 features_col">
-                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    {% for key, value in data %}
-                        <a class="nav-link {% if loop.first %} {{ 'active' }} {% endif %}"
-                           id="v-pills-{{ key }}-tab"
-                           data-toggle="pill"
-                           href="#v-pills-{{ key }}"
-                           role="tab"
-                           aria-controls="v-pills-{{ key }}"
-                           aria-selected="{% if loop.first %} {{ 'true' }} {% else %} {{ 'false' }} {% endif %}">{{ value['roomType'].label }}
-                        </a>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="col-md-4 features_col">
-                <div class="tab-content" id="v-pills-tabContent">
-                    {% for key, value in data %}
-                        <div class="tab-pane fade {% if loop.first %} {{ 'show active' }} {% endif %}" id="v-pills-{{ key }}" role="tabpanel" aria-labelledby="v-pills-{{ key }}-tab">
-                            <div class="nav flex-column nav-pills {% if loop.first %} {{ 'active' }} {% endif %}" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                {% for room in value['rooms'] %}
-                                    <a class="nav-link"
-                                       id="v-pills-{{ key }}-{{ room.id }}-tab"
-                                       data-toggle="pill"
-                                       href="#v-pills-{{ key }}-{{ room.id }}"
-                                       role="tab"
-                                       aria-controls="v-pills-{{ key }}-{{ room.id }}"
-                                       aria-selected="{% if loop.first %} {{ 'true' }} {% else %} {{ 'false' }} {% endif %}">{{ room.name }}
-                                    </a>
+            <div class="col-md-8 features_col bg-white">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            {# --NAV-- #}
+                            <ul class="nav nav-tabs" id="h-tabs-tab" role="tablist">
+                                {% for key, value in data %}
+                                    <li class="nav-item">
+                                        <a class="nav-link {% if loop.first %} {{ 'active' }} {% endif %}"
+                                           id="h-tabs-{{ key }}-tab"
+                                           data-toggle="tab"
+                                           href="#h-tabs-{{ key }}"
+                                           role="tab"
+                                           aria-controls="h-tabs-{{ key }}"
+                                           aria-selected="{% if loop.first %} {{ 'true' }} {% else %} {{ 'false' }} {% endif %}">{{ value['roomType'].label }}
+                                        </a>
+                                    </li>
                                 {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="tab-content" id="h-tabs-tabContent">
+                                    {% for key, value in data %}
+                                        <div class="tab-pane fade {% if loop.first %} {{ 'show active' }} {% endif %}" id="h-tabs-{{ key }}" role="tabpanel" aria-labelledby="h-tabs-{{ key }}-tab">
+                                            <div class="nav nav-pills {% if loop.first %} {{ 'active' }} {% endif %}" id="h-tabs-tab" role="tablist" aria-orientation="vertical">
+                                                {% for room in value['rooms'] %}
+                                                    {# --CARDS-- #}
+                                                    <div class="card m-4" style="width: 18rem;">
+                                                        <img class="card-img-top" src="{{ asset(getAssetsDir() ~ room.featuredImage) }}" alt="Card image cap">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">{{ room.name }}</h5>
+                                                            <p class="card-text">{{ room.description }}</p>
+                                                            <a href="#" class="btn btn-primary">{{ 'booking.btn.book'|trans }}</a>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="col-md-4 features_col">
-                <div class="tab-content" id="v-pills-tabContent">
-                    {% for key, value in data %}
-                        {% for room in value['rooms'] %}
-                            <div class="tab-pane fade" id="v-pills-{{ key }}-{{ room.id }}" role="tabpanel" aria-labelledby="v-pills-{{ key }}-{{ room.id }}-tab">
-                                {{ room.name }}
-                            </div>
-                        {% endfor %}
-                    {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -68,4 +71,75 @@
 </div>
 {% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {#<script src="{{ asset('build/js/app.js') }}"></script>#}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js" integrity="sha256-59IZ5dbLyByZgSsRE3Z0TjDuX7e1AiqW5bZ8Bg50dsU=" crossorigin="anonymous"></script>
+    {#<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js" integrity="sha256-QvhPq+evNjd8JyxSOU5KL3jPYTD7+gWVev1OH763SL0=" crossorigin="anonymous"></script>#}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js" integrity="sha256-uKe4jCg18Q60qLNG8dIei2y3ZVhcHADuEQFlpQ/hBRY=" crossorigin="anonymous"></script>
+{% endblock %}
 
+{% block final_javascripts %}
+    <script>
+        $(function() {
+            // page is now ready, initialize the calendar...
+            // var calendar = $('#calendar').fullCalendar({
+            //     // put your options and callbacks here
+            //     dayClick: function() {
+            //         console.log('a day has been clicked!');
+            //     }
+            // })
+            $('#calendar').fullCalendar({
+                height:            670,
+                defaultView: 		'agendaWeek',
+                locale: 			'fr',
+                timezone: 			'local',
+                groupByResource: 	true,
+                minTime: 			'09:00:00',
+                maxTime: 			'19:00:00',
+                allDaySlot: 		false,
+                timeFormat: 		'H:mm',
+                nowIndicator: 		true,
+                now: 				Date.now(),
+                slotLabelFormat: 	'H:mm',
+                columnHeaderFormat: 'ddd D MMM',
+                monthNames: 		['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'],
+                monthNamesShort: 	['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec'],
+                dayNames: 			['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+                dayNamesShort: 		['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+                header: {
+                    left   : 'month,agendaWeek,agendaDay',
+                    center : 'title',
+                    right  : 'today prev,next',
+                },
+                views: {
+                    // agendaFiveDay: {
+                    //     type: 				'agenda',
+                    //     duration: 			{ days: 5 }
+                    // }
+                    agenda: {
+                        // options apply to agendaWeek and agendaDay views
+                    },
+                    month: { // name of view
+                        // other view-specific options here
+                        columnHeaderFormat: 'ddd'
+                    },
+                    week: {
+                        // options apply to basicWeek and agendaWeek views
+                        columnHeaderFormat: 'ddd D'
+                    },
+                    day: {
+                        // options apply to basicDay and agendaDay views
+                    }
+                },
+                selectable: true,
+                dayClick: function(date) {
+                    console.log(date.format());
+                },
+                select: function(startDate, endDate) {
+                    console.log('selected ' + startDate.format() + ' to ' + endDate.format());
+                }
+            });
+        });
+    </script>
+{% endblock %}

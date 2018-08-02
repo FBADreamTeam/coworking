@@ -3,7 +3,6 @@
 {% trans_default_domain 'admin' %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('build/js/app.css') }}">
     <style>
         #loader {
             transition: all 0.3s ease-in-out;
@@ -86,7 +85,7 @@
 
     <!-- @App Content -->
     <!-- =================================================== -->
-    <div style="width: 100%">
+    <div>
 
         {% include 'admin/components/sidebar.html.twig' %}
 

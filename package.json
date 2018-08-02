@@ -42,11 +42,12 @@
         "build": "encore production"
     },
     "dependencies": {
-        "bootstrap-datepicker": "^1.8.0",
         "babel-polyfill": "^6.26.0",
         "bootstrap": "^4.0.0",
+        "bootstrap-datepicker": "^1.8.0",
         "chart.js": "^2.7.1",
         "datatables": "^1.10.13",
+        "dropify": "^0.2.2",
         "easy-pie-chart": "^2.1.7",
         "file-loader": "^1.1.5",
         "fullcalendar": "^3.6.2",

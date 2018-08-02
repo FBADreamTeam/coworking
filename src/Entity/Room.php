@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -80,6 +81,15 @@ class Room
      * @ORM\JoinColumn(nullable=false)
      */
     private $roomType;
+
+    /**
+     * TODO set nullable to true | remove nullable
+     */
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $featuredImage;
 
     public function __construct()
     {
@@ -226,6 +236,21 @@ class Room
     public function setRoomType(?RoomType $roomType): self
     {
         $this->roomType = $roomType;
+
+        return $this;
+    }
+
+    /**
+     * @return string|UploadedFile
+     */
+    public function getFeaturedImage()
+    {
+        return $this->featuredImage;
+    }
+
+    public function setFeaturedImage($featuredImage): self
+    {
+        $this->featuredImage = $featuredImage;
 
         return $this;
     }
