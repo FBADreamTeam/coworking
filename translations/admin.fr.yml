@@ -1,6 +1,7 @@
 admin.links.dashboard: Dashboard
 admin.links.accounts: Employé(e)s
 admin.titles.new-account: 'Nouveau Compte Employé(e)'
+admin.titles.edit-account: 'Modification de votre compte'
 admin.titles.employees-list: 'Liste des Employé(e)s'
 admin.tables.firstname: Prénom
 admin.tables.lastname: Nom
@@ -9,6 +10,7 @@ admin.forms.firstname: Prénom
 admin.forms.lastname: Nom
 admin.forms.email: E-mail
 admin.forms.password: 'Mot de Passe'
+admin.forms.password-confirm: 'Confirmez mot de passe'
 admin.forms.pwd-placeholder: '********'
 admin.forms.role: Role
 admin.forms.btn.submit: Valider

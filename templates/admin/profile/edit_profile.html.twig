@@ -1,0 +1,21 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% trans_default_domain 'admin' %}
+
+{% block title %}
+    {{ 'admin.titles.new-account'|trans }}
+{% endblock %}
+
+{% block main_content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="bgc-white bd bdrs-3 p-20 mB-20">
+                    <h6 class="c-grey-900">{{ 'admin.titles.edit-account'|trans }}</h6>
+
+                    {% include 'admin/components/employee_form.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

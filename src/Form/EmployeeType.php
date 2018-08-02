@@ -50,14 +50,31 @@ class EmployeeType extends AbstractType
                 ]
             ])
             ->add('password', PasswordType::class, [
-                'required' => true,
+                'required' => ($options['context'] == 'create') ? true : false,
+                'mapped' => ($options['context'] == 'edit') ? false : true,
                 'translation_domain' => 'admin',
                 'label' => 'admin.forms.password',
                 'attr' => [
                     'placeholder' => 'admin.forms.pwd-placeholder',
                 ]
             ])
-            ->add('role', EntityType::class, [
+            ->add('password_confirm', PasswordType::class, [
+                'required' => ($options['context'] == 'create') ? true : false,
+                'mapped' => false, // Permet de spécifier que ce champ n'est pas dans l'entité Employee
+                'translation_domain' => 'admin',
+                'label' => 'admin.forms.password-confirm',
+                'attr' => [
+                    'placeholder' => 'admin.forms.pwd-placeholder',
+                ]
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'admin.forms.btn.submit',
+                'translation_domain' => 'admin',
+                'attr' => ['class' => 'btn btn-primary'],
+            ]);
+
+        if ( $options['role'] === 'ROLE_ADMIN') {
+            $builder->add('role', EntityType::class, [
                 'class' => Role::class,
                 'choice_label'   => 'label',
                 'required' => true,
@@ -66,18 +83,16 @@ class EmployeeType extends AbstractType
                 'attr' => [
                     'placeholder' => 'admin.forms.role',
                 ],
-            ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'admin.forms.btn.submit',
-                'translation_domain' => 'admin',
-                'attr' => ['class' => 'btn btn-primary'],
             ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'date_class' => Employee::class
+            'date_class' => Employee::class,
+            'role' => 'ROLE_EMPLOYEE',
+            'context' => 'create'
         ]);
     }
 }

@@ -16,7 +16,7 @@
 
                 {# Affichage message flash success #}
                 {% for message in app.flashes('success') %}
-                    <div>
+                    <div class="alert alert-success">
                         {{ message }}
                     </div>
                 {% endfor %}
