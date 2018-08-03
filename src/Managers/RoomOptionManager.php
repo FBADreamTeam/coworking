@@ -12,7 +12,7 @@ class RoomOptionManager
     /**
      * RoomManager constructor.
      *
-     * @param $em
+     * @param EntityManagerInterface $em
      */
     public function __construct(EntityManagerInterface $em)
     {

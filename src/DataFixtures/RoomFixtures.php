@@ -80,8 +80,6 @@ class RoomFixtures extends Fixture
     /**
      * @param ObjectManager $om
      * @param RoomType      $roomType
-     *
-     * @return
      */
     private function addRoomOptions(ObjectManager $om, RoomType $roomType)
     {

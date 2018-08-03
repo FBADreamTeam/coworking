@@ -110,7 +110,7 @@ class RoomOptionController extends Controller
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $roomOptionManager->editRoomOption($roomOption);
+            $roomOptionManager->editRoomOption();
 
             $this->addFlash('success', 'Modification éffectuée !');
 
