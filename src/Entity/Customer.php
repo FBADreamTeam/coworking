@@ -5,7 +5,6 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository")
@@ -24,6 +23,7 @@ class Customer extends AbstractUser
 
     /**
      * Customer constructor.
+     *
      * @param null|string $firstName
      * @param null|string $lastName
      * @param null|string $email
@@ -35,7 +35,6 @@ class Customer extends AbstractUser
         $this->addresses = new ArrayCollection();
         $this->bookings = new ArrayCollection();
     }
-
 
     /**
      * @return Collection|Address[]
@@ -100,11 +99,10 @@ class Customer extends AbstractUser
     }
 
     /**
-     * @return null
+     * @return array
      */
     public function getRoles()
     {
         return ['ROLE_USER'];
     }
-
 }

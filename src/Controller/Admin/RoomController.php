@@ -95,7 +95,7 @@ class RoomController extends Controller
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $roomManager->editRoom($room);
+            $roomManager->editRoom();
 
             $this->addFlash('success', 'Modification éffectuée !');
 
