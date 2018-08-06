@@ -23,3 +23,18 @@ admin.tables.delete: Delete
 admin.links.manage_room: Manage rooms
 admin.links.manage_room_option: Manage options
 admin.links.manage_room_and_option: Rooms & options
+admin:
+  titles:
+    rooms:
+      home: 'Rooms Home'
+    rooms-list: 'Rooms Management'
+  rooms:
+    btn:
+      add: 'Add rooms'
+    titles:
+      name: 'Name'
+      type: 'Type'
+      status: 'Status'
+      hourly_price: 'Hourly price'
+      weekly_price: 'Weekly price'
+      action: 'Actions'

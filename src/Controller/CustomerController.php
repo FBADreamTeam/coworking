@@ -6,7 +6,9 @@ use App\Entity\Customer;
 use App\Form\CustomerType;
 use App\Form\CustomerLoginType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -16,8 +18,10 @@ class CustomerController extends Controller
 
     /**
      * @Route("/profile/login", name="profile_login")
+     * @param AuthenticationUtils $authenticationUtils
+     * @return RedirectResponse|Response
      */
-    public function login(Request $request, AuthenticationUtils $authenticationUtils)
+    public function login(AuthenticationUtils $authenticationUtils)
     {
         if ($this->getUser()) {
             return $this->redirectToRoute('index');
@@ -38,7 +42,9 @@ class CustomerController extends Controller
 
     /**
      * @Route("/profile/new", name="profile_new")
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $encoder
+     * @return Response
      */
     public function addCustomer(Request $request, UserPasswordEncoderInterface $encoder)
     {

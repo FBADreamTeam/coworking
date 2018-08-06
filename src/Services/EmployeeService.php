@@ -10,13 +10,13 @@ namespace App\Services;
 
 use App\Entity\Employee;
 use App\Entity\Role;
+use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 
 class EmployeeService
 {
     /**
-     * @var EntityRepository
+     * @var ObjectRepository
      */
     private $repo;
 

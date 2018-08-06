@@ -7,7 +7,9 @@ use App\Form\RoomFormType;
 use App\Managers\RoomManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Asset\Packages;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
@@ -34,16 +36,18 @@ class RoomController extends Controller
      * @Method({"POST"})
      * @Security("has_role('ROLE_ADMIN')")
      *
-     * @param Request     $request
+     * @param Request $request
      * @param RoomManager $roomManager
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @param Packages $packages
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function addRoom(Request $request, RoomManager $roomManager)
+    public function addRoom(Request $request, RoomManager $roomManager, Packages $packages)
     {
         $room = new Room();
+
         //Creation du formulaire
-        $form = $this->createForm(RoomFormType::class, $room)
+        $form = $this->createForm(RoomFormType::class, $room, ['image_url' => $packages->getUrl($this->getParameter('assets_public_dir').'office/bureau-amenage.jpeg')])
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -68,9 +72,9 @@ class RoomController extends Controller
      *
      * @param Room $room
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function showRoom(Room $room): \Symfony\Component\HttpFoundation\Response
+    public function showRoom(Room $room): Response
     {
         return $this->render('admin/room/show.html.twig', [
             'room' => $room,
@@ -82,16 +86,17 @@ class RoomController extends Controller
      * @Method({"POST"})
      * @Security("has_role('ROLE_ADMIN')")
      *
-     * @param Room        $room
-     * @param Request     $request
+     * @param Room $room
+     * @param Request $request
      * @param RoomManager $roomManager
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param Packages $packages
+     * @return Response
      */
-    public function editRoom(Room $room, Request $request, RoomManager $roomManager): \Symfony\Component\HttpFoundation\Response
+    public function editRoom(Room $room, Request $request, RoomManager $roomManager, Packages $packages): Response
     {
         //Creation du formulaire
-        $form = $this->createForm(RoomFormType::class, $room)
+        $form = $this->createForm(RoomFormType::class, $room, ['image_url' => $packages->getUrl($this->getParameter('room_assets_public_dir') . $room->getFeaturedImage())])
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

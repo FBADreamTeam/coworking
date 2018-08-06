@@ -136,5 +136,8 @@ abstract class AbstractUser implements UserInterface
     {
     }
 
-
+    public function getFullName(): string
+    {
+        return $this->getFirstName() . ' ' . $this->getLastName();
+    }
 }

@@ -17,7 +17,7 @@ admin.address.city.max_length: 'La ville ne peut pas dépasser {{ limit }} carac
 admin.address.country.not_blank: 'Veuillez renseigner le pays'
 admin.address.country.max_length: 'Le pays ne peut pas dépasser {{ limit }} caractères'
 admin.address.cpl.max_length: 'Le complément de rue ne peut pas dépasser {{ limit }} caractères'
-admin.address.customer.not_null:  'Veuillez renseigner le client'
+admin.address.customer.not_null: 'Veuillez renseigner le client'
 admin.booking.start_date.not_blank: 'Veuillez sélectionner une date'
 admin.booking.start_date.valid: 'La date sélectionnée est invalide'
 admin.booking.end_date.not_blank: 'Veuillez sélectionner une date'

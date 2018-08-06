@@ -3,11 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Dashboard | {% block title %}{% endblock %}</title>
-    {% block stylesheets %}{% endblock %}
+    <title>Dashboard | {% block title '' %}</title>
+    <link rel="stylesheet" href="{{ asset('build/js/app.css') }}">
+    {% block stylesheets '' %}
 </head>
 <body class="app">
-{% block body %}{% endblock %}
-{% block javascripts %}{% endblock %}
+{% block body '' %}
+<link rel="stylesheet" href="{{ asset('build/js/app.css') }}">
+{% block javascripts '' %}
+{% block final_javascripts '' %}
 </body>
 </html>

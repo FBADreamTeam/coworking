@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -16,6 +17,7 @@ class RoomType
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"filter"})
      */
     private $id;
 
@@ -23,6 +25,7 @@ class RoomType
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="admin.room_type.label.not_blank")
      * @Assert\Length(max="255", maxMessage="admin.room_type.label.max_length")
+     * @Groups({"filter"})
      */
     private $label;
 

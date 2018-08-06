@@ -6,6 +6,9 @@
 parameters:
     locale: 'en'
     customer_service: 'customer@test.xyz'
+    assets_public_dir: 'images/'
+    room_assets_public_dir: '%assets_public_dir%room/'
+    room_assets_fulldir: '%kernel.project_dir%%room_assets_public_dir%' # upload dir
 
 services:
     # default configuration for services in *this* file
@@ -33,3 +36,6 @@ services:
 
     App\Notifier\Notifier:
         $customerServiceEmail: '%customer_service%'
+
+    App\Services\ImageUploader:
+        $assetsDir: '%room_assets_fulldir%'
