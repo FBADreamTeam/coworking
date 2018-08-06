@@ -12,7 +12,7 @@ use App\Entity\Address;
 use App\Entity\Customer;
 use App\Events\UserCreatedEvent;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class CustomerManager
 {
@@ -22,11 +22,11 @@ class CustomerManager
     private $em;
 
     /**
-     * @var EventDispatcher
+     * @var EventDispatcherInterface
      */
     private $dispatcher;
 
-    public function __construct(EntityManagerInterface $em, EventDispatcher $dispatcher)
+    public function __construct(EntityManagerInterface $em, EventDispatcherInterface $dispatcher)
     {
         $this->em = $em;
         $this->dispatcher = $dispatcher;
@@ -87,7 +87,7 @@ class CustomerManager
      */
     public function checkDuplicateEmail(string $email): bool
     {
-        return $this->em->getRepository(Customer::class)->findByEmail($email) ? true : false;
+        return $this->em->getRepository(Customer::class)->findBy(['email' => $email]) ? true : false;
     }
 
 

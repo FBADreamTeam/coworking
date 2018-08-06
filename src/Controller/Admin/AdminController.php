@@ -267,13 +267,11 @@ class AdminController extends Controller
     /**
      * @Route("/employee/show/{id}", name="admin_employee_show")
      *
-     * @param $id
+     * @param Employee $employee
      * @return Response
      */
-    public function showEmployee($id)
+    public function showEmployee(Employee $employee): Response
     {
-        $employee = $this->getDoctrine()->getRepository(Employee::class)->find($id);
-
         if (empty($employee)) {
             throw new Exception("L'employé(e) n'existe pas");
         }

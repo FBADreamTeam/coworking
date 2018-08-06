@@ -64,7 +64,7 @@ class CustomerController extends Controller
             $emailCustom = $customer->getEmail();
 
             // Gestion des doublons
-            $emailCustomBdd = $em->getRepository(Customer::class)->findByEmail($emailCustom);
+            $emailCustomBdd = $em->getRepository(Customer::class)->findBy(['email' => $emailCustom]);
 
             if (!empty($emailCustomBdd)) {
                 $this->addFlash('notice', "L'email saisi est déjà enregistré");

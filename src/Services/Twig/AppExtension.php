@@ -23,22 +23,33 @@ class AppExtension extends AbstractExtension
     }
 
     /**
-     * @return array|Twig_Function[]
+     * @return array
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('getAssetsDir', array($this, 'getAssetsDir')),
         ];
     }
 
-
-    public function priceFilter($number, $decimals = 0, $decPoint = '.', $thousandsSep = ',', $symbol = '€')
+    /**
+     * @param int $number
+     * @param int $decimals
+     * @param string $decPoint
+     * @param string $thousandsSep
+     * @param string $symbol
+     * @return string
+     */
+    public function priceFilter(int $number, int $decimals = 0, string $decPoint = '.', string $thousandsSep = ',', string $symbol = '€'): string
     {
         return number_format($number / 100, $decimals, $decPoint, $thousandsSep).' '.$symbol;
     }
 
-    public function getAssetsDir(string $dir = 'room')
+    /**
+     * @param string $dir
+     * @return string
+     */
+    public function getAssetsDir(string $dir = 'room'): string
     {
         return 'images/' . $dir . '/';
     }

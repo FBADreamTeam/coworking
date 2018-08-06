@@ -37,6 +37,7 @@ class BookingController extends Controller
 
         $data = [];
 
+        /** @var RoomType $roomType */
         foreach ($roomTypes as $roomType) {
             $data[$roomType->getId()]['roomType'] = $roomType;
             $data[$roomType->getId()]['rooms'] = $em->getRepository(Room::class)->findBy(['roomType' => $roomType]);

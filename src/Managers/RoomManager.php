@@ -111,8 +111,7 @@ class RoomManager
         // )
 
         $repo = $this->em->getRepository(Room::class);
-        $query = $repo
-            ->createQueryBuilder('r')
+        $query = $repo->createQueryBuilder('r')
             ->leftJoin('r.bookings', 'b')
             ->where('r.roomType = :type')
             ->andWhere('(b.startDate >= :endDate AND b.endDate <= :startDate) OR (b.startDate IS NULL AND b.endDate IS NULL)')
@@ -143,8 +142,7 @@ class RoomManager
         // ORDER BY r0_.roomType
 
         $repo = $this->em->getRepository(Room::class);
-        $query = $repo
-            ->createQueryBuilder('r')
+        $query = $repo->createQueryBuilder('r')
             ->leftJoin('r.bookings', 'b')
             ->where('(b.startDate >= :endDate AND b.endDate <= :startDate) OR (b.startDate IS NULL AND b.endDate IS NULL)')
             ->setParameters([

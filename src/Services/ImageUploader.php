@@ -9,6 +9,7 @@
 namespace App\Services;
 
 
+use App\Entity\Room;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ImageUploader
@@ -30,12 +31,11 @@ class ImageUploader
     }
 
     /**
-     * @param $object
-     * @param $imageAttribute
-     * @param $slugAttribute
-     * @return void
+     * @param Room $object
+     * @param string $imageAttribute
+     * @param string $slugAttribute
      */
-    public function upload($object, $imageAttribute, $slugAttribute): void
+    public function upload(Room $object, string $imageAttribute, string $slugAttribute): void
     {
         $imageGetter = 'get' . ucfirst($imageAttribute);
         $imageSetter = 'set' . ucfirst($imageAttribute);
@@ -58,7 +58,10 @@ class ImageUploader
         $object->$imageSetter($filename);
     }
 
-    public function getDirectory()
+    /**
+     * @return string
+     */
+    public function getDirectory(): string
     {
         return $this->assetsDir;
     }
