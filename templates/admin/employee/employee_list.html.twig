@@ -46,7 +46,8 @@
                                 <a href="{{ path('admin_employee_edit', {'id': employee.id}) }}" class="btn btn-success">
                                     <i class="pr-2 ti-pencil"></i>{{ 'admin.tables.edit'|trans }}
                                 </a>
-                                <a href="{{ path('admin_employee_delete', {'id' : employee.id}) }}" class="btn btn-danger">
+                                <a href="{{ path('admin_employee_delete', {'id' : employee.id}) }}" class="btn btn-danger"
+                                   onclick="return confirm('Etes vous sûre de vouloir supprimer l\'employé(e) ?')">
                                     <i class="pr-2 ti-trash"></i>{{ 'admin.tables.delete'|trans }}
                                 </a>
                             </td>

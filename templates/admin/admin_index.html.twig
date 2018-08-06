@@ -22,13 +22,6 @@
                 {% endfor %}
             </div>
 
-            {# Si authentifié affichage bouton déconnexion #}
-            {% if (is_granted('IS_AUTHENTICATED_FULLY')) %}
-                <a class="btn btn-danger" href="{{ path('admin_logout') }}">Sign out</a>
-            {% else %}
-                <a class="btn btn-danger" href="{{ path('admin_login') }}">Sign in</a>
-            {% endif %}
-
             {# uniquement l'admin peut créer des compte#}
             {% if (is_granted('ROLE_ADMIN')) %}
                 <a class="btn btn-primary" href="{{ path('admin_employee_new') }}">Create account</a>

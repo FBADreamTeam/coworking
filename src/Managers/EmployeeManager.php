@@ -10,7 +10,6 @@ namespace App\Managers;
 
 use App\Entity\Employee;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Config\Definition\Exception\Exception;
 
 class EmployeeManager
 {

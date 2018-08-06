@@ -1,0 +1,39 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% trans_default_domain 'admin' %}
+
+{% block title %}
+    {{ 'admin.titles.customers-edite'|trans }}
+{% endblock %}
+
+{% block main_content %}
+    <div class="container-fluid">
+        <h4 class="c-grey-900 mT-10 mB-30">{{ 'admin.titles.customers-edit'|trans }}</h4>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="bgc-white bd bdrs-3 p-20 mB-20">
+
+                    {# Affichage message flash notice #}
+                    {% for message in app.flashes('notice') %}
+                        <div class="alert alert-danger">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                    {# Affichage message flash success #}
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                    {{ form(form) }}
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
