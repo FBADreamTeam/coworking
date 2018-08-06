@@ -1,11 +1,13 @@
 language: php
 php:
-  - '7.1'
+#  - '7.1' incompatible since add Symfony/Panther. It's require PHP 7.2 min.
   - '7.2'
+  - '7.3'
   - nightly
 
-addons:
-  chrome: stable
+#  Use when we do functional test with Panther
+#addons:
+#  chrome: stable
 
 cache:
   directories:
