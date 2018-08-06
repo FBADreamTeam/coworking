@@ -94,7 +94,7 @@ class Room
     private $roomType;
 
     /**
-     * TODO set nullable to true | remove nullable
+     * TODO set nullable to true | remove nullable.
      */
 
     /**
@@ -168,6 +168,9 @@ class Room
 
     public function setHourlyPrice(int $hourlyPrice): self
     {
+        if ($hourlyPrice <= 0) {
+            throw new \LogicException('The price cannot be negative.');
+        }
         $this->hourlyPrice = $hourlyPrice;
 
         return $this;
@@ -180,6 +183,9 @@ class Room
 
     public function setDailyPrice(int $dailyPrice): self
     {
+        if ($dailyPrice <= 0) {
+            throw new \LogicException('The price cannot be negative.');
+        }
         $this->dailyPrice = $dailyPrice;
 
         return $this;
@@ -192,6 +198,9 @@ class Room
 
     public function setWeeklyPrice(int $weeklyPrice): self
     {
+        if ($weeklyPrice <= 0) {
+            throw new \LogicException('The price cannot be negative.');
+        }
         $this->weeklyPrice = $weeklyPrice;
 
         return $this;
@@ -204,6 +213,9 @@ class Room
 
     public function setMonthlyPrice(int $monthlyPrice): self
     {
+        if ($monthlyPrice <= 0) {
+            throw new \LogicException('The price cannot be negative.');
+        }
         $this->monthlyPrice = $monthlyPrice;
 
         return $this;

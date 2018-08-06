@@ -84,6 +84,9 @@ class RoomOption
 
     public function setPrice(int $price): self
     {
+        if ($price <= 0) {
+            throw new \LogicException('The price cannot be negative.');
+        }
         $this->price = $price;
 
         return $this;
