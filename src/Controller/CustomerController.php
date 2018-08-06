@@ -6,6 +6,7 @@ use App\Entity\Customer;
 use App\Events\UserCreatedEvent;
 use App\Form\CustomerType;
 use App\Form\CustomerLoginType;
+use App\Managers\CustomerManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -47,9 +48,11 @@ class CustomerController extends Controller
      * @param Request $request
      * @param UserPasswordEncoderInterface $encoder
      * @param EventDispatcherInterface $dispatcher
+     * @param CustomerManager $customerManager
      * @return Response
      */
-    public function addCustomer(Request $request, UserPasswordEncoderInterface $encoder, EventDispatcherInterface $dispatcher): Response
+    public function addCustomer(Request $request, UserPasswordEncoderInterface $encoder,
+                                EventDispatcherInterface $dispatcher, CustomerManager $customerManager): Response
     {
         $customer = new Customer();
 
@@ -60,23 +63,46 @@ class CustomerController extends Controller
         if ($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
 
-            //$data = $form->getData();
             $emailCustom = $customer->getEmail();
 
             // Gestion des doublons
-            $emailCustomBdd = $em->getRepository(Customer::class)->findBy(['email' => $emailCustom]);
+            $emailCustomBdd = $customerManager->checkDuplicateEmail($emailCustom);
 
-            if (!empty($emailCustomBdd)) {
+            if ($emailCustomBdd) {
                 $this->addFlash('notice', "L'email saisi est déjà enregistré");
-            } else {
-                $customer->setPassword($encoder->encodePassword($customer, $customer->getPassword()));
-                $em->persist($customer);
-                $em->flush();
 
-                $this->addFlash('success', "Votre compte a bien été créé");
-                $event = new UserCreatedEvent($customer);
-                $dispatcher->dispatch(UserCreatedEvent::NAME, $event);
+                return $this->render('/profile/profile_register.html.twig', [
+                    'form' => $form->createView()
+                ]);
             }
+
+            // Gestion de la modification du mot de passe
+            $password = $form->get('password')->getData();
+            $passwordConfirm = $form->get('password_confirm')->getData();
+
+            if (!empty($password) || !empty($passwordConfirm)) {
+                if ($password === $passwordConfirm) {
+                    $customer->setPassword($encoder->encodePassword($customer, $password));
+                } else {
+                    $this->addFlash('notice', "Les mots de passes ne sont pas identiques");
+
+                    return $this->render('/profile/profile_register.html.twig', [
+                        'form' => $form->createView()
+                    ]);
+                }
+            }
+
+            $customer->setPassword($encoder->encodePassword($customer, $customer->getPassword()));
+
+            $customerManager->createCustomer($customer);
+
+            $this->addFlash('success', "Votre compte a bien été créé");
+
+            $event = new UserCreatedEvent($customer);
+            $dispatcher->dispatch(UserCreatedEvent::NAME, $event);
+
+            return $this->redirectToRoute('profile_new');
+
         }
 
         return $this->render('/profile/profile_register.html.twig', [
