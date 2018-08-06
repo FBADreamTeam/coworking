@@ -69,7 +69,6 @@ class CustomerController extends Controller
             // Gestion des doublons
 
             if ($customerEmployee !== $emailCustomerForm) {
-                //$duplicateEmail = ($em->getRepository(Customer::class)->findByEmail($emailCustomerForm)) ? true : false;
 
                 $duplicateEmail = $customerManager->checkDuplicateEmail($emailCustomerForm);
 
