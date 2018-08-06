@@ -24,6 +24,15 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
+                            {#<nav>#}
+                                {#<div class="nav nav-tabs" id="nav-tab" role="tablist">#}
+                                    {#<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>#}
+                                    {#<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>#}
+                                    {#<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>#}
+                                {#</div>#}
+                            {#</nav>#}
+
+
                             {# --NAV-- #}
                             <ul class="nav nav-tabs" id="h-tabs-tab" role="tablist">
                                 {% for key, value in data %}
@@ -31,6 +40,7 @@
                                         <a class="nav-link {% if loop.first %} {{ 'active' }} {% endif %}"
                                            id="h-tabs-{{ key }}-tab"
                                            data-toggle="tab"
+                                           data-type="{{ key }}"
                                            href="#h-tabs-{{ key }}"
                                            role="tab"
                                            aria-controls="h-tabs-{{ key }}"
@@ -42,13 +52,20 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
+
+                                {#<div class="tab-content" id="nav-tabContent">#}
+                                    {#<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">...</div>#}
+                                    {#<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>#}
+                                    {#<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>#}
+                                {#</div>#}
+
                                 <div class="tab-content" id="h-tabs-tabContent">
                                     {% for key, value in data %}
                                         <div class="tab-pane fade {% if loop.first %} {{ 'show active' }} {% endif %}" id="h-tabs-{{ key }}" role="tabpanel" aria-labelledby="h-tabs-{{ key }}-tab">
-                                            <div class="nav nav-pills {% if loop.first %} {{ 'active' }} {% endif %}" id="h-tabs-tab" role="tablist" aria-orientation="vertical">
+                                            {#<div class="nav nav-pills {% if loop.first %} {{ 'active' }} {% endif %}" id="h-tabs-tab" role="tablist" aria-orientation="vertical">#}
                                                 {% for room in value['rooms'] %}
                                                     {# --CARDS-- #}
-                                                    <div class="card m-4" style="width: 18rem;">
+                                                    <div class="card m-2 float-lg-left" style="width: 18rem;" data-id="{{ room.id }}">
                                                         <img class="card-img-top" src="{{ asset(getAssetsDir() ~ room.featuredImage) }}" alt="Card image cap">
                                                         <div class="card-body">
                                                             <h5 class="card-title">{{ room.name }}</h5>
@@ -57,7 +74,7 @@
                                                         </div>
                                                     </div>
                                                 {% endfor %}
-                                            </div>
+                                            {#</div>#}
                                         </div>
                                     {% endfor %}
                                 </div>
@@ -82,13 +99,101 @@
 {% block final_javascripts %}
     <script>
         $(function() {
+
+            let root = $('#h-tabs-tabContent');
+            let assetsDir = '{{ asset(getAssetsDir()) }}';
+            let bookingBtnLabel = '{{ 'booking.btn.book'|trans }}';
+
+            let displayRooms = function(type, rooms, active) {
+
+                {#<div class="tab-pane fade {% if loop.first %} {{ 'show active' }} {% endif %}" id="h-tabs-{{ key }}" role="tabpanel" aria-labelledby="h-tabs-{{ key }}-tab">#}
+                    {#<div class="nav nav-pills {% if loop.first %} {{ 'active' }} {% endif %}" id="h-tabs-tab" role="tablist" aria-orientation="vertical">#}
+                        {#{% for room in value['rooms'] %}#}
+                            {# --CARDS-- #}
+                            {#<div class="card m-2" style="width: 18rem;">#}
+                                {#<img class="card-img-top" src="{{ asset(getAssetsDir() ~ room.featuredImage) }}" alt="Card image cap">#}
+                                {#<div class="card-body">#}
+                                    {#<h5 class="card-title">{{ room.name }}</h5>#}
+                                    {#<p class="card-text">{{ room.description }}</p>#}
+                                    {#<a href="#" class="btn btn-primary">{{ 'booking.btn.book'|trans }}</a>#}
+                                {#</div>#}
+                            {#</div>#}
+                        {#{% endfor %}#}
+                    {#</div>#}
+                {#</div>#}
+
+                // header prototype
+                // let header = '<div class="tab-pane fade __SHOWACTIVE__" id="h-tabs-__KEY__" role="tabpanel" aria-labelledby="h-tabs-__KEY__-tab"><div class="nav nav-pills __ACTIVE__" id="h-tabs-tab" role="tablist" aria-orientation="vertical">';
+                let header = '<div class="tab-pane fade __SHOWACTIVE__" id="h-tabs-__KEY__" role="tabpanel" aria-labelledby="h-tabs-__KEY__-tab">';
+
+                // replace __SHOWACTIVE__, __ACTIVE__ and __KEY__ placeholders
+                if(active) {
+                    header = header.replace(/__SHOWACTIVE__/g, 'show active');
+                    // header = header.replace(/__ACTIVE__/g, 'active');
+                } else {
+                    header = header.replace(/__SHOWACTIVE__/g, '');
+                    // header = header.replace(/__ACTIVE__/g, '');
+                }
+
+                header = header.replace(/__KEY__/g, type);
+                let key = 'h-tabs-' + type;
+
+                // footer prototype
+                // let footer = '</div></div>';
+                let footer = '</div>';
+
+                // append header to root
+                root.append($(header));
+
+                // for each rooms, create a card
+                rooms.forEach(function(room) {
+                    // body
+                    let body = '<div class="card m-2 float-lg-left" style="width: 18rem;" data-id="' + room.id + '"><img class="card-img-top" src="' + assetsDir + room.featuredImage + '" alt="Card image cap"><div class="card-body"><h5 class="card-title">' + room.name + '</h5><p class="card-text">' + room.description + '</p><a href="#" class="btn btn-primary">' + bookingBtnLabel + '</a></div></div>';
+                    // append body to header
+                    // $('#' + key + ' div.nav.nav-pills').append($(body));
+                    $('#' + key).append($(body));
+                });
+
+                // append footer to root
+                root.append($(footer));
+            };
+
+            let filterRooms = function(type, start, end) {
+                // ajax call to booking/filter/
+                $.ajax({
+                    url: '{{ path('booking_filter') }}',
+                    method: 'GET',
+                    data: {
+                        'type': type,
+                        'startDate': start,
+                        'endDate': end
+                    },
+                    success: function(data) {
+                        console.log('--FILTER-SUCCESS--');
+                        // console.log(data);
+                        let types = JSON.parse(data['rooms']);
+                        console.log(types);
+
+                        // clear root
+                        root.empty();
+
+                        let first = true;
+                        for(let key in types) {
+                            let rooms = types[key];
+                            displayRooms(key, rooms, first);
+
+                            if (first)
+                            {
+                                first = false;
+                            }
+                        }
+                    }
+                });
+            };
+
+            
+
             // page is now ready, initialize the calendar...
-            // var calendar = $('#calendar').fullCalendar({
-            //     // put your options and callbacks here
-            //     dayClick: function() {
-            //         console.log('a day has been clicked!');
-            //     }
-            // })
             $('#calendar').fullCalendar({
                 height:            670,
                 defaultView: 		'agendaWeek',
@@ -101,12 +206,20 @@
                 timeFormat: 		'H:mm',
                 nowIndicator: 		true,
                 now: 				Date.now(),
-                slotLabelFormat: 	'H:mm',
+                slotLabelFormat: 	'H',
+                slotDuration: '01:00:00',
                 columnHeaderFormat: 'ddd D MMM',
                 monthNames: 		['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'],
                 monthNamesShort: 	['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec'],
                 dayNames: 			['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
                 dayNamesShort: 		['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+                businessHours: {
+                    // days of week. an array of zero-based day of week integers (0=Sunday)
+                    dow: [ 1, 2, 3, 4 ], // Monday - Thursday
+
+                    start: '09:00', // a start time (9am in this example)
+                    end: '18:00', // an end time (6pm in this example)
+                },
                 header: {
                     left   : 'month,agendaWeek,agendaDay',
                     center : 'title',
@@ -133,11 +246,19 @@
                     }
                 },
                 selectable: true,
-                dayClick: function(date) {
-                    console.log(date.format());
+                dayClick: function(date, jsEvent, view) {
+                    let day = moment(date.format());
+                    console.log('--DAYCLICK--');
+                    console.log(day);
                 },
                 select: function(startDate, endDate) {
-                    console.log('selected ' + startDate.format() + ' to ' + endDate.format());
+                    let start = moment(startDate.format());
+                    let end = moment(endDate.format());
+                    console.log('--SELECT--');
+                    console.log(start);
+                    console.log(end);
+
+                    filterRooms($('a.nav-link').attr('data-type'), start.format('YYYY-MM-DD HH:MM:SS'), end.format('YYYY-MM-DD HH:MM:SS'));
                 }
             });
         });

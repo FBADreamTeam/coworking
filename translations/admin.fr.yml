@@ -28,3 +28,13 @@ admin:
     rooms:
       home: 'Accueil Rooms'
     rooms-list: 'Gestion des Rooms'
+  rooms:
+    btn:
+      add: 'Ajouter des pièces'
+    titles:
+      name: 'Nom'
+      type: 'Type'
+      status: 'Statut'
+      hourly_price: 'Tarif horaire'
+      weekly_price: 'Tarif hebdomadaire'
+      action: 'Actions'

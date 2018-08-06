@@ -3,9 +3,11 @@
 namespace App\Managers;
 
 use App\Entity\Room;
+use App\Entity\RoomType;
 use App\Services\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class RoomManager
 {
@@ -20,15 +22,22 @@ class RoomManager
     private $uploader;
 
     /**
+     * @var SerializerInterface
+     */
+    private $serializer;
+
+    /**
      * RoomManager constructor.
      *
      * @param EntityManagerInterface $em
      * @param ImageUploader $uploader
+     * @param SerializerInterface $serializer
      */
-    public function __construct(EntityManagerInterface $em, ImageUploader $uploader)
+    public function __construct(EntityManagerInterface $em, ImageUploader $uploader, SerializerInterface $serializer)
     {
         $this->em = $em;
         $this->uploader = $uploader;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -81,5 +90,78 @@ class RoomManager
             // Uploads the file
             $this->uploader->upload($room, 'featuredImage', 'name');
         }
+    }
+
+    /**
+     * @param RoomType $type
+     * @param string $startDate
+     * @param string $endDate
+     * @return mixed
+     */
+    public function filterByType(RoomType $type, string $startDate, string $endDate)
+    {
+        // SELECT * FROM room r0_
+        // LEFT JOIN booking b1_ ON r0_.id = b1_.room_id
+        // WHERE r0_.room_type_id = 3
+        // AND
+        // (
+        //  (b1_.start_date >= "2018-08-01 12:00:00" AND b1_.end_date <= "2018-08-01 11:00:00")
+        //      OR
+        //  (b1_.start_date IS NULL AND b1_.end_date IS NULL)
+        // )
+
+        $repo = $this->em->getRepository(Room::class);
+        $query = $repo
+            ->createQueryBuilder('r')
+            ->leftJoin('r.bookings', 'b')
+            ->where('r.roomType = :type')
+            ->andWhere('(b.startDate >= :endDate AND b.endDate <= :startDate) OR (b.startDate IS NULL AND b.endDate IS NULL)')
+            ->setParameters([
+                'type' => $type,
+                'startDate' => $startDate,
+                'endDate' => $endDate
+            ])
+            ->getQuery()
+        ;
+
+        return $query->getResult();
+    }
+
+    /**
+     * @param string $startDate
+     * @param string $endDate
+     * @return mixed
+     */
+    public function filter(string $startDate, string $endDate)
+    {
+        // SELECT * FROM room r0_
+        // LEFT JOIN booking b1_ ON r0_.id = b1_.room_id
+        // WHERE
+        //  (b1_.start_date >= "2018-08-01 12:00:00" AND b1_.end_date <= "2018-08-01 11:00:00")
+        //      OR
+        //  (b1_.start_date IS NULL AND b1_.end_date IS NULL)
+        // ORDER BY r0_.roomType
+
+        $repo = $this->em->getRepository(Room::class);
+        $query = $repo
+            ->createQueryBuilder('r')
+            ->leftJoin('r.bookings', 'b')
+            ->where('(b.startDate >= :endDate AND b.endDate <= :startDate) OR (b.startDate IS NULL AND b.endDate IS NULL)')
+            ->setParameters([
+                'startDate' => $startDate,
+                'endDate' => $endDate
+            ])
+            ->orderBy('r.roomType')
+            ->getQuery()
+        ;
+
+//        dd($query->getSQL());
+
+        return $query->getResult();
+    }
+
+    public function serialize(array $data)
+    {
+        return $this->serializer->serialize($data, 'json', ['groups' => ['filter']]);
     }
 }

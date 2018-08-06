@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -17,6 +18,7 @@ class Room
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"filter"})
      */
     private $id;
 
@@ -24,12 +26,14 @@ class Room
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="admin.room.name.not_blank")
      * @Assert\Length(max="255", maxMessage="admin.room.name.max_length")
+     * @Groups({"filter"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\GreaterThan(value="0", message="admin.room.capacity.greater_than")
+     * @Groups({"filter"})
      */
     private $capacity;
 
@@ -37,6 +41,7 @@ class Room
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="admin.room.desc.not_blank")
      * @Assert\Length(max="255", maxMessage="admin.room.desc.max_length")
+     * @Groups({"filter"})
      */
     private $description;
 
@@ -44,30 +49,35 @@ class Room
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="admin.room.status.not_blank")
      * @Assert\Length(max="255", maxMessage="admin.room.status.max_length")
+     * @Groups({"filter"})
      */
     private $status;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\GreaterThan(value="0", message="admin.room.hourly_price.greater_than")
+     * @Groups({"filter"})
      */
     private $hourlyPrice;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\GreaterThan(value="0", message="admin.room.daily_price.greater_than")
+     * @Groups({"filter"})
      */
     private $dailyPrice;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\GreaterThan(value="0", message="admin.room.weekly_price.greater_than")
+     * @Groups({"filter"})
      */
     private $weeklyPrice;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\GreaterThan(value="0", message="admin.room.monthly_price.greater_than")
+     * @Groups({"filter"})
      */
     private $monthlyPrice;
 
@@ -79,6 +89,7 @@ class Room
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\RoomType", inversedBy="rooms")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"filter"})
      */
     private $roomType;
 
@@ -88,6 +99,7 @@ class Room
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"filter"})
      */
     private $featuredImage;
 
