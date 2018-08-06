@@ -2,8 +2,7 @@ language: php
 php:
 #  - '7.1' incompatible since add Symfony/Panther. It's require PHP 7.2 min.
   - '7.2'
-  - '7.3'
-  - nightly
+#  - nightly #Last hot version
 
 #  Use when we do functional test with Panther
 #addons:
