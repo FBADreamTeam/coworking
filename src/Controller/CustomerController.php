@@ -70,8 +70,8 @@ class CustomerController extends Controller
                 $this->addFlash('notice', "L'email saisi est déjà enregistré");
             } else {
                 $customer->setPassword($encoder->encodePassword($customer, $customer->getPassword()));
-//                $em->persist($customer);
-//                $em->flush();
+                $em->persist($customer);
+                $em->flush();
 
                 $this->addFlash('success', "Votre compte a bien été créé");
                 $event = new UserCreatedEvent($customer);
