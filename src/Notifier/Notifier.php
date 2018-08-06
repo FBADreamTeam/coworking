@@ -10,6 +10,7 @@ namespace App\Notifier;
 
 
 use App\Entity\AbstractUser;
+use Psr\Log\LoggerInterface;
 
 class Notifier implements NotifierInterface
 {
@@ -21,11 +22,15 @@ class Notifier implements NotifierInterface
     private $customerServiceEmail;
 
     /**
-     * Notifier constructor.
+     * NotifierTrait constructor.
+     * @param \Swift_Mailer $mailer
+     * @param LoggerInterface $logger
      * @param string $customerServiceEmail
      */
-    public function __construct(string $customerServiceEmail)
+    public function __construct(\Swift_Mailer $mailer, LoggerInterface $logger, string $customerServiceEmail)
     {
+        $this->mailer = $mailer;
+        $this->logger = $logger;
         $this->customerServiceEmail = $customerServiceEmail;
     }
 
@@ -38,6 +43,7 @@ class Notifier implements NotifierInterface
     {
         $mail = new \Swift_Message($subject, $message);
         $mail->addFrom($this->customerServiceEmail);
+
         /**
          * @var AbstractUser $user
          */

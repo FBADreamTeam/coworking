@@ -43,7 +43,7 @@ class OrderSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            OrderPlacedEvent::class => 'onOrderPlaced',
+            OrderPlacedEvent::NAME => 'onOrderPlaced',
         ];
     }
 
