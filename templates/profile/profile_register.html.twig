@@ -14,21 +14,22 @@
         <div class="row">
             <div class="col-lg-5 features_col">
                 <h2>Inscription</h2>
-                {{ form(form) }}
 
                 {# Affichage message flash notice #}
                 {% for message in app.flashes('notice') %}
-                    <div>
+                    <div class="alert alert-danger">
                         {{ message }}
                     </div>
                 {% endfor %}
 
                 {# Affichage message flash success #}
                 {% for message in app.flashes('success') %}
-                    <div>
+                    <div class="alert alert-success">
                         {{ message }}
                     </div>
                 {% endfor %}
+
+                {{ form(form) }}
             </div>
         </div>
     </div>

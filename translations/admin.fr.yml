@@ -1,11 +1,15 @@
 admin.links.dashboard: Dashboard
 admin.links.accounts: Employé(e)s
+admin.links.customers: Utilisateurs
 admin.titles.new-account: 'Nouveau Compte Employé(e)'
 admin.titles.edit-account: 'Modification de votre compte'
 admin.titles.employees-list: 'Liste des Employé(e)s'
+admin.titles.customers-list: 'Liste des utilisateurs'
+admin.titles.customers-edit: "Mise à jour de l'utilisateur"
 admin.tables.firstname: Prénom
 admin.tables.lastname: Nom
 admin.tables.email: E-mail
+admin.tables.address: Adresse
 admin.forms.firstname: Prénom
 admin.forms.lastname: Nom
 admin.forms.email: E-mail
@@ -17,6 +21,7 @@ admin.forms.btn.submit: Valider
 admin.links.new-account: 'Créer un nouveau compte'
 admin.titles.signin: Connexion
 admin.tables.actions: Actions
+admin.tables.add: Ajouter
 admin.tables.view: Infos
 admin.tables.edit: Editer
 admin.tables.delete: Supprimer

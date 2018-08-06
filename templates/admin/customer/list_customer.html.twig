@@ -1,0 +1,102 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% trans_default_domain 'admin' %}
+
+{% block title %}
+    {{ 'admin.titles.customers-list'|trans }}
+{% endblock %}
+
+{% block main_content %}
+    <div class="container-fluid">
+        <h4 class="c-grey-900 mT-10 mB-30">{{ 'admin.titles.customers-list'|trans }}</h4>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="bgc-white bd bdrs-3 p-20 mB-20">
+
+                    {# Affichage message flash notice #}
+                    {% for message in app.flashes('notice') %}
+                        <div class="alert alert-danger">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                    {# Affichage message flash success #}
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                    <table id="dataTable" class="table table-striped table-hover table-bordered" cellspacing="0" width="100%">
+                        <thead class="thead-light">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">{{ 'admin.tables.firstname'|trans }}</th>
+                            <th scope="col">{{ 'admin.tables.lastname'|trans }}</th>
+                            <th scope="col">{{ 'admin.tables.email'|trans }}</th>
+                            <th scope="col">{{ 'admin.tables.address'|trans }}</th>
+                            <th scope="col">{{ 'admin.tables.actions'|trans }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for customer in customers %}
+                            <tr>
+                                <th scope="row">{{ customer.id }}</th>
+
+                                <td>{{ customer.firstName }}</td>
+                                <td>{{ customer.lastName }}</td>
+                                <td>{{ customer.email }} </td>
+                                <td>
+                                    <p>
+                                        <a href="{{ path('admin_customer_add_address', {'id_customer': customer.id}) }}" class="btn btn-primary">
+                                            <i class="pr-2 ti-pencil"></i>{{ 'admin.tables.add'|trans }}
+                                        </a>
+                                    </p>
+
+                                    {% for address in customer.addresses %}
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    {{ address.street }}<br>
+                                                    {{ address.postalcode }}<br>
+                                                    {{ address.city }}<br>
+                                                    {{ address.country }}<br>
+                                                    {{ address.addresscpl }}
+                                                    </td>
+                                                <td>
+                                                    <p>
+                                                        <a href="{{ path('admin_customer_edit_address', {'id_customer': customer.id, 'id_address' : address.id}) }}" class="btn btn-success">
+                                                            <i class="pr-2 ti-pencil"></i>{{ 'admin.tables.edit'|trans }}
+                                                        </a>
+                                                    </p>
+
+                                                    <p>
+                                                        <a href="{{ path('admin_customer_delete_address', {'id': address.id}) }}" class="btn btn-info"
+                                                           onclick="return confirm('Etes vous sûr de vouloir supprimer l\'addrresse ?')" >
+                                                            <i class="pr-2 ti-pencil"></i>{{ 'admin.tables.delete'|trans }}
+                                                        </a>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    {% endfor %}
+
+                                </td>
+                                <td>
+                                    <a href="{{ path('admin_customer_edit', {'id': customer.id}) }}" class="btn btn-success">
+                                        <i class="pr-2 ti-pencil"></i>{{ 'admin.tables.edit'|trans }}
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

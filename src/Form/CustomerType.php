@@ -20,7 +20,7 @@ class CustomerType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
+        dump($options);
         $builder
             ->add('firstName', TextType::class, [
                 'required' => true,
@@ -36,6 +36,11 @@ class CustomerType extends AbstractType
                     'placeholder' => 'Last name'
                 ]
             ])
+            /*->add('addresses', CollectionType::class, [
+                'entry_type'   => AddressType::class,
+                'allow_add'    => false, // permet de spécifier qu'on ne peut pas ajouter d'addresse
+                'allow_delete' => false // permet de spécifier qu'on ne peut pas supprimer d'addresse
+            ])*/
             ->add('email', EmailType::class, [
                 'required' => true,
                 'label' => 'Email',
@@ -44,10 +49,22 @@ class CustomerType extends AbstractType
                 ]
             ])
             ->add('password', PasswordType::class, [
-                'required' => true,
+                'required' => ($options['context'] == 'create') ? true : false,
+                'mapped' => ($options['context'] == 'edit') ? false : true,
                 'label' => 'Password',
                 'attr' => [
-                    'placeholder' => 'Password'
+                    'placeholder' => 'Password',
+                    'minlength' => 8
+                ]
+            ])
+            ->add('password_confirm', PasswordType::class, [
+                'required' => ($options['context'] == 'create') ? true : false,
+                'mapped' => false, // Permet de spécifier que ce champ n'est pas dans l'entité Employee
+                'translation_domain' => 'admin',
+                'label' => 'admin.forms.password-confirm',
+                'attr' => [
+                    'placeholder' => 'admin.forms.pwd-placeholder',
+                    'minlength' => 8
                 ]
             ])
             ->add('save', SubmitType::class, [
@@ -58,7 +75,8 @@ class CustomerType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'date_class' => Customer::class
+            'date_class' => Customer::class,
+            'context' => 'create'
         ]);
     }
 

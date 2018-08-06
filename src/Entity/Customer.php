@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Customer extends AbstractUser
 {
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Address", mappedBy="customer", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Address", mappedBy="customer", orphanRemoval=true, cascade={"persist"})
      */
     private $addresses;
 

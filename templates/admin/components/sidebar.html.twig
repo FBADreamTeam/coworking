@@ -51,6 +51,18 @@
                     </a>
                 </li>
             {% endif %}
+
+            {% if (is_granted('ROLE_ADMIN')) %}
+                <li class="nav-item">
+                    <a class='sidebar-link' href="{{ path('admin_customer_list') }}">
+                    <span class="icon-holder">
+                      <i class="c-orange-500 ti-user"></i>
+                    </span>
+                        <span class="title">{{ 'admin.links.customers'|trans }}</span>
+                    </a>
+                </li>
+            {% endif %}
+
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                  <span class="icon-holder">
