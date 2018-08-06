@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Customer;
+use App\Events\UserCreatedEvent;
 use App\Form\CustomerType;
 use App\Form\CustomerLoginType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,9 +46,10 @@ class CustomerController extends Controller
      * @Route("/profile/new", name="profile_new")
      * @param Request $request
      * @param UserPasswordEncoderInterface $encoder
+     * @param EventDispatcherInterface $dispatcher
      * @return Response
      */
-    public function addCustomer(Request $request, UserPasswordEncoderInterface $encoder)
+    public function addCustomer(Request $request, UserPasswordEncoderInterface $encoder, EventDispatcherInterface $dispatcher): Response
     {
         $customer = new Customer();
 
@@ -67,10 +70,12 @@ class CustomerController extends Controller
                 $this->addFlash('notice', "L'email saisi est déjà enregistré");
             } else {
                 $customer->setPassword($encoder->encodePassword($customer, $customer->getPassword()));
-                $em->persist($customer);
-                $em->flush();
+//                $em->persist($customer);
+//                $em->flush();
 
-                $this->addFlash('success', "Votre compte a bient été créé");
+                $this->addFlash('success', "Votre compte a bien été créé");
+                $event = new UserCreatedEvent($customer);
+                $dispatcher->dispatch(UserCreatedEvent::NAME, $event);
             }
         }
 

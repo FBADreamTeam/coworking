@@ -8,64 +8,86 @@
 
 namespace App\Managers;
 
+use App\Entity\Address;
 use App\Entity\Customer;
+use App\Events\UserCreatedEvent;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class CustomerManager
 {
-
+    /**
+     * @var EntityManagerInterface
+     */
     private $em;
 
-    public function __construct(EntityManagerInterface $em)
+    /**
+     * @var EventDispatcher
+     */
+    private $dispatcher;
+
+    public function __construct(EntityManagerInterface $em, EventDispatcher $dispatcher)
     {
         $this->em = $em;
+        $this->dispatcher = $dispatcher;
     }
 
-    public function listCustomer()
+    /**
+     * @return Customer[]|\App\Entity\Employee[]|object[]
+     */
+    public function listCustomer(): array
     {
         return $this->em->getRepository(Customer::class)->findAll();
     }
 
-    public function createCustomer($employee)
+    /**
+     * @param Customer $customer
+     * @return void
+     */
+    public function createCustomer(Customer $customer): void
     {
-        $this->em->persist($employee);
+        $this->em->persist($customer);
         $this->em->flush();
+        $event = new UserCreatedEvent($customer);
+        $this->dispatcher->dispatch(UserCreatedEvent::NAME, $event);
     }
 
-    public function addAddressCustomer($address)
+    /**
+     * @param Address $address
+     * @return void
+     */
+    public function addAddressCustomer(Address $address): void
     {
         $this->em->persist($address);
         $this->em->flush();
     }
 
-    public function updateCustomer()
+    /**
+     * @return void
+     */
+    public function updateCustomer(): void
     {
         $this->em->flush();
     }
 
-    public function deleteCustomer($id)
-    {
-
-        if ($this->em->find(Customer::class, $id)) {
-            $this->em->remove($id);
-            $this->em->flush();
-            return true;
-        } else {
-            return false;
-        }
-
-    }
-
-    public function deleteAddressCustomer($address)
+    /**
+     * @param Address $address
+     * @return void
+     */
+    public function deleteAddressCustomer(Address $address): void
     {
         $this->em->remove($address);
         $this->em->flush();
     }
 
-    // Gestion des doublons par email
-    public function checkDuplicateEmail($email)
+    /**
+     * Gestion des doublons par email
+     * @param string $email
+     * @return bool
+     */
+    public function checkDuplicateEmail(string $email): bool
     {
-        return ($this->em->getRepository(Customer::class)->findByEmail($email)) ? true : false;
+        return $this->em->getRepository(Customer::class)->findByEmail($email) ? true : false;
     }
 
 

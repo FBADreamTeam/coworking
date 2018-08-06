@@ -40,17 +40,18 @@ class UserSubscriber implements EventSubscriberInterface
     /**
      * @return array
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
-            UserCreatedEvent::class => 'onUserCreated'
+            UserCreatedEvent::NAME => 'onUserCreated'
         ];
     }
 
     /**
      * @param UserCreatedEvent $event
+     * @return void
      */
-    public function onUserCreated(UserCreatedEvent $event)
+    public function onUserCreated(UserCreatedEvent $event): void
     {
         $user = $event->getUser();
         $message = 'Dear ' . $user->getFirstName() . ', votre compte a bien été créé! Bienvenu(e) chez Dream Team Coworking!';
@@ -71,5 +72,6 @@ class UserSubscriber implements EventSubscriberInterface
         $subject = 'Un nouveau compte utilisateur a été créé';
 
         $this->notifier->notify($subject, $message, $this->employeeService->getAllEmployees());
+        $this->notifier->log($subject, $message);
     }
 }

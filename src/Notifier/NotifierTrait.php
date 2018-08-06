@@ -22,15 +22,4 @@ trait NotifierTrait
      * @var LoggerInterface
      */
     protected $logger;
-
-    /**
-     * NotifierTrait constructor.
-     * @param \Swift_Mailer $mailer
-     * @param LoggerInterface $logger
-     */
-    public function __construct(\Swift_Mailer $mailer, LoggerInterface $logger)
-    {
-        $this->mailer = $mailer;
-        $this->logger = $logger;
-    }
 }
