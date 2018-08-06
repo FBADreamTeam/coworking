@@ -110,8 +110,11 @@ class RoomManager
         //  (b1_.start_date IS NULL AND b1_.end_date IS NULL)
         // )
 
-        $repo = $this->em->getRepository(Room::class);
-        $query = $repo->createQueryBuilder('r')
+//        $repo = $this->em->getRepository(Room::class);
+//        $query = $repo->createQueryBuilder('r')
+        $qb = $this->em->createQueryBuilder();
+        $query = $qb->select('r')
+            ->from(Room::class, 'r')
             ->leftJoin('r.bookings', 'b')
             ->where('r.roomType = :type')
             ->andWhere('(b.startDate >= :endDate AND b.endDate <= :startDate) OR (b.startDate IS NULL AND b.endDate IS NULL)')
@@ -141,8 +144,11 @@ class RoomManager
         //  (b1_.start_date IS NULL AND b1_.end_date IS NULL)
         // ORDER BY r0_.roomType
 
-        $repo = $this->em->getRepository(Room::class);
-        $query = $repo->createQueryBuilder('r')
+//        $repo = $this->em->getRepository(Room::class);
+//        $query = $repo->createQueryBuilder('r')
+        $qb = $this->em->createQueryBuilder();
+        $query = $qb->select('r')
+            ->from(Room::class, 'r')
             ->leftJoin('r.bookings', 'b')
             ->where('(b.startDate >= :endDate AND b.endDate <= :startDate) OR (b.startDate IS NULL AND b.endDate IS NULL)')
             ->setParameters([
@@ -158,7 +164,11 @@ class RoomManager
         return $query->getResult();
     }
 
-    public function serialize(array $data)
+    /**
+     * @param array $data
+     * @return string
+     */
+    public function serialize(array $data): string
     {
         return $this->serializer->serialize($data, 'json', ['groups' => ['filter']]);
     }
