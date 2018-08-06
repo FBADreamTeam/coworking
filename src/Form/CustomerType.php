@@ -20,7 +20,6 @@ class CustomerType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        dump($options);
         $builder
             ->add('firstName', TextType::class, [
                 'required' => true,

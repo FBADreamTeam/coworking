@@ -13,6 +13,7 @@ use App\Entity\Customer;
 use App\Events\UserCreatedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class CustomerManager
 {
@@ -26,7 +27,7 @@ class CustomerManager
      */
     private $dispatcher;
 
-    public function __construct(EntityManagerInterface $em, EventDispatcher $dispatcher)
+    public function __construct(EntityManagerInterface $em, EventDispatcherInterface $dispatcher)
     {
         $this->em = $em;
         $this->dispatcher = $dispatcher;
