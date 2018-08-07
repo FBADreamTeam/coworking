@@ -24,14 +24,6 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            {#<nav>#}
-                                {#<div class="nav nav-tabs" id="nav-tab" role="tablist">#}
-                                    {#<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>#}
-                                    {#<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>#}
-                                    {#<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>#}
-                                {#</div>#}
-                            {#</nav>#}
-
 
                             {# --NAV-- #}
                             <ul class="nav nav-tabs" id="h-tabs-tab" role="tablist">
@@ -53,28 +45,20 @@
                         <div class="row">
                             <div class="col-md-12">
 
-                                {#<div class="tab-content" id="nav-tabContent">#}
-                                    {#<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">...</div>#}
-                                    {#<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>#}
-                                    {#<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>#}
-                                {#</div>#}
-
                                 <div class="tab-content" id="h-tabs-tabContent">
                                     {% for key, value in data %}
                                         <div class="tab-pane fade {% if loop.first %} {{ 'show active' }} {% endif %}" id="h-tabs-{{ key }}" role="tabpanel" aria-labelledby="h-tabs-{{ key }}-tab">
-                                            {#<div class="nav nav-pills {% if loop.first %} {{ 'active' }} {% endif %}" id="h-tabs-tab" role="tablist" aria-orientation="vertical">#}
-                                                {% for room in value['rooms'] %}
-                                                    {# --CARDS-- #}
-                                                    <div class="card m-2 float-lg-left" style="width: 18rem;" data-id="{{ room.id }}">
-                                                        <img class="card-img-top" src="{{ asset(getAssetsDir() ~ room.featuredImage) }}" alt="Card image cap">
-                                                        <div class="card-body">
-                                                            <h5 class="card-title">{{ room.name }}</h5>
-                                                            <p class="card-text">{{ room.description }}</p>
-                                                            <a href="#" class="btn btn-primary">{{ 'booking.btn.book'|trans }}</a>
-                                                        </div>
+                                            {% for room in value['rooms'] %}
+                                                {# --CARDS-- #}
+                                                <div class="card m-2 float-lg-left" style="width: 18rem;" data-id="{{ room.id }}">
+                                                    <img class="card-img-top" src="{{ asset(getAssetsDir() ~ room.featuredImage) }}" alt="Card image cap">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">{{ room.name }}</h5>
+                                                        <p class="card-text">{{ room.description }}</p>
+                                                        <a href="#" class="btn btn-primary">{{ 'booking.btn.book'|trans }}</a>
                                                     </div>
-                                                {% endfor %}
-                                            {#</div>#}
+                                                </div>
+                                            {% endfor %}
                                         </div>
                                     {% endfor %}
                                 </div>
@@ -100,6 +84,9 @@
     <script>
         $(function() {
 
+            let startDate;
+            let endDate;
+
             let root = $('#h-tabs-tabContent');
             let assetsDir = '{{ asset(getAssetsDir()) }}';
             let bookingBtnLabel = '{{ 'booking.btn.book'|trans }}';
@@ -123,23 +110,18 @@
                 {#</div>#}
 
                 // header prototype
-                // let header = '<div class="tab-pane fade __SHOWACTIVE__" id="h-tabs-__KEY__" role="tabpanel" aria-labelledby="h-tabs-__KEY__-tab"><div class="nav nav-pills __ACTIVE__" id="h-tabs-tab" role="tablist" aria-orientation="vertical">';
                 let header = '<div class="tab-pane fade __SHOWACTIVE__" id="h-tabs-__KEY__" role="tabpanel" aria-labelledby="h-tabs-__KEY__-tab">';
 
-                // replace __SHOWACTIVE__, __ACTIVE__ and __KEY__ placeholders
                 if(active) {
                     header = header.replace(/__SHOWACTIVE__/g, 'show active');
-                    // header = header.replace(/__ACTIVE__/g, 'active');
                 } else {
                     header = header.replace(/__SHOWACTIVE__/g, '');
-                    // header = header.replace(/__ACTIVE__/g, '');
                 }
 
                 header = header.replace(/__KEY__/g, type);
                 let key = 'h-tabs-' + type;
 
                 // footer prototype
-                // let footer = '</div></div>';
                 let footer = '</div>';
 
                 // append header to root
@@ -150,7 +132,6 @@
                     // body
                     let body = '<div class="card m-2 float-lg-left" style="width: 18rem;" data-id="' + room.id + '"><img class="card-img-top" src="' + assetsDir + room.featuredImage + '" alt="Card image cap"><div class="card-body"><h5 class="card-title">' + room.name + '</h5><p class="card-text">' + room.description + '</p><a href="#" class="btn btn-primary">' + bookingBtnLabel + '</a></div></div>';
                     // append body to header
-                    // $('#' + key + ' div.nav.nav-pills').append($(body));
                     $('#' + key).append($(body));
                 });
 
@@ -187,11 +168,60 @@
                                 first = false;
                             }
                         }
+
+                        setClickCallback(bookingClick);
                     }
                 });
             };
 
+            let bookingClick = function(event) {
+                let card = $(event.target).closest('div.card', '#h-tabs-tabContent');
+                console.log(card);
+                let id = card.data('id');
+                console.log(id);
+                if(endDate == null || startDate == null) {
+                    console.log('--FUCK--');
+                    disableBtn();
+                } else {
+                    $.ajax({
+                        url: '{{ path('booking_options') }}',
+                        method: 'POST',
+                        data: {
+                            'roomId': id,
+                            'startDate': startDate.toString(),
+                            'endDate': endDate.toString()
+                        },
+                        success: function(data) {
+                            console.log('--BOOKING-SUCCESS--');
+                            console.log(data);
+                            // let url = JSON.parse(data['url']);
+                            let url = data['url'];
+                            console.log(url);
+                            window.location.href = url;
+                        }
+                    });
+                }
+            };
 
+            let setClickCallback = function(callback) {
+                $('.card a.btn-primary').click(callback);
+            };
+
+            let disableBtn = function() {
+                $('.card a.btn-primary').click((e) => {
+                    e.preventDefault();
+                    return false;
+                });
+                $('.card a.btn-primary').css('cursor', 'default');
+                $('.card a.btn-primary').removeClass('btn-primary').addClass('btn-secondary');
+
+            };
+
+            let enableBtn = function() {
+                $('.card a.btn-secondary').removeClass('btn-secondary').addClass('btn-primary');
+                $('.card a.btn-secondary').css('cursor', 'pointer');
+                setClickCallback(bookingClick);
+            };
 
             // page is now ready, initialize the calendar...
             $('#calendar').fullCalendar({
@@ -245,22 +275,32 @@
                         // options apply to basicDay and agendaDay views
                     }
                 },
-                selectable: true,
+                selectable:     true,
+                unselectAuto:   false,
+                selectOverlap:  false,
+                selectAllow:    function(selectInfo) {
+                        return !selectInfo.start.isBefore(moment()) && !selectInfo.start.isBefore(moment());
+                },
                 dayClick: function(date, jsEvent, view) {
                     let day = moment(date.format());
                     console.log('--DAYCLICK--');
                     console.log(day);
                 },
-                select: function(startDate, endDate) {
-                    let start = moment(startDate.format());
-                    let end = moment(endDate.format());
+                select: function(start, end) {
+                    startDate = moment(start.format());
+                    endDate = moment(end.format());
                     console.log('--SELECT--');
-                    console.log(start);
-                    console.log(end);
+                    console.log(startDate);
+                    console.log(endDate);
 
                     filterRooms($('a.nav-link').attr('data-type'), start.format('YYYY-MM-DD HH:MM:SS'), end.format('YYYY-MM-DD HH:MM:SS'));
+                    enableBtn();
                 }
             });
+
+            // set callback on click for booking buttons in each cards
+            //setClickCallback(bookingClick);
+            disableBtn();
         });
     </script>
 {% endblock %}

@@ -1,2 +1,24 @@
 booking.title.index: Booking
 booking.btn.book: Book
+booking:
+  titles:
+    details: Details
+    prices: Prices
+    images: Images
+    price: Price
+    addOptions: 'Add Options'
+    name: Name
+    description: Description
+    capacity: Capacity
+    hourlyPrice: 'Hourly price'
+    daylyPrice: 'Daily price'
+    weeklyPrice: 'Weekly price'
+    monthlyPrice: 'Monthly price'
+    fromDay: From
+    toDay: To
+    fromHour: From
+    toHour: To
+  btn:
+    back: 'Back to results page'
+  msg:
+    success: 'Your booking has been saved!'

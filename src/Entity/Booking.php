@@ -46,7 +46,7 @@ class Booking
     private $customer;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\BookingOptions", mappedBy="booking", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\BookingOptions", mappedBy="booking", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $bookingOptions;
 
@@ -136,9 +136,10 @@ class Booking
         if ($this->bookingOptions->contains($bookingOption)) {
             $this->bookingOptions->removeElement($bookingOption);
             // set the owning side to null (unless already changed)
-            if ($bookingOption->getBooking() === $this) {
-                $bookingOption->setBooking(null);
-            }
+            // Booking can't be null...
+//            if ($bookingOption->getBooking() === $this) {
+//                $bookingOption->setBooking(null);
+//            }
         }
 
         return $this;
