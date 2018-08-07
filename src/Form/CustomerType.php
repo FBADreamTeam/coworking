@@ -48,8 +48,8 @@ class CustomerType extends AbstractType
                 ]
             ])
             ->add('password', PasswordType::class, [
-                'required' => ($options['context'] == 'create') ? true : false,
-                'mapped' => ($options['context'] == 'edit') ? false : true,
+                'required' => ($options['context'] === 'create') ? true : false,
+                'mapped' => ($options['context'] === 'edit') ? false : true,
                 'label' => 'Password',
                 'attr' => [
                     'placeholder' => 'Password',
@@ -57,7 +57,7 @@ class CustomerType extends AbstractType
                 ]
             ])
             ->add('password_confirm', PasswordType::class, [
-                'required' => ($options['context'] == 'create') ? true : false,
+                'required' => ($options['context'] === 'create') ? true : false,
                 'mapped' => false, // Permet de spécifier que ce champ n'est pas dans l'entité Employee
                 'translation_domain' => 'admin',
                 'label' => 'admin.forms.password-confirm',

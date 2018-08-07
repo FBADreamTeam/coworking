@@ -1,2 +1,24 @@
 booking.title.index: Réservation
 booking.btn.book: Réserver
+booking:
+  titles:
+    details: Infos
+    prices: Tarifs
+    images: Images
+    price: Tarif
+    addOptions: 'Ajouter des options'
+    name: Nom
+    description: Description
+    capacity: Capacité
+    hourlyPrice: 'Tarif horaire'
+    daylyPrice: 'Tarif journalier'
+    weeklyPrice: 'Tarif hebdomadaire'
+    monthlyPrice: 'Tarif mensuel'
+    fromDay: Du
+    toDay: au
+    fromHour: De
+    toHour: à
+  btn:
+    back: 'Retour'
+  msg:
+    success: 'Votre réservation a été sauvegardée !'

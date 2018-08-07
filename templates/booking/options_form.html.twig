@@ -1,0 +1,250 @@
+{% extends 'layout.html.twig' %}
+
+{% trans_default_domain 'booking' %}
+
+{% block page_title %}
+    {{ 'booking.titles.options'|trans }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" integrity="sha256-Tu3DN+5kwrhzlzhNUMuGht2h7cR6ARgKcYemB9u5SzA=" crossorigin="anonymous" />
+{% endblock %}
+
+{% block content %}
+<div class="features">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 features_col bg-light">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <a href="{{ path('booking_index') }}" class="btn btn-info"><i class="fas fa-arrow-left pr-2"></i>{{ 'booking.btn.back'|trans }}</a>
+                    </div>
+                    <div class="col-sm-6 text-center">
+                        {% if interval.d >= 1 %}
+                            {% set date_format = 'd-m-Y' %}
+                            {% set from_label = 'booking.titles.fromDay'|trans %}
+                            {% set to_label = 'booking.titles.toDay'|trans %}
+                        {% else %}
+                            {% set date_format = 'd-m-Y H:i:s' %}
+                            {% set from_label = 'booking.titles.fromHour'|trans %}
+                            {% set to_label = 'booking.titles.toHour'|trans %}
+                        {% endif %}
+                        <h2>{{ from_label }} <span class="font-italic">{{ booking.startDate|date(date_format) }}</span>
+                            {{ to_label }} <span class="font-italic">{{ booking.endDate|date(date_format) }}</span></h2>
+                    </div>
+                    <div class="col-sm-3 text-sm-right">
+                        <h2>{{ room.name }}</h2>
+                    </div>
+                </div>
+                <div class="row bg-white pt-4">
+                    <div class="col-lg-8">
+                        {{ form_start(form) }}
+                        <div class="row">
+                            <div class="col-md-6">
+                                {# --CALENDAR-- #}
+                                <div id="full-calendar"></div>
+                            </div>
+                            <div class="col-md-6">
+                                {# --BOOKING-- #}
+                                <h3>{{ 'booking.titles.addOptions'|trans }}</h3>
+
+                                <div id="accordion-options">
+                                    {% set i = 1 %}
+                                    {% for input in form.bookingOptions %}
+                                        {% set option = input.vars['value'] %}
+
+                                        {# Options #}
+                                        <div class="card">
+                                            <div class="card-header" id="heading{{ i }}">
+                                                <h5 class="mb-0">
+                                                    <a class="btn btn-link w-100" data-toggle="collapse" href="#collapse{{ i }}" role="button" aria-expanded="false" aria-controls="collapse{{ i }}">
+                                                        <span class="float-left">{{ option.label }}</span><i class="fas fa-plus float-right"></i>
+                                                    </a>
+                                                </h5>
+                                            </div>
+                                            <div id="collapse{{ i }}" class="collapse" aria-labelledby="heading{{ i }}" data-parent="#accordion-options">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <p>{{ option.label }}</p>
+                                                        </div>
+                                                        <div class="col-6 text-right">
+                                                            <span class="p-2 bg-success text-white">{{ option.price|price }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <p>{{ option.description }}</p>
+                                                    {{ form_widget(input) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% set i = i+1 %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mt-4 mb-4">
+                                {{ form_widget(form.submit) }}
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+
+                    <div class="col-lg-4">
+                        {# --ROOM-- #}
+                        <div id="accordion">
+                            {# Details collapsible #}
+                            <div class="card">
+                                <div class="card-header" id="headingDetails">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseDetails" aria-expanded="true" aria-controls="collapseDetails">
+                                            {{ 'booking.titles.details'|trans }}
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="collapseDetails" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-2">{{ 'booking.titles.name'|trans }}</div>
+                                            <div class="col-sm-10">{{ room.name }}</div>
+                                            <div class="col-sm-2">{{ 'booking.titles.description'|trans }}</div>
+                                            <div class="col-sm-10">{{ room.description }}</div>
+                                            <div class="col-sm-2">{{ 'booking.titles.capacity'|trans }}</div>
+                                            <div class="col-sm-10">{{ room.capacity }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {# Prices collapsible #}
+                            <div class="card">
+                                <div class="card-header" id="headingPrices">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapsePrices" aria-expanded="false" aria-controls="collapsePrices">
+                                            {{ 'booking.titles.prices'|trans }}
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="collapsePrices" class="collapse" aria-labelledby="headingPrices" data-parent="#accordion">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-2">{{ 'booking.titles.hourlyPrice'|trans }}</div>
+                                            <div class="col-sm-10">{{ room.hourlyPrice|price }}</div>
+                                            <div class="col-sm-2">{{ 'booking.titles.daylyPrice'|trans }}</div>
+                                            <div class="col-sm-10">{{ room.dailyPrice|price }}</div>
+                                            <div class="col-sm-2">{{ 'booking.titles.weeklyPrice'|trans }}</div>
+                                            <div class="col-sm-10">{{ room.weeklyPrice|price }}</div>
+                                            <div class="col-sm-2">{{ 'booking.titles.monthlyPrice'|trans }}</div>
+                                            <div class="col-sm-10">{{ room.monthlyPrice|price }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {# Images collapsible #}
+                            <div class="card">
+                                <div class="card-header" id="headingImages">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseImages" aria-expanded="false" aria-controls="collapseImages">
+                                            {{ 'booking.titles.images'|trans }}
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="collapseImages" class="collapse" aria-labelledby="headingImages" data-parent="#accordion">
+                                    <div class="card-body">
+                                        <img src="{{ asset(getAssetsDir() ~ room.featuredImage) }}" alt="{{ room.name }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('/js/bootstrap-input-spinner.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js" integrity="sha256-59IZ5dbLyByZgSsRE3Z0TjDuX7e1AiqW5bZ8Bg50dsU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js" integrity="sha256-uKe4jCg18Q60qLNG8dIei2y3ZVhcHADuEQFlpQ/hBRY=" crossorigin="anonymous"></script>
+{% endblock %}
+
+
+{% block final_javascripts %}
+    <script>
+        $(function() {
+            // Input Spinner Setup
+
+            $("input[type='number']").inputSpinner({
+                buttonsClass:   "btn-success btn-sm",
+                groupClass:     "input-group-sm w-50"
+            });
+
+            // Full Calendar Setup
+
+            // Get start date, end date and duration between the two
+            let startDate = moment('{{ booking.startDate|date('Y-m-d H:i:s') }}');
+            let endDate = moment('{{ booking.endDate|date('Y-m-d H:i:s') }}');
+            let duration = moment.duration(endDate.diff(startDate));
+
+            console.log(startDate);
+            console.log(endDate);
+            console.log(duration.asDays());
+            console.log(duration.asWeeks());
+            console.log(duration.asMonths());
+
+            // compute the view to display (day, week, month)
+            let view = '';
+
+            // month,agendaWeek,agendaDay
+            if (duration.asWeeks() >= 1) {
+                view = 'month';
+            } else if (duration.asDays() >= 1) {
+                view = 'agendaWeek';
+            } else {
+                view = 'agendaDay';
+            }
+
+
+            console.log(view);
+            // adding FullCalendar
+            $('#full-calendar').fullCalendar({
+                defaultView:        view,
+                locale: 			'fr',
+                timezone: 			'local',
+                groupByResource: 	true,
+                minTime: 			'09:00:00',
+                maxTime: 			'19:00:00',
+                allDaySlot: 		false,
+                timeFormat: 		'H:mm',
+                nowIndicator: 		true,
+                now: 				Date.now(),
+                slotLabelFormat: 	'H',
+                slotDuration:       '01:00:00',
+                columnHeaderFormat: 'ddd D MMM',
+                monthNames: 		['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'],
+                monthNamesShort: 	['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec'],
+                dayNames: 			['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+                dayNamesShort: 		['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+                businessHours: {
+                    // days of week. an array of zero-based day of week integers (0=Sunday)
+                    dow: [ 1, 2, 3, 4, 5 ], // Monday - Wednesday
+
+                    start: '09:00', // start time
+                    end: '18:00', // end time
+                },
+                defaultDate:        startDate,
+                events: [
+                    {
+                        start:      startDate,
+                        end:        endDate,
+                        rendering:  'background'
+                    }
+                ]
+            });
+        });
+    </script>
+{% endblock %}
+
