@@ -183,6 +183,7 @@ class BookingController extends Controller
 //                dd($booking);
 
                 // before flushing, for testing purpose, we attach a fixed customer
+                /** @var Customer $customer */
                 $customer = $em->getRepository(Customer::class)->findAll()[0];
                 $booking->setCustomer($customer);
 
