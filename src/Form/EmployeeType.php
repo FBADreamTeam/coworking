@@ -73,7 +73,7 @@ class EmployeeType extends AbstractType
                 'attr' => ['class' => 'btn btn-primary'],
             ]);
 
-        if ( $options['role'] === 'ROLE_ADMIN') {
+        if ($options['role'] === 'ROLE_ADMIN') {
             $builder->add('role', EntityType::class, [
                 'class' => Role::class,
                 'choice_label'   => 'label',

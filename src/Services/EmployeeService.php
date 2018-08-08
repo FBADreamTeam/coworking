@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: Fried
  * Date: 26/07/2018
- * Time: 10:36
+ * Time: 10:36.
  */
 
 namespace App\Services;
@@ -22,6 +22,7 @@ class EmployeeService
 
     /**
      * EmployeeService constructor.
+     *
      * @param EntityManagerInterface $em
      */
     public function __construct(EntityManagerInterface $em)
@@ -39,6 +40,7 @@ class EmployeeService
 
     /**
      * @param Role $role
+     *
      * @return array
      */
     public function getAllEmployeesWithRole(Role $role): array

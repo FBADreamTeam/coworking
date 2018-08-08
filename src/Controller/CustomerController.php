@@ -51,16 +51,19 @@ class CustomerController extends Controller
      * @param CustomerManager $customerManager
      * @return Response
      */
-    public function addCustomer(Request $request, UserPasswordEncoderInterface $encoder,
-                                EventDispatcherInterface $dispatcher, CustomerManager $customerManager): Response
-    {
+    public function addCustomer(
+        Request $request,
+        UserPasswordEncoderInterface $encoder,
+                                EventDispatcherInterface $dispatcher,
+        CustomerManager $customerManager
+    ): Response {
         $customer = new Customer();
 
         $form = $this->createForm(CustomerType::class, $customer);
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
             $emailCustom = $customer->getEmail();
@@ -102,7 +105,6 @@ class CustomerController extends Controller
             $dispatcher->dispatch(UserCreatedEvent::NAME, $event);
 
             return $this->redirectToRoute('profile_new');
-
         }
 
         return $this->render('/profile/profile_register.html.twig', [

@@ -33,11 +33,12 @@ class AppExtension extends AbstractExtension
     }
 
     /**
-     * @param int $number
-     * @param int $decimals
+     * @param int    $number
+     * @param int    $decimals
      * @param string $decPoint
      * @param string $thousandsSep
      * @param string $symbol
+     *
      * @return string
      */
     public function priceFilter(int $number, int $decimals = 0, string $decPoint = '.', string $thousandsSep = ',', string $symbol = '€'): string
@@ -47,10 +48,11 @@ class AppExtension extends AbstractExtension
 
     /**
      * @param string $dir
+     *
      * @return string
      */
     public function getAssetsDir(string $dir = 'room'): string
     {
-        return 'images/' . $dir . '/';
+        return 'images/'.$dir.'/';
     }
 }

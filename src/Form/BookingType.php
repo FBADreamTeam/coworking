@@ -29,12 +29,12 @@ class BookingType extends AbstractType
             ->add('room', EntityType::class, [
                 'class'         => Room::class,
                 'choice_label'  => 'name',
-                'query_builder' => function (EntityRepository $repo) use($options) {
+                'query_builder' => function (EntityRepository $repo) use ($options) {
                     return $repo
                         ->createQueryBuilder('r')
                         ->innerJoin('roomType', 'rt')
                         ->where('rt.name = :name')
-                        ->setParameter('label',$options['room_category'])
+                        ->setParameter('label', $options['room_category'])
                     ;
                 },
             ])

@@ -89,6 +89,4 @@ class CustomerManager
     {
         return $this->em->getRepository(Customer::class)->findBy(['email' => $email]) ? true : false;
     }
-
-
 }
