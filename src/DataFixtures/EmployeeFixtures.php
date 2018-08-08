@@ -8,7 +8,6 @@
 
 namespace App\DataFixtures;
 
-
 use App\Entity\Employee;
 use App\Entity\Role;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -81,7 +80,7 @@ class EmployeeFixtures extends Fixture implements DependentFixtureInterface
             new Employee('Employee', 'Test', 'employee@test.xyz', 'testtest', $roles[1]),
         ];
 
-        array_map(function($employee) {
+        array_map(function ($employee) {
             /**
              * @var Employee $employee
              */
@@ -90,5 +89,4 @@ class EmployeeFixtures extends Fixture implements DependentFixtureInterface
 
         return $employees;
     }
-
 }

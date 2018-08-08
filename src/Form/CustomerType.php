@@ -78,5 +78,4 @@ class CustomerType extends AbstractType
             'context' => 'create'
         ]);
     }
-
 }

@@ -13,7 +13,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class EmployeeManager
 {
-
     private $em;
 
     public function __construct(EntityManagerInterface $em)
@@ -34,7 +33,6 @@ class EmployeeManager
 
     public function deleteEmployee($id)
     {
-
         if ($this->em->find(Employee::class, $id)) {
             $this->em->remove($id);
             $this->em->flush();
@@ -42,7 +40,6 @@ class EmployeeManager
         } else {
             return false;
         }
-
     }
 
     // Gestion des doublons de l'email
@@ -50,6 +47,4 @@ class EmployeeManager
     {
         return ($this->em->getRepository(Employee::class)->findByEmail($email)) ? true : false;
     }
-
-
 }

@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: Fried
  * Date: 25/07/2018
- * Time: 17:10
+ * Time: 17:10.
  */
 
 namespace App\Notifier;
-
 
 use App\Entity\AbstractUser;
 use Psr\Log\LoggerInterface;
@@ -23,9 +22,10 @@ class Notifier implements NotifierInterface
 
     /**
      * NotifierTrait constructor.
-     * @param \Swift_Mailer $mailer
+     *
+     * @param \Swift_Mailer   $mailer
      * @param LoggerInterface $logger
-     * @param string $customerServiceEmail
+     * @param string          $customerServiceEmail
      */
     public function __construct(\Swift_Mailer $mailer, LoggerInterface $logger, string $customerServiceEmail)
     {
@@ -37,7 +37,7 @@ class Notifier implements NotifierInterface
     /**
      * @param string $subject
      * @param string $message
-     * @param array $users
+     * @param array  $users
      */
     public function notify(string $subject, string $message, array $users): void
     {
@@ -45,7 +45,7 @@ class Notifier implements NotifierInterface
         $mail->addFrom($this->customerServiceEmail);
 
         /**
-         * @var AbstractUser $user
+         * @var AbstractUser
          */
         foreach ($users as $user) {
             $mail->addTo($user->getEmail());
@@ -57,6 +57,7 @@ class Notifier implements NotifierInterface
     /**
      * @param string $subject
      * @param string $message
+     *
      * @return mixed
      */
     public function log(string $subject, string $message)

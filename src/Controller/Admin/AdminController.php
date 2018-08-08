@@ -90,13 +90,13 @@ class AdminController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
             // Gestion de la modification du mot de passe
             $password = $form->get('password')->getData();
             $passwordConfirm = $form->get('password_confirm')->getData();
 
-            if (!empty($password) || !empty($passwordConfirm)){
+            if (!empty($password) || !empty($passwordConfirm)) {
                 if ($password === $passwordConfirm) {
                     $employee->setPassword($encoder->encodePassword($employee, $password));
                 } else {
@@ -113,7 +113,6 @@ class AdminController extends Controller
             $this->addFlash('success', "Le compte a bien été créé");
 
             return $this->redirectToRoute('admin_employee_list');
-
         }
 
         return $this->render('/admin/employee/add_employee.html.twig', [
@@ -157,7 +156,7 @@ class AdminController extends Controller
             $password = $form->get('password')->getData();
             $passwordConfirm = $form->get('password_confirm')->getData();
 
-            if (!empty($password) || !empty($passwordConfirm)){
+            if (!empty($password) || !empty($passwordConfirm)) {
                 if ($password === $passwordConfirm) {
                     $employee->setPassword($encoder->encodePassword($employee, $password));
                 } else {
@@ -174,7 +173,6 @@ class AdminController extends Controller
             $this->addFlash('success', "Le compte a bien été modifié");
 
             return $this->redirectToRoute('admin_employee_list');
-
         }
 
         return $this->render('/admin/employee/edit_employee.html.twig', [
@@ -217,7 +215,7 @@ class AdminController extends Controller
             $password = $form->get('password')->getData();
             $passwordConfirm = $form->get('password_confirm')->getData();
 
-            if (!empty($password) || !empty($passwordConfirm)){
+            if (!empty($password) || !empty($passwordConfirm)) {
                 if ($password === $passwordConfirm) {
                     $employee->setPassword($encoder->encodePassword($employee, $password));
                 } else {
@@ -234,13 +232,11 @@ class AdminController extends Controller
             $this->addFlash('success', "Le compte a bien été modifié");
 
             return $this->redirectToRoute('admin_index');
-
         }
 
         return $this->render('/admin/profile/edit_profile.html.twig', [
             'form' => $form->createView()
         ]);
-
     }
 
     /**
@@ -253,7 +249,7 @@ class AdminController extends Controller
      */
     public function deleteEmployee(Employee $employee, EmployeeManager $employeeManager)
     {
-        if ($employeeManager->deleteEmployee($employee) ) {
+        if ($employeeManager->deleteEmployee($employee)) {
             $this->addFlash('success', "L'employé(e) a bien été supprimé(e)");
             $this->redirectToRoute('admin_index');
         } else {

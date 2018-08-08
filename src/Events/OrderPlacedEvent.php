@@ -8,7 +8,6 @@
 
 namespace App\Events;
 
-
 use App\Entity\Order;
 use Symfony\Component\EventDispatcher\Event;
 

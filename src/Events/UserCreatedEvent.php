@@ -8,7 +8,6 @@
 
 namespace App\Events;
 
-
 use App\Entity\AbstractUser;
 use Symfony\Component\EventDispatcher\Event;
 

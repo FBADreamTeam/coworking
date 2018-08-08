@@ -22,5 +22,5 @@ before_script:
 
 script:
   - php bin/phpunit
-  - php php-cs-fixer.phar fix --dry-run --diff --no-ansi
+  - php php-cs-fixer.phar fix --dry-run --diff --no-ansi src
   - vendor/bin/phpstan analyse src tests --level=6

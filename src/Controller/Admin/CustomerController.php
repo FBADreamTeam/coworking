@@ -8,7 +8,6 @@
 
 namespace App\Controller\Admin;
 
-
 use App\Entity\Address;
 use App\Entity\Customer;
 use App\Form\AddressType;
@@ -69,7 +68,6 @@ class CustomerController extends Controller
             // Gestion des doublons
 
             if ($customerEmployee !== $emailCustomerForm) {
-
                 $duplicateEmail = $customerManager->checkDuplicateEmail($emailCustomerForm);
 
                 if ($duplicateEmail) {
@@ -127,7 +125,6 @@ class CustomerController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $customerManager->updateCustomer();
 
             $this->addFlash('success', "L'addresse a bien été modifié");
@@ -189,5 +186,4 @@ class CustomerController extends Controller
 
         return $this->redirectToRoute('admin_customer_list');
     }
-
 }
