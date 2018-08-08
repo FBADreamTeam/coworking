@@ -1,4 +1,5 @@
 {% extends "layout.html.twig" %}
+{% trans_default_domain 'booking' %}
 
 
 {% block page_title %}
@@ -82,38 +83,24 @@
             </div>
             <div class="row">
 
-                <div class="col-lg-8">
+                <div class="col-lg-7">
                     <div class="about_text">
                         <p>Nous croyons fermement qu'un espace convivial est propice à un travail de qualité.
                             C'est pourquoi nous souhaitons mettre en place un lieu qui verra se créer, grandir, évoluer vos projets.
                         </p>
                     </div>
                 </div>
-
-                {#<div class="col-lg-6">#}
-                    {#<div class="skills_container">#}
-                        {#<ul class="progress_bar_container col_12 clearfix">#}
-                            {#<li class="pb_item">#}
-                                {#<div id="skill_1_pbar" class="skill_bars" data-perc="0.85" data-name="skill_1_pbar"></div>#}
-                                {#<h5>management</h5>#}
-                            {#</li>#}
-                            {#<li class="pb_item">#}
-                                {#<div id="skill_2_pbar" class="skill_bars" data-perc="1" data-name="skill_2_pbar"></div>#}
-                                {#<h5>design</h5>#}
-                            {#</li>#}
-                            {#<li class="pb_item">#}
-                                {#<div id="skill_3_pbar" class="skill_bars" data-perc="0.75" data-name="skill_3_pbar"></div>#}
-                                {#<h5>projects</h5>#}
-                            {#</li>#}
-                            {#<li class="pb_item">#}
-                                {#<div id="skill_4_pbar" class="skill_bars" data-perc="0.95" data-name="skill_4_pbar"></div>#}
-                                {#<h5>inspiration</h5>#}
-                            {#</li>#}
-                        {#</ul>#}
-                    {#</div>#}
-                {#</div>#}
-
-            </div>
+                <div class="col-lg-5">
+                    <div class="button element_button booking">
+                        <a href="#" class="d-flex flex-row align-items-center justify-content-center booking-link">
+                            {{ 'booking.btn.book' | trans }}
+                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="30px" height="30px" viewBox="0 0 13 7" enable-background="new 0 0 13 7" xml:space="preserve">
+									<polygon id="arrow_poly_1" class="arrow_poly" points="13,3.5 9,0 9,3 0,3 0,4 9,4 9,7 "></polygon>
+									</svg>
+                        </a>
+                    </div>
+                </div>
+              </div>
         </div>
 
     </div>

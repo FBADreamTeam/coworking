@@ -13,8 +13,8 @@
     <!-- Main Navigation -->
     <nav class="main_nav justify-self-end">
         <ul class="nav_items">
-            <li class="active"><a href="#"><span>{{ 'nav.home' | trans }}</span></a></li>
-            <li><a href="services.html"><span>{{ 'nav.our_philosophy' | trans }}</span></a></li>
+            <li class="active"><a href="{{path('index')}}"><span>{{ 'nav.home' | trans }}</span></a></li>
+            <li><a href="{{path('booking_index')}}"><span>{{ 'nav.booking' | trans }}</span></a></li>
             <li><a href="blog.html"><span>{{ 'nav.pricing' | trans }}</span></a></li>
             <li><a href="contact.html"><span>{{ 'nav.contact' | trans }}</span></a></li>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
@@ -53,10 +53,10 @@
     <nav class="fs_menu_nav">
         <ul class="fs_menu_list">
             <li>
-                <a href="#"><span><span>{{ 'nav.home' | trans |first }}</span>{{ 'nav.home' | trans }}</span></a>
+                <a href="{{path('index')}}"><span><span>{{ 'nav.home' | trans |first }}</span>{{ 'nav.home' | trans }}</span></a>
             </li>
             <li>
-                <a href="#"><span><span>{{ 'nav.our_philosophy' | trans |first }}</span>{{ 'nav.our_philosophy' | trans }}</span></a>
+                <a href="{{path('booking_index')}}"><span><span>{{ 'nav.booking' | trans |first }}</span>{{ 'nav.booking' | trans }}</span></a>
             </li>
             <li>
                 <a href="#"><span><span>{{ 'nav.pricing' | trans |first }}</span>{{ 'nav.pricing' | trans }}</span></a>
