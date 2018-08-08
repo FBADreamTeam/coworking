@@ -48,6 +48,22 @@ abstract class AbstractUser implements UserInterface
     private $password;
 
     /**
+     * @ORM\Column(type="string", length=32, nullable=true)
+     */
+    private $token;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $createdToken;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     */
+    private $expiredToken;
+
+    /**
      * AbstractUser constructor.
      * @param string|null $firstName
      * @param string|null $lastName
@@ -140,4 +156,54 @@ abstract class AbstractUser implements UserInterface
     {
         return $this->getFirstName() . ' ' . $this->getLastName();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
+     * @param mixed $token
+     */
+    public function setToken($token)
+    {
+        $this->token = $token;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedToken()
+    {
+        return $this->createdToken;
+    }
+
+    /**
+     * @param mixed $createdToken
+     */
+    public function setCreatedToken($createdToken)
+    {
+        $this->createdToken = $createdToken;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExpiredToken()
+    {
+        return $this->expiredToken;
+    }
+
+    /**
+     * @param mixed $expiredToken
+     */
+    public function setExpiredToken($expiredToken)
+    {
+        $this->expiredToken = $expiredToken;
+    }
+
+
 }

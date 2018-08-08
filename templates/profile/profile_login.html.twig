@@ -1,7 +1,7 @@
 {% extends 'layout.html.twig' %}
 
 {% block page_title %}
-    Login
+    {{ 'profile.auth.title'|trans }}
 {% endblock %}
 
 {% block stylesheets %}
@@ -14,7 +14,7 @@
     <div class="row">
         {# Affichage formulaire #}
         <div class="col-lg-5 features_col">
-            <h2>Authentifiez-vous</h2>
+            <h2>{{ 'profile.auth.title'|trans }}</h2>
 
             {% for message in app.flashes('notice') %}
                 <div>
@@ -27,6 +27,9 @@
             {% endif %}
 
             {{ form(form) }}
+
+            <a class="badge badge-secondary" href="{{ path('profile_password_forget') }}">Mot de passe oublié</a>
+
         </div>
     </div>
 </div>
