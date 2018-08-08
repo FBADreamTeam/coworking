@@ -116,9 +116,8 @@ class BookingController extends Controller
             $endDateTime = new \DateTime($session->get('endDate'));
 
             // finding the room
-            /**
-             * @var Room
-             */
+            /** @var Room $room */
+
             $room = $em->getRepository(Room::class)->find($session->get('roomId'));
             $booking->setRoom($room);
             $booking->setStartDate($startDateTime);
@@ -152,9 +151,7 @@ class BookingController extends Controller
             $endDateTime = new \DateTime($session->get('endDate'));
 
             // finding the room
-            /**
-             * @var Room
-             */
+            /** @var Room $room */
             $room = $em->getRepository(Room::class)->find($session->get('roomId'));
             $booking->setRoom($room);
             $booking->setStartDate($startDateTime);
