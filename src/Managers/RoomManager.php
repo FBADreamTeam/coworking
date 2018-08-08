@@ -102,27 +102,26 @@ class RoomManager
     {
         // SELECT * FROM room r0_
         // LEFT JOIN booking b1_ ON r0_.id = b1_.room_id
-        // WHERE r0_.room_type_id = 3
-        // AND
+        // WHERE r0_.room_type_id = 3 AND
         // (
-        //  (b1_.start_date >= "2018-08-01 12:00:00" AND b1_.end_date <= "2018-08-01 11:00:00")
-        //      OR
+        //  (b1_.start_date >= "2018-08-12T09:00:00+02:00" OR b1_.end_date <= "2018-08-12T18:00:00+02:00")
+        // OR
         //  (b1_.start_date IS NULL AND b1_.end_date IS NULL)
-        // )
+        //  )
+        // ORDER BY r0.id
 
-//        $repo = $this->em->getRepository(Room::class);
-//        $query = $repo->createQueryBuilder('r')
         $qb = $this->em->createQueryBuilder();
         $query = $qb->select('r')
             ->from(Room::class, 'r')
             ->leftJoin('r.bookings', 'b')
             ->where('r.roomType = :type')
-            ->andWhere('(b.startDate >= :endDate AND b.endDate <= :startDate) OR (b.startDate IS NULL AND b.endDate IS NULL)')
+            ->andWhere('(b.startDate >= :endDate OR b.endDate <= :startDate) OR (b.startDate IS NULL AND b.endDate IS NULL)')
             ->setParameters([
                 'type' => $type,
                 'startDate' => $startDate,
                 'endDate' => $endDate
             ])
+            ->orderBy('r.id')
             ->getQuery()
         ;
 
