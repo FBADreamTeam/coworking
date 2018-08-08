@@ -21,6 +21,8 @@ class CustomerManager
      */
     private $em;
 
+    private $repository;
+
     /**
      * @var EventDispatcherInterface
      */
@@ -30,6 +32,7 @@ class CustomerManager
     {
         $this->em = $em;
         $this->dispatcher = $dispatcher;
+        $this->repository = $this->em->getRepository(Customer::class);
     }
 
     /**
@@ -37,7 +40,7 @@ class CustomerManager
      */
     public function listCustomer(): array
     {
-        return $this->em->getRepository(Customer::class)->findAll();
+        return $this->repository->findAll();
     }
 
     /**
@@ -87,6 +90,82 @@ class CustomerManager
      */
     public function checkDuplicateEmail(string $email): bool
     {
-        return $this->em->getRepository(Customer::class)->findBy(['email' => $email]) ? true : false;
+        return $this->repository->findByEmail($email) ? true : false;
+    }
+
+    /**
+     * @param $email
+     * @return bool
+     */
+    public function checkTokenExist($email): bool
+    {
+        $customer = $this->repository->findOneBy(['email'=>$email]);
+
+        return $customer->getToken() ? true : false;
+    }
+
+    /**
+     * @param $id
+     * @param $token
+     * @return bool
+     */
+    public function checkTokenValid($id, $token): bool
+    {
+        $customer = $this->repository->find($id);
+
+        return ($customer->getToken() === $token) ? true : false;
+    }
+
+    /**
+     * @param $customer
+     * @param $token
+     */
+    public function insertToken($customer, $token): void
+    {
+        $dateToday = new \DateTime('now');
+        $dateExpired = new \DateTime('now +2 hours');
+
+        $customer->setToken($token);
+        $customer->setCreatedToken($dateToday);
+        $customer->setExpiredToken($dateExpired);
+
+        $this->em->persist($customer);
+        $this->em->flush();
+    }
+
+    /**
+     * @param $customer
+     */
+    public function resetToken($customer): void
+    {
+        $customer->setToken('');
+        $customer->setCreatedToken(null);
+        $customer->setExpiredToken(null);
+
+        $this->em->flush();
+    }
+
+    /**
+     * @param $email
+     * @param $mailer
+     * @param $linkResetPassword
+     * @throws \Exception
+     */
+    public function sendMessageGetPassword($email, $mailer, $linkResetPassword)
+    {
+        $message = (new \Swift_Message('Réinitialisation de votre mote de passe'))
+            ->setFrom('contact@dtcw.xyz')
+            ->setTo($email)
+            ->setBody(
+                "Bonjour," . PHP_EOL .
+                "Veuillez cliquer sur le lien suivant pour réinitialiser votre mot de passe. Le lien est valide durant 2 heures." . PHP_EOL .
+                '<a href="' . $linkResetPassword . '">Réinitialiser votre mot depasse</a>'
+            );
+
+        try {
+            $mailer->send($message);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
     }
 }
