@@ -955,6 +955,17 @@ section
 	margin-top: 20px;
 }
 
+.button a svg {
+	fill: #FFFFFF;
+}
+
+.button.booking{
+	width: 300px;
+}
+a.booking-link{
+	font-weight: bolder;
+	font-size : 30px;
+}
 /*********************************
 7.1 About Progress Bars
 *********************************/

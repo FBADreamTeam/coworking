@@ -3,17 +3,15 @@
  * Created by PhpStorm.
  * User: Fried
  * Date: 31/07/2018
- * Time: 14:50
+ * Time: 14:50.
  */
 
 namespace App\Controller;
-
 
 use App\Entity\Booking;
 use App\Entity\BookingOptions;
 use App\Entity\Customer;
 use App\Entity\Room;
-use App\Entity\RoomOption;
 use App\Entity\RoomType;
 use App\Form\BookingAddOptionsType;
 use App\Managers\RoomManager;
@@ -24,12 +22,11 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
- * Class BookingController
- * @package App\Controller
+ * Class BookingController.
+ *
  * @Route("/booking")
  */
 class BookingController extends Controller
@@ -51,15 +48,17 @@ class BookingController extends Controller
         }
 
         return $this->render('booking/booking_index.html.twig', [
-            'data'      => $data,
+            'data' => $data,
         ]);
     }
 
     /**
      * @Route("/filter", name="booking_filter")
      * @Method("GET")
-     * @param Request $request
+     *
+     * @param Request     $request
      * @param RoomManager $roomManager
+     *
      * @return string|RedirectResponse
      */
     public function filter(Request $request, RoomManager $roomManager)
@@ -78,19 +77,20 @@ class BookingController extends Controller
             }
 
             return new JsonResponse(['rooms' => $roomManager->serialize($data)]);
-
-
         } else {
             $this->addFlash('notice', 'Sorry, unauthorized action');
+
             return $this->redirectToRoute('booking_index');
         }
     }
 
     /**
      * @Route("/options", name="booking_options")
-     * @param Request $request
-     * @param SessionInterface $session
+     *
+     * @param Request             $request
+     * @param SessionInterface    $session
      * @param TranslatorInterface $translator
+     *
      * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function selectOptions(Request $request, SessionInterface $session, TranslatorInterface $translator)
@@ -109,13 +109,16 @@ class BookingController extends Controller
         }
 
         // request comes from redirecting from ajax, expects a form
-        if ( ! $request->isXmlHttpRequest() && $request->isMethod('GET')) {
+        if (!$request->isXmlHttpRequest() && $request->isMethod('GET')) {
             $booking = new Booking();
 
             $startDateTime = new \DateTime($session->get('startDate'));
             $endDateTime = new \DateTime($session->get('endDate'));
 
             // finding the room
+            /**
+             * @var Room
+             */
             $room = $em->getRepository(Room::class)->find($session->get('roomId'));
             $booking->setRoom($room);
             $booking->setStartDate($startDateTime);
@@ -134,21 +137,24 @@ class BookingController extends Controller
             $form = $this->createForm(BookingAddOptionsType::class, $booking);
 
             return $this->render('booking/options_form.html.twig', [
-                'interval'  => $startDateTime->diff($endDateTime),
-                'room'      => $room,
-                'booking'   => $booking,
-                'form'      => $form->createView(),
+                'interval' => $startDateTime->diff($endDateTime),
+                'room' => $room,
+                'booking' => $booking,
+                'form' => $form->createView(),
             ]);
         }
 
         // request comes from POST, payload is a form with booking options
-        if ( ! $request->isXmlHttpRequest() && $request->isMethod('POST')) {
+        if (!$request->isXmlHttpRequest() && $request->isMethod('POST')) {
             $booking = new Booking();
 
             $startDateTime = new \DateTime($session->get('startDate'));
             $endDateTime = new \DateTime($session->get('endDate'));
 
             // finding the room
+            /**
+             * @var Room
+             */
             $room = $em->getRepository(Room::class)->find($session->get('roomId'));
             $booking->setRoom($room);
             $booking->setStartDate($startDateTime);
@@ -173,7 +179,7 @@ class BookingController extends Controller
                 foreach ($booking->getBookingOptions() as $bookingOption) {
                     // if quantity is null || 0, we remove the option
                     $quantity = $bookingOption->getQuantity();
-                    if ( $quantity === null || $quantity === 0) {
+                    if (null === $quantity || 0 === $quantity) {
                         $booking->removeBookingOption($bookingOption);
                     }
                 }
@@ -186,11 +192,12 @@ class BookingController extends Controller
                 $em->persist($booking);
                 $em->flush();
 
-                /**
+                /*
                  * TODO: now, we have to check if the user is logged in or not. If not, we redirect the user to a login page, else we continue to the recap page before payment
                  */
 
-                $this->addFlash('notice', $translator->trans('booking.msg.success',[], 'booking'));
+                $this->addFlash('notice', $translator->trans('booking.msg.success', [], 'booking'));
+
                 return $this->redirectToRoute('index');
             }
         }
