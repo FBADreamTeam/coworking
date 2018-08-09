@@ -147,7 +147,7 @@ class CustomerManager
 
     /**
      * @param string $email
-     * @param string $mailer
+     * @param \Swift_Mailer $mailer
      * @param string $linkResetPassword
      * @throws \Exception
      */
