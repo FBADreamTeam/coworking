@@ -204,6 +204,4 @@ abstract class AbstractUser implements UserInterface
     {
         $this->expiredToken = $expiredToken;
     }
-
-
 }
