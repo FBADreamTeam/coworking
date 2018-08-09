@@ -94,10 +94,10 @@ class CustomerManager
     }
 
     /**
-     * @param $email
+     * @param string $email
      * @return bool
      */
-    public function checkTokenExist($email): bool
+    public function checkTokenExist(string $email): bool
     {
         $customer = $this->repository->findOneBy(['email'=>$email]);
 
@@ -105,11 +105,11 @@ class CustomerManager
     }
 
     /**
-     * @param $id
-     * @param $token
+     * @param int $id
+     * @param string $token
      * @return bool
      */
-    public function checkTokenValid($id, $token): bool
+    public function checkTokenValid(int $id, string $token): bool
     {
         $customer = $this->repository->find($id);
 
@@ -117,10 +117,10 @@ class CustomerManager
     }
 
     /**
-     * @param $customer
-     * @param $token
+     * @param Customer $customer
+     * @param string $token
      */
-    public function insertToken($customer, $token): void
+    public function insertToken(Customer $customer, string $token): void
     {
         $dateToday = new \DateTime('now');
         $dateExpired = new \DateTime('now +2 hours');
@@ -134,9 +134,9 @@ class CustomerManager
     }
 
     /**
-     * @param $customer
+     * @param Customer $customer
      */
-    public function resetToken($customer): void
+    public function resetToken(Customer $customer): void
     {
         $customer->setToken('');
         $customer->setCreatedToken(null);
@@ -146,12 +146,12 @@ class CustomerManager
     }
 
     /**
-     * @param $email
-     * @param $mailer
-     * @param $linkResetPassword
+     * @param string $email
+     * @param string $mailer
+     * @param string $linkResetPassword
      * @throws \Exception
      */
-    public function sendMessageGetPassword($email, $mailer, $linkResetPassword)
+    public function sendMessageGetPassword(string $email, string $mailer, string $linkResetPassword)
     {
         $message = (new \Swift_Message('Réinitialisation de votre mote de passe'))
             ->setFrom('contact@dtcw.xyz')

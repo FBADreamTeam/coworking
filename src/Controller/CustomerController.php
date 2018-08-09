@@ -177,7 +177,7 @@ class CustomerController extends Controller
      * @Route("/profile/password/update/{id}/{token}", name="profile_password_update")
      *
      * @param Customer $customer
-     * @param $token
+     * @param $token string
      * @param CustomerManager $customerManager
      * @param Request $request
      * @param UserPasswordEncoderInterface $encoder
