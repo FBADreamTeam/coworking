@@ -143,6 +143,7 @@ class CustomerController extends Controller
                     $chaine = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
                     $token = md5(str_shuffle($chaine));
 
+                    /** @var  Customer $customer */
                     $customer = $em->getRepository(Customer::class)
                         ->findOneBy(['email' => $email]);
 

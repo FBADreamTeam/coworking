@@ -151,7 +151,7 @@ class CustomerManager
      * @param string $linkResetPassword
      * @throws \Exception
      */
-    public function sendMessageGetPassword(string $email, string $mailer, string $linkResetPassword)
+    public function sendMessageGetPassword(string $email, \Swift_Mailer $mailer, string $linkResetPassword)
     {
         $message = (new \Swift_Message('Réinitialisation de votre mote de passe'))
             ->setFrom('contact@dtcw.xyz')
