@@ -124,7 +124,6 @@ class CustomerController extends Controller
      */
     public function forgetPassword(Request $request, CustomerManager $customerManager, \Swift_Mailer $mailer)
     {
-
         $em = $this->getDoctrine()->getManager();
 
         $form = $this->createForm(PasswordProfileType::class, null, ['context' => "create"]);
@@ -133,25 +132,28 @@ class CustomerController extends Controller
 
         $email = $form->get('email')->getData();
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             // On check que l'email est dans la bdd
             if ($customerManager->checkDuplicateEmail($email)) {
 
                 // on check si un token est présent
-                if ( (!$customerManager->checkTokenExist($email)) ) {
+                if ((!$customerManager->checkTokenExist($email))) {
 
                     // Génération du token
                     $chaine = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
                     $token = md5(str_shuffle($chaine));
 
+                    /** @var  Customer $customer */
                     $customer = $em->getRepository(Customer::class)
                         ->findOneBy(['email' => $email]);
 
                     // Insertion du token
                     $customerManager->insertToken($customer, $token);
-                    $linkResetPassword = $this->generateUrl('profile_password_update',
+                    $linkResetPassword = $this->generateUrl(
+                        'profile_password_update',
                         ['id' => $customer->getId(), 'token' => $customer->getToken()],
-                        UrlGeneratorInterface::ABSOLUTE_URL);
+                        UrlGeneratorInterface::ABSOLUTE_URL
+                    );
 
                     // Envoi du mail avec le token
                     $customerManager->sendMessageGetPassword($email, $mailer, $linkResetPassword);
@@ -159,8 +161,7 @@ class CustomerController extends Controller
                     $this->addFlash("success", "Votre demande a bien été prise en compte.
                             Vous allez recevoir un email contenant la procédure à suivre pour modifier votre mote de passe. 
                             Elle est valable durant 2 heures. ");
-
-                }else{
+                } else {
                     $this->addFlash('notice', "Une demande de réinitialistion de votre mot de passe vous a déjà été envoyé");
                 }
             } else {
@@ -177,7 +178,7 @@ class CustomerController extends Controller
      * @Route("/profile/password/update/{id}/{token}", name="profile_password_update")
      *
      * @param Customer $customer
-     * @param $token
+     * @param string $token
      * @param CustomerManager $customerManager
      * @param Request $request
      * @param UserPasswordEncoderInterface $encoder
@@ -195,7 +196,7 @@ class CustomerController extends Controller
             $dateExpiredToken = $customer->getExpiredToken();
 
             // on check si une demande n'a pas déjà été envoyée
-            if ($dateToday < $dateExpiredToken ){
+            if ($dateToday < $dateExpiredToken) {
 
                 // On affiche le formulaire de changement de password et on le traite
                 $form = $this->createForm(PasswordProfileType::class, null, ['context' => 'edit']);
