@@ -228,7 +228,7 @@ class CustomerController extends Controller
             } else {
 
                 // Mise à null du token pour pouvoir le réinitialiser
-                //$customerManager->resetToken($customer);
+                $customerManager->resetToken($customer);
 
                 $this->addFlash('notice', "Par mesure de sécurité, le validité du lien pour réinitialiser 
                 votre mot de passe a expriré. Veuillez relancer la procédure de réinitialisation.");
