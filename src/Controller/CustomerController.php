@@ -8,6 +8,7 @@ use App\Form\CustomerType;
 use App\Form\CustomerLoginType;
 use App\Form\PasswordProfileType;
 use App\Managers\CustomerManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -15,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -56,7 +58,7 @@ class CustomerController extends Controller
     public function addCustomer(
         Request $request,
         UserPasswordEncoderInterface $encoder,
-                                EventDispatcherInterface $dispatcher,
+        EventDispatcherInterface $dispatcher,
         CustomerManager $customerManager
     ): Response {
         $customer = new Customer();
@@ -66,8 +68,6 @@ class CustomerController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-
             $emailCustom = $customer->getEmail();
 
             // Gestion des doublons
@@ -110,6 +110,70 @@ class CustomerController extends Controller
         }
 
         return $this->render('/profile/profile_register.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/profile/update", name="profile_update")
+     *
+     * @param Request $request
+     * @param CustomerManager $customerManager
+     * @param UserPasswordEncoderInterface $encoder
+     * @return Response
+     */
+    public function updateCustomer(Request $request, CustomerManager $customerManager, UserPasswordEncoderInterface $encoder)
+    {
+        $customer = $this->getUser();
+
+        $form = $this->createForm(CustomerType::class, $customer, ['context'=>'edit']);
+
+        $customerEmployee = $customer->getEmail(); // Mail du user en Bdd
+
+        $form->handleRequest($request); // A ce moment, le formulaire récupère les données saisi
+
+        $emailCustomerForm = $customer->getEmail();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // Gestion des doublons emails
+            if ($customerEmployee !== $emailCustomerForm) {
+                $duplicateEmail = $customerManager->checkDuplicateEmail($emailCustomerForm);
+
+                if ($duplicateEmail) {
+                    $this->addFlash('notice', "Le mail existe déjà. Veuillez en saisir un autre");
+
+                    // On récupère l'ancien Email pour ne pas perdre la connexion
+                    $customer->setEmail($customerEmployee);
+
+                    return $this->render('/profile/profile_update.html.twig', [
+                        'form' => $form->createView()
+                    ]);
+                }
+            }
+
+            // Gestion de la modification du mot de passe
+            $password = $form->get('password')->getData();
+            $passwordConfirm = $form->get('password_confirm')->getData();
+
+            if (!empty($password) || !empty($passwordConfirm)) {
+                if ($password === $passwordConfirm) {
+                    $customer->setPassword($encoder->encodePassword($customer, $password));
+                } else {
+                    $this->addFlash('notice', "Les mots de passes ne sont pas identiques");
+
+                    return $this->render('/profile/profile_update.html.twig', [
+                        'form' => $form->createView()
+                    ]);
+                }
+            }
+
+            $customerManager->updateCustomer($customer);
+
+            $this->addFlash('success', "Vos données on bien été modifiées");
+        }
+
+        return $this->render('/profile/profile_update.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -186,8 +250,6 @@ class CustomerController extends Controller
      */
     public function updatePassword(Customer $customer, $token, CustomerManager $customerManager, Request $request, UserPasswordEncoderInterface $encoder)
     {
-        dump($dateExpired = new \DateTime('now +2 hours'));
-
         // On vérifi que le token en GET soit identique en bdd
         if ($customerManager->checkTokenValid($customer->getId(), $token)) {
 

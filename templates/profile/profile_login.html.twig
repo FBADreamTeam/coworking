@@ -17,13 +17,13 @@
             <h2>{{ 'profile.auth.title'|trans }}</h2>
 
             {% for message in app.flashes('notice') %}
-                <div>
+                <div class="alert alert-danger">
                     {{ message }}
                 </div>
             {% endfor %}
 
             {% if error %}
-                <div> {{ error.messageKey|trans(error.messageData, 'security') }} </div>
+                <div class="alert alert-danger"> {{ error.messageKey|trans(error.messageData, 'security') }} </div>
             {% endif %}
 
             {{ form(form) }}

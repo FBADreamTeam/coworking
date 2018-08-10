@@ -35,11 +35,6 @@ class CustomerType extends AbstractType
                     'placeholder' => 'Last name'
                 ]
             ])
-            /*->add('addresses', CollectionType::class, [
-                'entry_type'   => AddressType::class,
-                'allow_add'    => false, // permet de spécifier qu'on ne peut pas ajouter d'addresse
-                'allow_delete' => false // permet de spécifier qu'on ne peut pas supprimer d'addresse
-            ])*/
             ->add('email', EmailType::class, [
                 'required' => true,
                 'label' => 'Email',

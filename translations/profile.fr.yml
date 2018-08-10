@@ -1,3 +1,4 @@
 profile.auth.title: 'Authentifiez-vous'
 profile.password.title: 'Mot de passe oublié'
 profile.password.reset.title: 'Modification de votre mot de passe'
+profile.update.title: 'Modification de vos données personnelles'
