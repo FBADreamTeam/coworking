@@ -3,7 +3,7 @@
 {% trans_default_domain 'booking' %}
 
 {% block page_title %}
-    {{ 'booking.title.index'|trans }}
+    {{ 'booking.titles.index'|trans }}
 {% endblock %}
 
 {% block stylesheets %}
@@ -13,15 +13,14 @@
 {% endblock %}
 
 {% block content %}
-<div class="features">
-    <div class="container-fluid">
-        <div class="row bg-light">
-            <div class="col-md-4 features_col bg-white">
+    <div class="container-fluid bg-white">
+        <div class="row">
+            <div class="col-md-4 features_col">
                 {# --CALENDAR-- #}
                 <div id="calendar"></div>
             </div>
-            <div class="col-md-8 features_col bg-white">
-                <div class="container">
+            <div class="col-md-8 features_col">
+                {#<div class="container">#}
                     <div class="row">
                         <div class="col-md-12">
 
@@ -44,17 +43,19 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-
                                 <div class="tab-content" id="h-tabs-tabContent">
                                     {% for key, value in data %}
                                         <div class="tab-pane fade {% if loop.first %} {{ 'show active' }} {% endif %}" id="h-tabs-{{ key }}" role="tabpanel" aria-labelledby="h-tabs-{{ key }}-tab">
                                             {% for room in value['rooms'] %}
                                                 {# --CARDS-- #}
                                                 <div class="card m-2 float-lg-left" style="width: 18rem;" data-id="{{ room.id }}">
-                                                    <img class="card-img-top" src="{{ asset(getAssetsDir() ~ room.featuredImage) }}" alt="Card image cap">
+                                                    <img class="card-img-top" src="{{ asset(getAssetsDir() ~ room.featuredImage) }}" alt="{{ room.name }}">
                                                     <div class="card-body">
                                                         <h5 class="card-title">{{ room.name }}</h5>
-                                                        <p class="card-text">{{ room.description }}</p>
+                                                        <div class="card-text">
+                                                            {{ room.description }}
+                                                            {{ room.capacity }}
+                                                        </div>
                                                         <a href="#" class="btn btn-primary">{{ 'booking.btn.book'|trans }}</a>
                                                     </div>
                                                 </div>
@@ -65,11 +66,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                {#</div>#}
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
 
 {% block javascripts %}
@@ -93,22 +93,6 @@
 
             let displayRooms = function(type, rooms, active) {
 
-                {#<div class="tab-pane fade {% if loop.first %} {{ 'show active' }} {% endif %}" id="h-tabs-{{ key }}" role="tabpanel" aria-labelledby="h-tabs-{{ key }}-tab">#}
-                    {#<div class="nav nav-pills {% if loop.first %} {{ 'active' }} {% endif %}" id="h-tabs-tab" role="tablist" aria-orientation="vertical">#}
-                        {#{% for room in value['rooms'] %}#}
-                            {# --CARDS-- #}
-                            {#<div class="card m-2" style="width: 18rem;">#}
-                                {#<img class="card-img-top" src="{{ asset(getAssetsDir() ~ room.featuredImage) }}" alt="Card image cap">#}
-                                {#<div class="card-body">#}
-                                    {#<h5 class="card-title">{{ room.name }}</h5>#}
-                                    {#<p class="card-text">{{ room.description }}</p>#}
-                                    {#<a href="#" class="btn btn-primary">{{ 'booking.btn.book'|trans }}</a>#}
-                                {#</div>#}
-                            {#</div>#}
-                        {#{% endfor %}#}
-                    {#</div>#}
-                {#</div>#}
-
                 // header prototype
                 let header = '<div class="tab-pane fade __SHOWACTIVE__" id="h-tabs-__KEY__" role="tabpanel" aria-labelledby="h-tabs-__KEY__-tab">';
 
@@ -130,7 +114,7 @@
                 // for each rooms, create a card
                 rooms.forEach(function(room) {
                     // body
-                    let body = '<div class="card m-2 float-lg-left" style="width: 18rem;" data-id="' + room.id + '"><img class="card-img-top" src="' + assetsDir + room.featuredImage + '" alt="Card image cap"><div class="card-body"><h5 class="card-title">' + room.name + '</h5><p class="card-text">' + room.description + '</p><a href="#" class="btn btn-primary">' + bookingBtnLabel + '</a></div></div>';
+                    let body = '<div class="card m-2 float-lg-left" style="width: 18rem;" data-id="' + room.id + '"><img class="card-img-top" src="' + assetsDir + room.featuredImage + '" alt="' + room.name + '"><div class="card-body"><h5 class="card-title">' + room.name + '</h5><div class="card-text">' + room.description + ' ' + room.capacity + '</div><a href="#" class="btn btn-primary">' + bookingBtnLabel + '</a></div></div>';
                     // append body to header
                     $('#' + key).append($(body));
                 });
@@ -150,23 +134,19 @@
                         'endDate': end
                     },
                     success: function(data) {
-                        console.log('--FILTER-SUCCESS--');
+                        // console.log('--FILTER-SUCCESS--');
                         // console.log(data);
                         let types = JSON.parse(data['rooms']);
-                        console.log(types);
+                        // console.log(types);
 
                         // clear root
                         root.empty();
 
-                        let first = true;
                         for(let key in types) {
                             let rooms = types[key];
-                            displayRooms(key, rooms, first);
-
-                            if (first)
-                            {
-                                first = false;
-                            }
+                            // detect if tab is active
+                            let active = $("#h-tabs-" + key + "-tab").hasClass("active");
+                            displayRooms(key, rooms, active);
                         }
 
                         setClickCallback(bookingClick);
@@ -176,11 +156,10 @@
 
             let bookingClick = function(event) {
                 let card = $(event.target).closest('div.card', '#h-tabs-tabContent');
-                console.log(card);
+                // console.log(card);
                 let id = card.data('id');
-                console.log(id);
+                // console.log(id);
                 if(endDate == null || startDate == null) {
-                    console.log('--FUCK--');
                     disableBtn();
                 } else {
                     $.ajax({
@@ -192,11 +171,11 @@
                             'endDate': endDate.toString()
                         },
                         success: function(data) {
-                            console.log('--BOOKING-SUCCESS--');
-                            console.log(data);
+                            // console.log('--BOOKING-SUCCESS--');
+                            // console.log(data);
                             // let url = JSON.parse(data['url']);
                             let url = data['url'];
-                            console.log(url);
+                            // console.log(url);
                             window.location.href = url;
                         }
                     });
@@ -225,24 +204,24 @@
 
             // page is now ready, initialize the calendar...
             $('#calendar').fullCalendar({
-                height:            670,
-                defaultView: 		'agendaWeek',
+                defaultView: 		'agendaDay',
                 locale: 			'fr',
                 timezone: 			'local',
                 groupByResource: 	true,
                 minTime: 			'09:00:00',
                 maxTime: 			'19:00:00',
-                allDaySlot: 		false,
+                allDaySlot: 		true,
                 timeFormat: 		'H:mm',
                 nowIndicator: 		true,
-                now: 				Date.now(),
+                now: 				new Date(),
                 slotLabelFormat: 	'H',
-                slotDuration: '01:00:00',
+                slotDuration:       '01:00:00',
                 columnHeaderFormat: 'ddd D MMM',
                 monthNames: 		['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'],
                 monthNamesShort: 	['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec'],
                 dayNames: 			['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
                 dayNamesShort: 		['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+                weekends:           false,
                 businessHours: {
                     // days of week. an array of zero-based day of week integers (0=Sunday)
                     dow: [ 1, 2, 3, 4, 5 ], // Monday - Wednesday
@@ -251,7 +230,7 @@
                     end: '18:00', // end time
                 },
                 header: {
-                    left   : 'month,agendaWeek,agendaDay',
+                    left   : 'month, agendaDay',
                     center : 'title',
                     right  : 'today prev,next',
                 },
@@ -262,10 +241,6 @@
                     month: { // name of view
                         // other view-specific options here
                         columnHeaderFormat: 'ddd'
-                    },
-                    week: {
-                        // options apply to basicWeek and agendaWeek views
-                        columnHeaderFormat: 'ddd D'
                     },
                     day: {
                         // options apply to basicDay and agendaDay views
@@ -279,23 +254,21 @@
                 },
                 dayClick: function(date, jsEvent, view) {
                     let day = moment(date.format());
-                    console.log('--DAYCLICK--');
-                    console.log(day);
+                    // console.log('--DAYCLICK--');
+                    // console.log(day);
                 },
                 select: function(start, end) {
                     startDate = moment(start.format());
                     endDate = moment(end.format());
-                    console.log('--SELECT--');
-                    console.log(startDate);
-                    console.log(endDate);
+                    // console.log('--SELECT--');
+                    // console.log(startDate);
+                    // console.log(endDate);
 
                     filterRooms($('a.nav-link').attr('data-type'), start.format('YYYY-MM-DD HH:MM:SS'), end.format('YYYY-MM-DD HH:MM:SS'));
                     enableBtn();
                 }
             });
 
-            // set callback on click for booking buttons in each cards
-            //setClickCallback(bookingClick);
             disableBtn();
         });
     </script>

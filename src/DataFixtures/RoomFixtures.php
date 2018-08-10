@@ -68,7 +68,7 @@ class RoomFixtures extends Fixture
             $room->setHourlyPrice(200);
             $room->setWeeklyPrice(4000);
             $room->setMonthlyPrice(14000);
-            $room->setDescription('Super joli bureau');
+            $room->setDescription('Super jolie salle');
             $room->setStatus('dispo');
             $room->setRoomType($roomType);
             $om->persist($room);

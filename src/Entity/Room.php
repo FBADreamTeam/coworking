@@ -56,14 +56,14 @@ class Room
     /**
      * @ORM\Column(type="integer")
      * @Assert\GreaterThan(value="0", message="admin.room.hourly_price.greater_than")
-     * @Groups({"filter"})
+     * @Groups({"filter", "options"})
      */
     private $hourlyPrice;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\GreaterThan(value="0", message="admin.room.daily_price.greater_than")
-     * @Groups({"filter"})
+     * @Groups({"filter", "options"})
      */
     private $dailyPrice;
 

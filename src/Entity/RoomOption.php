@@ -5,17 +5,19 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RoomOptionRepository")
  */
-class RoomOption
+class RoomOption implements \JsonSerializable
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"filter", "options"})
      */
     private $id;
 
@@ -23,18 +25,21 @@ class RoomOption
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="admin.room_option.label.not_blank")
      * @Assert\Length(max="255", maxMessage="admin.room_option.label.max_length")
+     * @Groups({"filter", "options"})
      */
     private $label;
 
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="admin.room_option.desc.not_blank")
+     * @Groups({"filter", "options"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\GreaterThan(value="0", message="admin.room_option.price.greater_than")
+     * @Groups({"filter", "options"})
      */
     private $price;
 
@@ -117,4 +122,22 @@ class RoomOption
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'label' => $this->label,
+            'description' => $this->description,
+            'price' => $this->price,
+            'roomTypes' => $this->roomTypes->map(function($type) {
+                return $type->getId();
+            }),
+        ];
+    }
+
+
 }

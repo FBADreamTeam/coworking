@@ -3,23 +3,26 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookingOptionsRepository")
  */
-class BookingOptions
+class BookingOptions implements \JsonSerializable
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"filter", "options"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\GreaterThanOrEqual(value="1", message="admin.booking_options.quantity.greater_than")
+     * @Groups({"filter", "options"})
      * @var int
      */
     private $quantity;
@@ -27,6 +30,7 @@ class BookingOptions
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\RoomOption")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"filter", "options"})
      * @var RoomOption
      */
     private $roomOption;
@@ -37,6 +41,12 @@ class BookingOptions
      * @var Booking
      */
     private $booking;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"filter", "options"})
+     */
+    private $total;
 
     public function getId()
     {
@@ -105,4 +115,30 @@ class BookingOptions
     {
         return $this->roomOption->getPrice();
     }
+
+    public function getTotal(): ?int
+    {
+        return $this->total;
+    }
+
+    public function setTotal(?int $total): self
+    {
+        $this->total = $total;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'quantity' => $this->quantity,
+            'total' => $this->total,
+            'roomOption' => $this->roomOption,
+        ];
+    }
+
 }

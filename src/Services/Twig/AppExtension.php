@@ -41,7 +41,7 @@ class AppExtension extends AbstractExtension
      *
      * @return string
      */
-    public function priceFilter(int $number, int $decimals = 0, string $decPoint = '.', string $thousandsSep = ',', string $symbol = '€'): string
+    public function priceFilter(int $number, int $decimals = 2, string $decPoint = ',', string $thousandsSep = '.', string $symbol = '€'): string
     {
         return number_format($number / 100, $decimals, $decPoint, $thousandsSep).' '.$symbol;
     }

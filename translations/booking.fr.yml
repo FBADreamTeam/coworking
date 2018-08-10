@@ -1,7 +1,7 @@
-booking.title.index: Réservation
 booking.btn.book: Réserver
 booking:
   titles:
+    index: Réservation
     details: Infos
     prices: Tarifs
     images: Images
@@ -11,13 +11,14 @@ booking:
     description: Description
     capacity: Capacité
     hourlyPrice: 'Tarif horaire'
-    daylyPrice: 'Tarif journalier'
+    dailyPrice: 'Tarif journalier'
     weeklyPrice: 'Tarif hebdomadaire'
     monthlyPrice: 'Tarif mensuel'
     fromDay: Du
     toDay: au
     fromHour: De
     toHour: à
+    options: 'Choisir ses Options'
   btn:
     back: 'Retour'
   msg:

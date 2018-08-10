@@ -1,7 +1,7 @@
-booking.title.index: Booking
 booking.btn.book: Book
 booking:
   titles:
+    index: Booking
     details: Details
     prices: Prices
     images: Images
@@ -11,13 +11,14 @@ booking:
     description: Description
     capacity: Capacity
     hourlyPrice: 'Hourly price'
-    daylyPrice: 'Daily price'
+    dailyPrice: 'Daily price'
     weeklyPrice: 'Weekly price'
     monthlyPrice: 'Monthly price'
     fromDay: From
     toDay: To
     fromHour: From
     toHour: To
+    options: 'Select Your Options'
   btn:
     back: 'Back to results page'
   msg:
