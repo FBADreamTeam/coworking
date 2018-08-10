@@ -9,6 +9,8 @@ parameters:
     assets_public_dir: 'images/'
     room_assets_public_dir: '%assets_public_dir%room/'
     room_assets_fulldir: '%kernel.project_dir%%room_assets_public_dir%' # upload dir
+    business_hour_start: '09:00:00'
+    business_hour_end: '19:00:00'
 
 services:
     # default configuration for services in *this* file
@@ -39,3 +41,7 @@ services:
 
     App\Services\ImageUploader:
         $assetsDir: '%room_assets_fulldir%'
+
+    App\Services\BookingPriceCalculator:
+        $businessHourStart: '%business_hour_start%'
+        $businessHourEnd: '%business_hour_end%'

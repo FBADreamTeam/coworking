@@ -15,6 +15,7 @@ use App\Entity\Room;
 use App\Entity\RoomType;
 use App\Form\BookingAddOptionsType;
 use App\Managers\RoomManager;
+use App\Services\BookingPriceCalculator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,6 +23,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
@@ -87,13 +90,16 @@ class BookingController extends Controller
     /**
      * @Route("/options", name="booking_options")
      *
-     * @param Request             $request
-     * @param SessionInterface    $session
+     * @param Request $request
+     * @param SessionInterface $session
      * @param TranslatorInterface $translator
      *
+     * @param BookingPriceCalculator $calculator
+     * @param SerializerInterface $serializer
      * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
      */
-    public function selectOptions(Request $request, SessionInterface $session, TranslatorInterface $translator)
+    public function selectOptions(Request $request, SessionInterface $session, TranslatorInterface $translator, BookingPriceCalculator $calculator, SerializerInterface $serializer)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -133,13 +139,17 @@ class BookingController extends Controller
                 $booking->addBookingOption($bookingOption);
             }
 
+            $priceWO = $calculator->calculateTotalPriceWithoutOptions($booking);
+            $booking->setTotalHTWithoutOptions($priceWO);
+
             $form = $this->createForm(BookingAddOptionsType::class, $booking);
 
             return $this->render('booking/options_form.html.twig', [
-                'interval' => $startDateTime->diff($endDateTime),
-                'room' => $room,
-                'booking' => $booking,
-                'form' => $form->createView(),
+                'interval'          => $startDateTime->diff($endDateTime),
+                'room'              => $room,
+                'booking'           => $booking,
+                'encodedOptions'    => $serializer->serialize($booking->getRoomOptionsAsHashedArray(), 'json', ['groups' => 'options']),
+                'form'              => $form->createView(),
             ]);
         }
 
@@ -170,6 +180,12 @@ class BookingController extends Controller
             $form = $this->createForm(BookingAddOptionsType::class, $booking)
                 ->handleRequest($request);
 
+            $priceWO = $calculator->calculateTotalPriceWithoutOptions($booking);
+//            dump($booking->getStartDate());
+//            dump($booking->getEndDate());
+//            dump($booking->getRoom());
+//            dump($price);
+
             if ($form->isSubmitted() && $form->isValid()) {
 //                dump($booking);
                 // check all the options
@@ -181,6 +197,13 @@ class BookingController extends Controller
                     }
                 }
 //                dd($booking);
+
+                $price = $calculator->calculateTotalPrice($booking);
+//                dd($price);
+                $booking->setTotalHTWithoutOptions($priceWO);
+                $booking->setTotalHT($price);
+
+                dd($booking);
 
                 // before flushing, for testing purpose, we attach a fixed customer
                 /** @var Customer $customer */

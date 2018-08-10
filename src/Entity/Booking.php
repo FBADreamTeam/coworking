@@ -55,6 +55,16 @@ class Booking
      */
     private $order;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $totalHTWithoutOptions;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $totalHT;
+
     public function __construct()
     {
         $this->bookingOptions = new ArrayCollection();
@@ -121,6 +131,21 @@ class Booking
         return $this->bookingOptions;
     }
 
+    /**
+     * @return array
+     */
+    public function getRoomOptionsAsHashedArray(): array
+    {
+        $options = [];
+        /** @var BookingOptions $bookingOption */
+        foreach ($this->bookingOptions as $bookingOption) {
+            $roomOption = $bookingOption->getRoomOption();
+            $options[$roomOption->getId()] = $roomOption;
+        }
+
+        return $options;
+    }
+
     public function addBookingOption(BookingOptions $bookingOption): self
     {
         if (!$this->bookingOptions->contains($bookingOption)) {
@@ -158,6 +183,30 @@ class Booking
         if ($this !== $order->getBooking()) {
             $order->setBooking($this);
         }
+
+        return $this;
+    }
+
+    public function getTotalHTWithoutOptions(): ?int
+    {
+        return $this->totalHTWithoutOptions;
+    }
+
+    public function setTotalHTWithoutOptions(?int $totalHTWithoutOptions): self
+    {
+        $this->totalHTWithoutOptions = $totalHTWithoutOptions;
+
+        return $this;
+    }
+
+    public function getTotalHT(): ?int
+    {
+        return $this->totalHT;
+    }
+
+    public function setTotalHT(?int $totalHT): self
+    {
+        $this->totalHT = $totalHT;
 
         return $this;
     }
