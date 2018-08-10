@@ -33,6 +33,7 @@ admin:
     rooms:
       home: 'Rooms Home'
     rooms-list: 'Rooms Management'
+    roomsOption-list: 'Rooms options Management'
   rooms:
     btn:
       add: 'Add rooms'
