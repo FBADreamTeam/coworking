@@ -205,6 +205,8 @@ class AdminController extends Controller
                 if ($employeeManager->checkDuplicateEmail($emailEmployeeForm)) {
                     $this->addFlash('notice', "Le mail existe déjà");
 
+                    $employee->setEmail($emailEmployee);
+
                     return $this->render('/admin/profile/edit_profile.html.twig', [
                         'form' => $form->createView()
                     ]);
