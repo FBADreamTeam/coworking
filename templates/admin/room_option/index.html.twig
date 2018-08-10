@@ -1,5 +1,7 @@
 {% extends "admin/layout.html.twig" %}
 
+{% trans_default_domain 'admin' %}
+
 {% block title %}
 Accueil Room Option
 {% endblock %}
@@ -11,9 +13,9 @@ Accueil Room Option
 {% block main_content %}
     <div class="container-fluid">
         <div class="row">
+            <h4 class="c-grey-900 mT-10 mB-30">{{ 'admin.titles.roomsOption-list'|trans }}</h4>
             <div class="col-lg-12 ">
                 <div class="bgc-white bd bdrs-3 p-20">
-                    <h1>Gestion des rooms</h1>
                     {% for message in app.flashes('success')  %}
                         <div class="alert alert-success">
                             {{ message }}

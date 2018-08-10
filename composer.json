@@ -33,6 +33,8 @@
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "phpstan/phpstan": "^0.10.2",
+        "phpstan/phpstan-doctrine": "^0.10.0",
+        "phpstan/phpstan-phpunit": "^0.10.0",
         "symfony/debug-pack": "*",
         "symfony/dotenv": "^4.1",
         "symfony/maker-bundle": "^1.5",

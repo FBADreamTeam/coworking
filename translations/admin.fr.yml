@@ -33,6 +33,7 @@ admin:
     rooms:
       home: 'Accueil Rooms'
     rooms-list: 'Gestion des Rooms'
+    roomsOption-list: 'Gestion des rooms options'
   rooms:
     btn:
       add: 'Ajouter des pièces'

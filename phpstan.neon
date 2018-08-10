@@ -3,3 +3,8 @@ parameters:
 		- %rootDir%/../../../src/Migrations/*
 	autoload_files:
 		- bin/.phpunit/phpunit-6.5/vendor/autoload.php
+	ignoreErrors:
+		- '/Call to an undefined method object::getRepository()/'
+	includes:
+		- vendor/phpstan/phpstan-phpunit/extension.neon
+		- vendor/phpstan/phpstan-doctrine/extension.neon
