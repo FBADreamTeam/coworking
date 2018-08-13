@@ -8,12 +8,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Address;
 use App\Entity\Booking;
 use App\Entity\BookingOptions;
 use App\Entity\Customer;
+use App\Entity\Order;
 use App\Entity\Room;
 use App\Entity\RoomType;
+use App\Form\AddressType;
 use App\Form\BookingAddOptionsType;
+use App\Form\OrderType;
 use App\Managers\RoomManager;
 use App\Services\BookingPriceCalculator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -21,9 +25,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -96,7 +100,7 @@ class BookingController extends Controller
      *
      * @param BookingPriceCalculator $calculator
      * @param SerializerInterface $serializer
-     * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
+     * @return JsonResponse|Response
      * @throws \Exception
      */
     public function selectOptions(Request $request, SessionInterface $session, TranslatorInterface $translator, BookingPriceCalculator $calculator, SerializerInterface $serializer)
@@ -181,13 +185,8 @@ class BookingController extends Controller
                 ->handleRequest($request);
 
             $priceWO = $calculator->calculateTotalPriceWithoutOptions($booking);
-//            dump($booking->getStartDate());
-//            dump($booking->getEndDate());
-//            dump($booking->getRoom());
-//            dump($price);
 
             if ($form->isSubmitted() && $form->isValid()) {
-//                dump($booking);
                 // check all the options
                 foreach ($booking->getBookingOptions() as $bookingOption) {
                     // if quantity is null || 0, we remove the option
@@ -196,34 +195,95 @@ class BookingController extends Controller
                         $booking->removeBookingOption($bookingOption);
                     }
                 }
-//                dd($booking);
 
                 $price = $calculator->calculateTotalPrice($booking);
 //                dd($price);
                 $booking->setTotalHTWithoutOptions($priceWO);
                 $booking->setTotalHT($price);
 
-                dd($booking);
+//                dd($booking);
 
-                // before flushing, for testing purpose, we attach a fixed customer
-                /** @var Customer $customer */
-                $customer = $em->getRepository(Customer::class)->findAll()[0];
-                $booking->setCustomer($customer);
+                /*
+                 * Here, we have a Booking with Options and a final price.
+                 * We now need to redirect the customers to the checkout page,
+                 * where they will be able to verify their booking and select / add
+                 * addresses.
+                 * But first, Booking goes to the datatbase, then its id is recovered and set to the session !
+                 */
+
+                /*
+                 * TODO: Set a specific status for the Booking entity (pending?) and a ttl to automatically remove the booking if it isn't purchased.
+                 */
 
                 $em->persist($booking);
                 $em->flush();
+//                dump($booking);
+                $em->refresh($booking);
+                $session->set('booking_id', $booking->getId());
 
-                /*
-                 * TODO: now, we have to check if the user is logged in or not. If not, we redirect the user to a login page, else we continue to the recap page before payment
-                 */
-
-                $this->addFlash('notice', $translator->trans('booking.msg.success', [], 'booking'));
-
-                return $this->redirectToRoute('index');
+                return $this->redirectToRoute('booking_checkout');
             }
         }
 
         // if we arrive here, something went horribly wrong!
         throw new \LogicException("You shouldn't be here...");
+    }
+
+    /**
+     * @Route("/checkout", name="booking_checkout")
+     *
+     * @param Request $request
+     * @param SessionInterface $session
+     * @return Response
+     */
+    public function bookingCheckout(Request $request, SessionInterface $session): Response
+    {
+        $customer = $this->getUser();
+
+        if ((null === $customer) || ( ! $customer instanceof Customer)) {
+            throw new \LogicException('A Customer instance is required.');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $bookingId = $session->get('booking_id');
+        /** @var Booking $booking */
+        $booking = $this->getDoctrine()->getRepository(Booking::class)->find($bookingId);
+        $booking->setCustomer($customer);
+
+        $address = new Address();
+        $address->setCustomer($customer);
+
+        $formAddress = $this->createForm(AddressType::class, $address);
+        $formAddress->handleRequest($request);
+
+        if ($formAddress->isSubmitted() && $formAddress->isValid()) {
+            $customer->addAddress($address);
+            $em->persist($address);
+            $em->persist($customer);
+            $em->flush();
+            return $this->redirectToRoute('booking_checkout');
+        }
+
+        $order = new Order();
+        $order->setBooking($booking);
+        $order->setDate(new \DateTime());
+        $order->setTotalHT($booking->getTotalHT());
+
+        $formOrder = $this->createForm(OrderType::class, $order);
+        $formOrder->handleRequest($request);
+
+        if ($formOrder->isSubmitted() && $formOrder->isValid()) {
+//            dd($formOrder);
+            /**
+             * TODO: checkout the order
+             */
+        }
+
+        return $this->render('booking/booking_checkout.html.twig', [
+            'booking' => $booking,
+            'formAddress' => $formAddress->createView(),
+            'formOrder' => $formOrder->createView(),
+        ]);
     }
 }
