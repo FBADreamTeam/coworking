@@ -34,14 +34,14 @@ class CustomerFixtures extends Fixture
         $customer = new Customer();
         $customer->setFirstName('first name test 1');
         $customer->setLastName('last name test 1');
-        $customer->setPassword($this->encoder->encodePassword($customer, 'test'));
-        $customer->setEmail('test@test.com');
+        $customer->setPassword($this->encoder->encodePassword($customer, 'testtest'));
+        $customer->setEmail('test@test.xyz');
 
         $customer2 = new Customer();
         $customer2->setFirstName('first name test 2');
         $customer2->setLastName('last name test 2');
-        $customer2->setPassword($this->encoder->encodePassword($customer, 'test'));
-        $customer2->setEmail('test2@test.com');
+        $customer2->setPassword($this->encoder->encodePassword($customer, 'testtest'));
+        $customer2->setEmail('test2@test.xyz');
 
         $manager->persist($customer);
         $manager->persist($customer2);

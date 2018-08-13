@@ -5,7 +5,7 @@ security:
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: ~ }
+#        in_memory: { memory: ~ }
 
         customer_provider:
             entity:
@@ -74,8 +74,6 @@ security:
                 path: /profile/logout
                 target: /
 
-
-
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
@@ -83,6 +81,7 @@ security:
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/_secure/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/_secure, roles: ROLE_EMPLOYEE }
+        - { path: ^/booking/checkout, roles: ROLE_USER }
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 #        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
 

@@ -1,4 +1,5 @@
 booking.btn.book: Réserver
+booking.btn.submit: Valider
 booking:
   titles:
     index: Réservation
@@ -19,7 +20,18 @@ booking:
     fromHour: De
     toHour: à
     options: 'Choisir ses Options'
+    checkout: 'Checkout'
+    addresses: 'Adresse de facturation'
+    totalHT: 'Total HT'
+    TVA: 'TVA'
+    total: 'Total TTC'
+    street: Rue
+    zipcode: 'Code postal'
+    city: Ville
+    country: Pays
+    addressCpl: Complément
   btn:
     back: 'Retour'
+    addressAdd: 'Ajouter une adresse de facturation'
   msg:
     success: 'Votre réservation a été sauvegardée !'

@@ -41,7 +41,6 @@ class Booking
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="bookings")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $customer;
 

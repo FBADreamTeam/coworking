@@ -16,23 +16,29 @@ class AddressType extends AbstractType
     {
         $builder
             ->add('street', TextType::class, [
-                'label' => 'Rue'
+                'translation_domain' => 'booking',
+                'label' => 'booking.titles.street'
             ])
             ->add('postalCode', TextType::class, [
-                'label' => 'Code postal'
+                'translation_domain' => 'booking',
+                'label' => 'booking.titles.zipcode'
             ])
             ->add('city', TextType::class, [
-                'label' => 'Ville'
+                'translation_domain' => 'booking',
+                'label' => 'booking.titles.city'
             ])
             ->add('country', TextType::class, [
-                'label' => 'Pays'
+                'translation_domain' => 'booking',
+                'label' => 'booking.titles.country'
             ])
             ->add('addressCpl', TextType::class, [
-                'label' => 'Addresse complémentaire',
+                'translation_domain' => 'booking',
+                'label' => 'booking.titles.addressCpl',
                 'required' => false
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Valider'
+                'translation_domain' => 'booking',
+                'label' => 'booking.btn.submit'
             ])
         ;
     }
@@ -40,7 +46,7 @@ class AddressType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Address::class
+            'data_class' => Address::class,
         ]);
     }
 }
