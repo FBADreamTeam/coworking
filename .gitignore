@@ -26,3 +26,6 @@ yarn-error.log
 /gestion_projet/modelisation/*.bak*
 /gestion_projet/modelisation/*.lck
 .php_cs.cache
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
