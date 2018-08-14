@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Customer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -34,6 +35,12 @@ class CustomerType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Last name'
                 ]
+            ])
+            ->add('addresses', CollectionType::class, [
+                'entry_type' => AddressType::class,
+                'label' => false,
+                'entry_options' => array('label' => false),
+                'required' => true
             ])
             ->add('email', EmailType::class, [
                 'required' => true,

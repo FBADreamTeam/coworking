@@ -4,11 +4,10 @@ namespace App\Form;
 
 use App\Entity\Address;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Valid;
 
 class AddressType extends AbstractType
 {
@@ -18,8 +17,11 @@ class AddressType extends AbstractType
             ->add('street', TextType::class, [
                 'label' => 'Rue'
             ])
-            ->add('postalCode', TextType::class, [
-                'label' => 'Code postal'
+            ->add('postalCode', IntegerType::class, [
+                'label' => 'Code postal',
+                'attr' => [
+                    'maxlength' => 5
+                ]
             ])
             ->add('city', TextType::class, [
                 'label' => 'Ville'
@@ -30,10 +32,7 @@ class AddressType extends AbstractType
             ->add('addressCpl', TextType::class, [
                 'label' => 'Addresse complémentaire',
                 'required' => false
-            ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'Valider'
-            ])
+            ]);
         ;
     }
 
