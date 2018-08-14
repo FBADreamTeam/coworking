@@ -29,7 +29,16 @@
                     </div>
                 {% endfor %}
 
-                {{ form(form) }}
+                {{ form_start(form) }}
+                    {{ form_row(form.firstName) }}
+                    {{ form_row(form.lastName) }}
+
+                    {{ form_row(form.addresses) }}
+
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.password) }}
+                    {{ form_row(form.password_confirm) }}
+                {{ form_end(form) }}
             </div>
         </div>
     </div>

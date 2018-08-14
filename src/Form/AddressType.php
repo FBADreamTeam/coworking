@@ -4,11 +4,10 @@ namespace App\Form;
 
 use App\Entity\Address;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Valid;
 
 class AddressType extends AbstractType
 {
@@ -19,9 +18,11 @@ class AddressType extends AbstractType
                 'translation_domain' => 'booking',
                 'label' => 'booking.titles.street'
             ])
-            ->add('postalCode', TextType::class, [
-                'translation_domain' => 'booking',
+            ->add('postalCode', IntegerType::class, [
                 'label' => 'booking.titles.zipcode'
+                'attr' => [
+                    'maxlength' => 5
+                ]
             ])
             ->add('city', TextType::class, [
                 'translation_domain' => 'booking',
@@ -35,11 +36,7 @@ class AddressType extends AbstractType
                 'translation_domain' => 'booking',
                 'label' => 'booking.titles.addressCpl',
                 'required' => false
-            ])
-            ->add('submit', SubmitType::class, [
-                'translation_domain' => 'booking',
-                'label' => 'booking.btn.submit'
-            ])
+            ]);
         ;
     }
 
