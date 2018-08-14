@@ -5,7 +5,7 @@ security:
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: ~ }
+#        in_memory: { memory: ~ }
 
         customer_provider:
             entity:
@@ -17,10 +17,28 @@ security:
                 class: App\Entity\Employee
                 property: email
     firewalls:
+        login:
+            pattern:  ^/api/login
+            stateless: true
+            anonymous: true
+            provider: customer_provider #Specify a provider when we have multiple provider because JWT can't resolve it automatically
+            json_login:
+                check_path: api_login_check
+                username_path: email
+                password_path: password
+                success_handler:          lexik_jwt_authentication.handler.authentication_success
+                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
+                require_previous_session: false
+        api:
+            pattern:   ^/api
+            stateless: true
+            guard:
+                provider: customer_provider #Specify a provider when we have multiple provider because JWT can't resolve it automatically
+                authenticators:
+                - lexik_jwt_authentication.jwt_token_authenticator
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
         admin:
             anonymous: true
             pattern: ^/_secure
@@ -56,8 +74,6 @@ security:
                 path: /profile/logout
                 target: /
 
-
-
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
@@ -65,6 +81,9 @@ security:
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/_secure/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/_secure, roles: ROLE_EMPLOYEE }
+        - { path: ^/booking/checkout, roles: ROLE_USER }
+        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
 
     role_hierarchy:
         ROLE_EMPLOYEE: ROLE_USER

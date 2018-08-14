@@ -127,7 +127,7 @@ class CustomerController extends Controller
      * @param UserPasswordEncoderInterface $encoder
      * @return Response
      */
-    public function updateCustomer(Request $request, CustomerManager $customerManager, UserPasswordEncoderInterface $encoder)
+    public function updateCustomer(Request $request, CustomerManager $customerManager, UserPasswordEncoderInterface $encoder): Response
     {
 
         $customer = $this->getUser();
@@ -182,7 +182,7 @@ class CustomerController extends Controller
                 }
             }
 
-            $customerManager->updateCustomer($customer);
+            $customerManager->updateCustomer();
 
             $this->addFlash('success', "Vos données on bien été modifiées");
         }

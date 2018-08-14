@@ -1,0 +1,60 @@
+{# templates/security/login.html.twig #}
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+<div class="features">
+    <div class="container">
+        <div class="row align-items-end">
+
+            <!-- Features Item -->
+            <div class="col-lg-4 features_col">
+                {% if error %}
+                    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                {{ form_start(form, {'action': '#', 'method': 'POST'}) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        jQuery(function($) {
+            $.fn.login = function(usernameInput, passwordInput) {
+                var submit = this;
+                $(submit).click(function(event) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    $.ajax({
+                        url: '{{ path('api_login_check') }}',
+                        method: 'POST',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            email: usernameInput.val(),
+                            password: passwordInput.val()
+                        })
+                    })
+                        .done(function(data) {
+                            console.log(data);
+                            if (!localStorage) {
+                                return;
+                            }
+
+                            localStorage.setItem('jsonLoginToken', data['token']);
+                            console.log(localStorage);
+                        })
+                        .fail(function () {
+                            
+                        });
+                });
+            };
+
+            $('#customer_login_submit').login($('#customer_login_email'), $('#customer_login_password'));
+        });
+    </script>
+{% endblock %}

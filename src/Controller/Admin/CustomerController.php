@@ -15,7 +15,9 @@ use App\Form\CustomerType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Managers\CustomerManager;
@@ -32,9 +34,9 @@ class CustomerController extends Controller
      * @Route("/customer/list", name="admin_customer_list")
      * @@Security("has_role('ROLE_ADMIN')")
      * @param CustomerManager $customerManager
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function listCustomer(CustomerManager $customerManager)
+    public function listCustomer(CustomerManager $customerManager): Response
     {
         $customers = $customerManager->listCustomer();
 
@@ -51,7 +53,7 @@ class CustomerController extends Controller
      * @param Request $request
      * @param UserPasswordEncoderInterface $encoder
      * @param CustomerManager $customerManager
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      */
     public function editCustomer(Customer $customer, Request $request, UserPasswordEncoderInterface $encoder, CustomerManager $customerManager)
     {
@@ -116,11 +118,11 @@ class CustomerController extends Controller
      * @param Address $address
      * @param Request $request
      * @param CustomerManager $customerManager
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      */
     public function editAddressCustomer(Address $address, Request $request, CustomerManager $customerManager)
     {
-        $form = $this->createForm(AddressType::class, $address);
+        $form = $this->createForm(AddressType::class, $address, ['context' => 'customer.create']);
 
         $form->handleRequest($request);
 
@@ -145,14 +147,14 @@ class CustomerController extends Controller
      * @param Customer $customer
      * @param Request $request
      * @param CustomerManager $customerManager
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      */
     public function addAddressCustomer(Customer $customer, Request $request, CustomerManager $customerManager)
     {
         $address = new Address();
         $address->setCustomer($customer);
 
-        $form = $this->createForm(AddressType::class, $address);
+        $form = $this->createForm(AddressType::class, $address, ['context' => 'customer.create']);
 
         $form->handleRequest($request);
 
@@ -176,9 +178,9 @@ class CustomerController extends Controller
      *
      * @param Address $address
      * @param CustomerManager $customerManager
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
-    public function deleteAddressCustomer(Address $address, CustomerManager $customerManager)
+    public function deleteAddressCustomer(Address $address, CustomerManager $customerManager): RedirectResponse
     {
         $customerManager->deleteAddressCustomer($address);
 

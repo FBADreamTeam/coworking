@@ -1,0 +1,81 @@
+{% extends 'layout.html.twig' %}
+
+{% trans_default_domain 'booking' %}
+
+{% block page_title %}
+    {{ 'booking.titles.checkout'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="container p-120">
+        <div class="row">
+            <div class="col-lg-6">
+                {# --RECAP CUSTOMER-- #}
+                {% set customer = booking.customer %}
+                <p>{{ customer.fullName }}</p>
+                {#<h3>{{ 'booking.titles.addresses'|trans }}</h3>#}
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseAddress" aria-expanded="false" aria-controls="collapseAddress">
+                    {{ 'booking.btn.addressAdd'|trans }}
+                </button>
+                <div class="collapse" id="collapseAddress">
+                    <div class="card card-body">
+                        {{ form(formAddress) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                {# --RECAP BOOKING-- #}
+                <p>{{ 'booking.titles.fromDay'|trans }} {{ booking.startDate|date('Y-m-d H:i:s') }} {{ 'booking.titles.toDay'|trans }} {{ booking.endDate|date('Y-m-d H:i:s') }}</p>
+                {% set room = booking.room %}
+                <p>{{ booking.room.name }} : {{ booking.totalHTWithoutOptions|price }}</p>
+                {% for option in booking.bookingOptions %}
+                    <p>{{ option.label }} : {{ option.price|price }} * {{ option.quantity }} = {{ (option.price * option.quantity)|price }}</p>
+                {% endfor %}
+                <p>{{ 'booking.titles.totalHT'|trans }} = {{ booking.totalHT|price }}</p>
+                <p>{{ 'booking.titles.TVA'|trans }} = {{ (booking.totalHT * 0.2)|price }}</p>
+                <p>{{ 'booking.titles.total'|trans }} = {{ (booking.totalHT * 1.2)|price }}</p>
+                
+                {#{{ form(formOrder) }}#}
+                
+                {{ form_start(formOrder) }}
+                    {{ form_widget(formOrder.address) }}
+                {{ form_end(formOrder) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block final_javascripts %}
+    <script>
+        // setup an "add an address" link
+        let $addTagButton = $('<button id="address_add" type="button" class="btn btn-primary">Add an address</button>');
+        $('#booking_confirm_addresses').append($addTagButton);
+        // var $newLinkLi = $('<li></li>').append($addTagButton);
+
+        jQuery(document).ready(function() {
+            // Get the ul that holds the collection of tags
+            // $collectionHolder = $('ul.tags');
+            $collectionHolder = $('#booking_confirm_addresses');
+
+            $addTagButton.on('click', function(e) {
+                // add a new tag form (see next code block)
+                addAddressForm($collectionHolder, $('#address_add'));
+            });
+
+            function addAddressForm($collectionHolder, $button) {
+                // Get the data-prototype explained earlier
+                let prototype = $collectionHolder.data('prototype');
+                let newForm = prototype;
+
+                // Replace '__name__' in the prototype's HTML to
+                // instead be a number based on how many items we have
+                newForm = newForm.replace(/__name__label__/g, '');
+                newForm = newForm.replace(/__name__/g, 1);
+
+                $collectionHolder.append(newForm);
+
+                $button.remove();
+            }
+        });
+    </script>
+{% endblock %}

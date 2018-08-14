@@ -1,4 +1,5 @@
 booking.btn.book: Book
+booking.btn.submit: Submit
 booking:
   titles:
     index: Booking
@@ -19,7 +20,18 @@ booking:
     fromHour: From
     toHour: To
     options: 'Select Your Options'
+    checkout: 'Checkout'
+    addresses: 'Billing Address'
+    totalHT: 'Total Without Taxes'
+    TVA: 'Taxes'
+    total: 'Total'
+    street: Street
+    zipcode: 'Zip Code'
+    city: City
+    country: Country
+    addressCpl: 'Address complement'
   btn:
     back: 'Back to results page'
+    addressAdd: 'Add a billing address'
   msg:
     success: 'Your booking has been saved!'
