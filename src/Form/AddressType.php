@@ -19,7 +19,8 @@ class AddressType extends AbstractType
                 'label' => 'booking.titles.street'
             ])
             ->add('postalCode', IntegerType::class, [
-                'label' => 'booking.titles.zipcode'
+                'translation_domain' => 'booking',
+                'label' => 'booking.titles.zipcode',
                 'attr' => [
                     'maxlength' => 5
                 ]
