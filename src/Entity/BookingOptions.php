@@ -140,5 +140,4 @@ class BookingOptions implements \JsonSerializable
             'roomOption' => $this->roomOption,
         ];
     }
-
 }

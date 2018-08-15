@@ -122,7 +122,7 @@ class BookingController extends Controller
         }
 
         // request comes from redirecting from ajax, expects a form
-        if ( ! $request->isXmlHttpRequest() && $request->isMethod('GET')) {
+        if (! $request->isXmlHttpRequest() && $request->isMethod('GET')) {
             // create a Booking from a room and dates
             $booking = $bookingManager->createBookingFromRoomAndDates(
                 (int)$session->get('roomId'),
@@ -150,7 +150,6 @@ class BookingController extends Controller
 
         // request comes from POST, payload is a form with booking options
         if (!$request->isXmlHttpRequest() && $request->isMethod('POST')) {
-
             $booking = $bookingManager->createBookingAndCalculatePriceWithoutOptions(
                 (int)$session->get('roomId'),
                 $session->get('startDate'),
@@ -161,7 +160,6 @@ class BookingController extends Controller
                 ->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-
                 $bookingManager->calculateHTPrice($booking);
 
                 /*
@@ -206,7 +204,7 @@ class BookingController extends Controller
     {
         $customer = $this->getUser();
 
-        if ((null === $customer) || ( ! $customer instanceof Customer)) {
+        if ((null === $customer) || (! $customer instanceof Customer)) {
             throw new \LogicException('A Customer instance is required.');
         }
 
@@ -273,7 +271,7 @@ class BookingController extends Controller
      */
     public function bookingConfirm(Booking $booking): Response
     {
-        if ( ! BookingManager::checkBookingCustomerIsValid($booking, $this->getUser())) {
+        if (! BookingManager::checkBookingCustomerIsValid($booking, $this->getUser())) {
             $this->addFlash('error', 'customer.invalid');
             return $this->redirectToRoute('index');
         }
@@ -306,8 +304,8 @@ class BookingController extends Controller
         SessionInterface $session,
         int $roomId = null,
         string $startDate = null,
-        string $endDate = null): void
-    {
+        string $endDate = null
+    ): void {
         // set the room and date values in session
         $session->set('roomId', $roomId);
         $session->set('startDate', $startDate);

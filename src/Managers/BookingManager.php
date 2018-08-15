@@ -8,7 +8,6 @@
 
 namespace App\Managers;
 
-
 use App\Entity\Booking;
 use App\Entity\BookingOptions;
 use App\Entity\Customer;

@@ -122,7 +122,6 @@ class CustomerController extends Controller
      */
     public function updateCustomer(Request $request, CustomerManager $customerManager, UserPasswordEncoderInterface $encoder): Response
     {
-
         $customer = $this->getUser();
 
         $addresses = iterator_to_array($customer->getAddresses());

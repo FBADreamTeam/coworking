@@ -8,7 +8,6 @@
 
 namespace App\Services;
 
-
 use App\Entity\Booking;
 use App\Entity\BookingOptions;
 
@@ -86,7 +85,7 @@ class BookingPriceCalculator
 
             // days
             $price += $days * $booking->getRoom()->getDailyPrice();
-        } else if (
+        } elseif (
             (
                 $booking->getStartDate()->format(self::HOURS_FORMAT) === $midnight
                 && $booking->getEndDate()->format(self::HOURS_FORMAT) === $midnight
