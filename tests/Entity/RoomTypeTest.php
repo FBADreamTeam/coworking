@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\entity;
+namespace App\Tests\Entity;
 
 use App\Entity\Room;
 use App\Entity\RoomOption;
