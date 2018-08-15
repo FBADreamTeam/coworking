@@ -11,9 +11,9 @@ namespace App\Events;
 use App\Entity\AbstractUser;
 use Symfony\Component\EventDispatcher\Event;
 
-class UserCreatedEvent extends Event
+class UserEvents extends Event
 {
-    const NAME = 'user.created';
+    public const USER_CREATED = 'user.created';
 
     /**
      * @var AbstractUser $user
@@ -21,7 +21,7 @@ class UserCreatedEvent extends Event
     protected $user;
 
     /**
-     * UserCreatedEvent constructor.
+     * UserEvents constructor.
      * @param AbstractUser $user
      */
     public function __construct(AbstractUser $user)

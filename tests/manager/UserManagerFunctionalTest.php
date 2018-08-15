@@ -3,7 +3,7 @@
 namespace App\Tests\Manager;
 
 use App\Entity\Customer;
-use App\Events\UserCreatedEvent;
+use App\Events\UserEvents;
 use App\Managers\CustomerManager;
 use Doctrine\ORM\EntityManager;
 use PHPUnit_Framework_MockObject_MockObject;
@@ -72,7 +72,7 @@ class UserManagerFunctionalTest extends WebTestCase
         $dispatcherMock->expects($this->once())
             ->method('dispatch')
             ->with(
-                $this->stringContains(UserCreatedEvent::NAME),
+                $this->stringContains(UserEvents::USER_CREATED),
                 $this->isInstanceOf(Event::class)
             );
 

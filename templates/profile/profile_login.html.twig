@@ -1,5 +1,7 @@
 {% extends 'layout.html.twig' %}
 
+{% trans_default_domain 'profile' %}
+
 {% block page_title %}
     {{ 'profile.auth.title'|trans }}
 {% endblock %}
@@ -11,12 +13,20 @@
 {% block content %}
 
 <div class="container ">
-    <div class="row">
+    <div class="row features_col">
         {# Affichage formulaire #}
-        <div class="col-lg-5 features_col">
-            <h2>{{ 'profile.auth.title'|trans }}</h2>
+        <div class="offset-4"></div>
+        <div class="col-lg-4">
 
             {% for message in app.flashes('notice') %}
+                <div class="alert alert-info">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            <h2>{{ 'profile.auth.title'|trans }}</h2>
+
+            {% for message in app.flashes('error') %}
                 <div class="alert alert-danger">
                     {{ message }}
                 </div>

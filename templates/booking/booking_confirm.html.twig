@@ -1,0 +1,25 @@
+{% extends 'layout.html.twig' %}
+
+{% trans_default_domain 'booking' %}
+
+{% block page_title %}
+    {{ 'booking.titles.bookingConfirm'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row p-120">
+            <div class="col-lg-12">
+                <h3 class="display-4 font-weight-bold text-center">{{ 'booking.header.orderConfirmed'|trans|upper }}</h3>
+                <hr>
+                <h4 class="display-4 text-center">{{ 'booking.header.thankyou'|trans|upper }}</h4>
+                <p class="text-center">{{ 'booking.msg.yourorder'|trans }} {{ booking.order.id }}</p>
+                <p class="text-center">{{ 'booking.msg.ordersentence'|trans }}</p>
+                <div class="text-center">
+                    <a href="{{ path('generate_invoice', {id_booking: booking.id, id_user: booking.customer.id}) }}">{{ 'booking.link.invoice'|trans }}</a><i class="fas fa-file-pdf fa-lg pl-2" style="color: #ff4200;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

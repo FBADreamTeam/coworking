@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Exceptions\PriceException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -94,10 +95,6 @@ class Room
     private $roomType;
 
     /**
-     * TODO set nullable to true | remove nullable.
-     */
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"filter"})
      */
@@ -166,11 +163,14 @@ class Room
         return $this->hourlyPrice;
     }
 
+    /**
+     * @param int $hourlyPrice
+     * @return Room
+     * @throws PriceException
+     */
     public function setHourlyPrice(int $hourlyPrice): self
     {
-        if ($hourlyPrice <= 0) {
-            throw new \LogicException('The price cannot be negative.');
-        }
+        $this->checkPrice($hourlyPrice);
         $this->hourlyPrice = $hourlyPrice;
 
         return $this;
@@ -181,11 +181,14 @@ class Room
         return $this->dailyPrice;
     }
 
+    /**
+     * @param int $dailyPrice
+     * @return Room
+     * @throws PriceException
+     */
     public function setDailyPrice(int $dailyPrice): self
     {
-        if ($dailyPrice <= 0) {
-            throw new \LogicException('The price cannot be negative.');
-        }
+        $this->checkPrice($dailyPrice);
         $this->dailyPrice = $dailyPrice;
 
         return $this;
@@ -196,11 +199,14 @@ class Room
         return $this->weeklyPrice;
     }
 
+    /**
+     * @param int $weeklyPrice
+     * @return Room
+     * @throws PriceException
+     */
     public function setWeeklyPrice(int $weeklyPrice): self
     {
-        if ($weeklyPrice <= 0) {
-            throw new \LogicException('The price cannot be negative.');
-        }
+        $this->checkPrice($weeklyPrice);
         $this->weeklyPrice = $weeklyPrice;
 
         return $this;
@@ -211,11 +217,14 @@ class Room
         return $this->monthlyPrice;
     }
 
+    /**
+     * @param int $monthlyPrice
+     * @return Room
+     * @throws PriceException
+     */
     public function setMonthlyPrice(int $monthlyPrice): self
     {
-        if ($monthlyPrice <= 0) {
-            throw new \LogicException('The price cannot be negative.');
-        }
+        $this->checkPrice($monthlyPrice);
         $this->monthlyPrice = $monthlyPrice;
 
         return $this;
@@ -277,5 +286,16 @@ class Room
         $this->featuredImage = $featuredImage;
 
         return $this;
+    }
+
+    /**
+     * @param int $price
+     * @throws PriceException
+     */
+    private function checkPrice(int $price)
+    {
+        if ($price <= 0) {
+            throw new PriceException(PriceException::PRICE_LESS_OR_EQUAL_TO_0);
+        }
     }
 }

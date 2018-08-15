@@ -30,8 +30,19 @@ booking:
     city: City
     country: Country
     addressCpl: 'Address complement'
+    bookingConfirm: 'Booking confirmation'
   btn:
     back: 'Back to results page'
     addressAdd: 'Add a billing address'
   msg:
     success: 'Your booking has been saved!'
+    customermustlog: 'You must sign in your account to continue your booking!'
+    yourorder: 'Your order # is: '
+    ordersentence: 'You will receive an order confirmation email with details of your order.'
+  error:
+    missingId: 'An error occurred! Our team has been advised!'
+  header:
+    orderConfirmed: 'Your order has been received.'
+    thankyou: 'Thank you for your purchase!'
+  link:
+    invoice: 'Your order'

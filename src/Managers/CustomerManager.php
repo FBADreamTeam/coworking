@@ -10,7 +10,7 @@ namespace App\Managers;
 
 use App\Entity\Address;
 use App\Entity\Customer;
-use App\Events\UserCreatedEvent;
+use App\Events\UserEvents;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -51,8 +51,8 @@ class CustomerManager
     {
         $this->em->persist($customer);
         $this->em->flush();
-        $event = new UserCreatedEvent($customer);
-        $this->dispatcher->dispatch(UserCreatedEvent::NAME, $event);
+        $event = new UserEvents($customer);
+        $this->dispatcher->dispatch(UserEvents::USER_CREATED, $event);
     }
 
     /**

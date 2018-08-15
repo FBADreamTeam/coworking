@@ -36,10 +36,6 @@ class AddressType extends AbstractType
                 'label' => 'booking.titles.addressCpl',
                 'required' => false
             ])
-            ->add('submit', SubmitType::class, [
-                'translation_domain' => 'booking',
-                'label' => 'booking.btn.submit'
-            ])
         ;
     }
 

@@ -202,22 +202,19 @@
                 1
             </td>
             <td>
-                {#{{ booking.totalHt}}#}
+                {{ booking.totalHTWithoutOptions|price }}
             </td>
         </tr>
         {% for option in bookingOptions %}
             <tr class="{% if (loop.last) %}item-last {% else %} item{% endif %}" >
-
-
                 <td>
-                    {{option.roomOption.label}}
+                    {{ option.roomOption.label }}
                 </td>
                 <td>
-                    {{option.quantity}}
+                    {{ option.quantity }}
                 </td>
-
                 <td>
-                    {#{{option.totalHT}}#}
+                    {{ (option.quantity * option.price)|price }}
                 </td>
             </tr>
         {% endfor %}
@@ -225,14 +222,14 @@
             <td colspan="2"></td>
 
             <td>
-                Total HT: $385.00
+                Total HT: {{ booking.totalHT|price }}
             </td>
         </tr>
         <tr class="total">
             <td colspan="2"></td>
 
             <td>
-                Total TTC: $385.00
+                Total TTC: {{ (booking.totalHT * 1.2)|price }}
             </td>
         </tr>
     </table>
