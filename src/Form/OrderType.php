@@ -32,7 +32,7 @@ class OrderType extends AbstractType
                 'translation_domain' => 'booking',
                 'label' => 'booking.btn.submit',
             ])
-            ->addEventListener(FormEvents::POST_SET_DATA, function(FormEvent $event) {
+            ->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
                 /** @var Order $order */
                 $order = $event->getData();
                 $form = $event->getForm();
@@ -41,7 +41,7 @@ class OrderType extends AbstractType
                     'expanded' => true,
                     'multiple' => false,
                     'label' => false,
-                    'query_builder' => function(AddressRepository $ar) use ($order) {
+                    'query_builder' => function (AddressRepository $ar) use ($order) {
                         return $ar->getAddressesFromCustomer($order->getBooking()->getCustomer());
                     },
                 ]);

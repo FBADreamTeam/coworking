@@ -31,7 +31,7 @@ class InvoiceController extends Controller
     {
         // we verify that the customer in the parameters is the same as the owner of the booking
         // if not, an exception is thrown
-        if ( ! BookingManager::checkBookingCustomerIsValid($booking, $this->getUser())) {
+        if (! BookingManager::checkBookingCustomerIsValid($booking, $this->getUser())) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'The customer #%d is not the same as the one from the booking (#%d)',

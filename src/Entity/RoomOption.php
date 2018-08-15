@@ -133,11 +133,9 @@ class RoomOption implements \JsonSerializable
             'label' => $this->label,
             'description' => $this->description,
             'price' => $this->price,
-            'roomTypes' => $this->roomTypes->map(function($type) {
+            'roomTypes' => $this->roomTypes->map(function ($type) {
                 return $type->getId();
             }),
         ];
     }
-
-
 }
