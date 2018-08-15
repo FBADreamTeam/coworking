@@ -8,7 +8,7 @@
 
 namespace App\Subscribers;
 
-use App\Events\OrderPlacedEvent;
+use App\Events\OrderEvents;
 use App\Notifier\Notifier;
 use App\Services\EmployeeService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -43,14 +43,14 @@ class OrderSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            OrderPlacedEvent::NAME => 'onOrderPlaced',
+            OrderEvents::ORDER_PLACED => 'onOrderPlaced',
         ];
     }
 
     /**
-     * @param OrderPlacedEvent $event
+     * @param OrderEvents $event
      */
-    public function onOrderPlaced(OrderPlacedEvent $event): void
+    public function onOrderPlaced(OrderEvents $event): void
     {
         $order = $event->getOrder();
         $customer = $order->getBooking()->getCustomer();
@@ -71,8 +71,9 @@ class OrderSubscriber implements EventSubscriberInterface
         /**
          * TODO: add order summary here with customer info.
          */
-        $subject = 'Un nouveau compte utilisateur a été créé';
+        $subject = 'Une nouvelle commande a été créé';
 
         $this->notifier->notify($subject, $message, $this->employeeService->getAllEmployees());
+        $this->notifier->log($subject, $message);
     }
 }

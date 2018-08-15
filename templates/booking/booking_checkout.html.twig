@@ -19,7 +19,10 @@
                 </button>
                 <div class="collapse" id="collapseAddress">
                     <div class="card card-body">
-                        {{ form(formAddress) }}
+                        {{ form_start(formAddress) }}
+                            {{ form_widget(formAddress) }}
+                            <button class="btn btn-primary" type="submit">{{ 'booking.btn.submit'|trans }}</button>
+                        {{ form_end(formAddress) }}
                     </div>
                 </div>
             </div>

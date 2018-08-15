@@ -11,17 +11,17 @@ namespace App\Events;
 use App\Entity\Order;
 use Symfony\Component\EventDispatcher\Event;
 
-class OrderPlacedEvent extends Event
+class OrderEvents extends Event
 {
-    const NAME = 'order.placed';
+    public const ORDER_PLACED = 'order.placed';
 
     /**
-     * @var Order $order
+     * @var Order
      */
     protected $order;
 
     /**
-     * OrderPlacedEvent constructor.
+     * OrderEvents constructor.
      * @param Order $order
      */
     public function __construct(Order $order)

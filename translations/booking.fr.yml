@@ -30,8 +30,19 @@ booking:
     city: Ville
     country: Pays
     addressCpl: Complément
+    bookingConfirm: 'Confirmation de réservation'
   btn:
     back: 'Retour'
     addressAdd: 'Ajouter une adresse de facturation'
   msg:
     success: 'Votre réservation a été sauvegardée !'
+    customermustlog: 'Vous devez vous connecter à votre compte pour continuer votre réservation !'
+    yourorder: 'Votre commande # est: '
+    ordersentence: 'Vous recevrez un e-mail de confirmation avec les détails de votre commande.'
+  error:
+    missingId: 'Une erreur est survenue ! Notre équipe a été prévenue !'
+  header:
+    orderConfirmed: 'Votre réservation a bien été enregistrée.'
+    thankyou: 'Merci de votre achat!'
+  link:
+    invoice: 'Votre commande'

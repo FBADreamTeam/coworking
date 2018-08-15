@@ -37,7 +37,7 @@ class Order
     private $booking;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Address", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Address")
      * @ORM\JoinColumn(nullable=false)
      */
     private $address;

@@ -37,7 +37,7 @@ class AddressType extends AbstractType
                 'translation_domain' => 'booking',
                 'label' => 'booking.titles.addressCpl',
                 'required' => false
-            ]);
+            ])
         ;
     }
 

@@ -4,6 +4,7 @@ namespace App\Tests\entity;
 
 use App\Entity\Booking;
 use App\Entity\Room;
+use App\Exceptions\PriceException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -26,7 +27,7 @@ class RoomTest extends TestCase
     public function testMonthlyPriceIsBiggerThanZero(): void
     {
         $room = new Room();
-        $this->expectException('LogicException');
+        $this->expectException(PriceException::class);
 
         $room->setMonthlyPrice(0);
     }
@@ -37,7 +38,7 @@ class RoomTest extends TestCase
     public function testWeeklyPriceIsBiggerThanZero(): void
     {
         $room = new Room();
-        $this->expectException('LogicException');
+        $this->expectException(PriceException::class);
 
         $room->setWeeklyPrice(0);
     }
@@ -48,7 +49,7 @@ class RoomTest extends TestCase
     public function testDailyPriceIsBiggerThanZero(): void
     {
         $room = new Room();
-        $this->expectException('LogicException');
+        $this->expectException(PriceException::class);
 
         $room->setDailyPrice(0);
     }
@@ -59,7 +60,7 @@ class RoomTest extends TestCase
     public function testHourlyPriceIsBiggerThanZero(): void
     {
         $room = new Room();
-        $this->expectException('LogicException');
+        $this->expectException(PriceException::class);
 
         $room->setHourlyPrice(0);
     }
@@ -69,17 +70,16 @@ class RoomTest extends TestCase
      *
      * @return Room
      */
-    public function testInsertBooking()
+    public function testInsertBooking(): Room
     {
         $room = new Room();
         $booking = new Booking();
         $booking2 = new Booking();
 
         $room->addBooking($booking);
-
         $this->assertCount(1, $room->getBookings());
-        $room->addBooking($booking2);
 
+        $room->addBooking($booking2);
         $this->assertCount(2, $room->getBookings());
 
         return $room;
@@ -90,11 +90,13 @@ class RoomTest extends TestCase
      *
      * @param Room $room
      */
-    public function testRemoveBookin(Room $room): void
+    public function testRemoveBooking(Room $room): void
     {
-        $room->removeBooking($room->getBookings()[0]);
+        $bookings = $room->getBookings();
+        $room->removeBooking($bookings[0]);
         $this->assertCount(1, $room->getBookings());
-        $room->removeBooking($room->getBookings()[1]);
+
+        $room->removeBooking($bookings[1]);
         $this->assertCount(0, $room->getBookings());
     }
 }

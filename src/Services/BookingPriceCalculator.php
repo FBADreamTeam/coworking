@@ -14,7 +14,7 @@ use App\Entity\BookingOptions;
 
 class BookingPriceCalculator
 {
-    const HOURS_FORMAT = 'H:i:s';
+    public const HOURS_FORMAT = 'H:i:s';
 
     /**
      * @var \DateTime
@@ -75,52 +75,32 @@ class BookingPriceCalculator
         $price = 0;
         $midnight = (new \DateTime('00:00:00'))->format(self::HOURS_FORMAT);
 
-//        dump($days);
-
         if ($days > 1) {
-//            dump($days);
-
             // months
-//            dump((int)floor($days / 20));
             $price += (int)floor($days / 20) * $booking->getRoom()->getMonthlyPrice();
             $days -= (int)floor($days / 20) * 20;
-
-//            dump($days);
 
             // weeks
             $price += (int)floor($days / 5) * $booking->getRoom()->getWeeklyPrice();
             $days -= (int)floor($days / 5) * 5;
 
-//            dump($days);
-
             // days
             $price += $days * $booking->getRoom()->getDailyPrice();
-        } else {
-//            dump($booking->getStartDate()->format(self::HOURS_FORMAT));
-//            dump($this->businessHourStart->format(self::HOURS_FORMAT));
-//            dump($booking->getEndDate()->format(self::HOURS_FORMAT));
-//            dump($this->businessHourEnd->format(self::HOURS_FORMAT));
-//            dump($booking->getStartDate()->format(self::HOURS_FORMAT) === $this->businessHourStart->format(self::HOURS_FORMAT));
-//            dump($booking->getEndDate()->format(self::HOURS_FORMAT) === $this->businessHourEnd->format(self::HOURS_FORMAT));
-//            dump($booking->getStartDate()->format(self::HOURS_FORMAT) === $midnight);
-//            dump($booking->getEndDate()->format(self::HOURS_FORMAT) === $midnight);
-            if (
-                (
-                    $booking->getStartDate()->format(self::HOURS_FORMAT) === $midnight
-                    && $booking->getEndDate()->format(self::HOURS_FORMAT) === $midnight
-                )
-                ||
-                (
-                    $booking->getStartDate()->format(self::HOURS_FORMAT) === $this->businessHourStart->format(self::HOURS_FORMAT)
-                    && $booking->getEndDate()->format(self::HOURS_FORMAT) === $this->businessHourEnd->format(self::HOURS_FORMAT)
-                )
+        } else if (
+            (
+                $booking->getStartDate()->format(self::HOURS_FORMAT) === $midnight
+                && $booking->getEndDate()->format(self::HOURS_FORMAT) === $midnight
             )
-            {
-                $price = $booking->getRoom()->getDailyPrice();
-            } else {
-                $interval = $booking->getStartDate()->diff($booking->getEndDate());
-                $price = $interval->h * $booking->getRoom()->getHourlyPrice();
-            }
+            ||
+            (
+                $booking->getStartDate()->format(self::HOURS_FORMAT) === $this->businessHourStart->format(self::HOURS_FORMAT)
+                && $booking->getEndDate()->format(self::HOURS_FORMAT) === $this->businessHourEnd->format(self::HOURS_FORMAT)
+            )
+        ) {
+            $price = $booking->getRoom()->getDailyPrice();
+        } else {
+            $interval = $booking->getStartDate()->diff($booking->getEndDate());
+            $price = $interval->h * $booking->getRoom()->getHourlyPrice();
         }
 
         return $price;

@@ -4,12 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Address;
 use App\Entity\Customer;
-use App\Events\UserCreatedEvent;
+use App\Events\UserEvents;
 use App\Form\CustomerType;
 use App\Form\CustomerLoginType;
 use App\Form\PasswordProfileType;
 use App\Managers\CustomerManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -17,7 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -79,7 +77,7 @@ class CustomerController extends Controller
             $emailCustomBdd = $customerManager->checkDuplicateEmail($emailCustom);
 
             if ($emailCustomBdd) {
-                $this->addFlash('notice', "L'email saisi est déjà enregistré");
+                $this->addFlash('error', 'L\'email saisi est déjà enregistré');
 
                 return $this->render('/profile/profile_register.html.twig', [
                     'form' => $form->createView()
@@ -94,7 +92,7 @@ class CustomerController extends Controller
                 if ($password === $passwordConfirm) {
                     $customer->setPassword($encoder->encodePassword($customer, $password));
                 } else {
-                    $this->addFlash('notice', "Les mots de passes ne sont pas identiques");
+                    $this->addFlash('error', 'Les mots de passes ne sont pas identiques');
 
                     return $this->render('/profile/profile_register.html.twig', [
                         'form' => $form->createView()
@@ -102,14 +100,9 @@ class CustomerController extends Controller
                 }
             }
 
-            $customer->setPassword($encoder->encodePassword($customer, $customer->getPassword()));
-
             $customerManager->createCustomer($customer);
 
-            $this->addFlash('success', "Votre compte a bien été créé");
-
-            $event = new UserCreatedEvent($customer);
-            $dispatcher->dispatch(UserCreatedEvent::NAME, $event);
+            $this->addFlash('success', 'Votre compte a bien été créé');
 
             return $this->redirectToRoute('profile_new');
         }
@@ -155,7 +148,7 @@ class CustomerController extends Controller
                 $duplicateEmail = $customerManager->checkDuplicateEmail($emailCustomerForm);
 
                 if ($duplicateEmail) {
-                    $this->addFlash('notice', "Le mail existe déjà. Veuillez en saisir un autre");
+                    $this->addFlash('error', 'Le mail existe déjà. Veuillez en saisir un autre');
 
                     // On récupère l'ancien Email pour ne pas perdre la connexion
                     $customer->setEmail($customerEmployee);
@@ -174,7 +167,7 @@ class CustomerController extends Controller
                 if ($password === $passwordConfirm) {
                     $customer->setPassword($encoder->encodePassword($customer, $password));
                 } else {
-                    $this->addFlash('notice', "Les mots de passes ne sont pas identiques");
+                    $this->addFlash('error', 'Les mots de passes ne sont pas identiques');
 
                     return $this->render('/profile/profile_update.html.twig', [
                         'form' => $form->createView()
@@ -184,7 +177,7 @@ class CustomerController extends Controller
 
             $customerManager->updateCustomer();
 
-            $this->addFlash('success', "Vos données on bien été modifiées");
+            $this->addFlash('success', 'Vos données on bien été modifiées');
         }
 
         return $this->render('/profile/profile_update.html.twig', [
@@ -199,6 +192,7 @@ class CustomerController extends Controller
      * @param CustomerManager $customerManager
      * @param \Swift_Mailer $mailer
      * @return Response
+     * @throws \Exception
      */
     public function forgetPassword(Request $request, CustomerManager $customerManager, \Swift_Mailer $mailer)
     {
@@ -215,10 +209,10 @@ class CustomerController extends Controller
             if ($customerManager->checkDuplicateEmail($email)) {
 
                 // on check si un token est présent
-                if ((!$customerManager->checkTokenExist($email))) {
+                if (!$customerManager->checkTokenExist($email)) {
 
                     // Génération du token
-                    $chaine = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                    $chaine = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
                     $token = md5(str_shuffle($chaine));
 
                     /** @var  Customer $customer */
@@ -236,14 +230,12 @@ class CustomerController extends Controller
                     // Envoi du mail avec le token
                     $customerManager->sendMessageGetPassword($email, $mailer, $linkResetPassword);
 
-                    $this->addFlash("success", "Votre demande a bien été prise en compte.
-                            Vous allez recevoir un email contenant la procédure à suivre pour modifier votre mote de passe. 
-                            Elle est valable durant 2 heures. ");
+                    $this->addFlash('success', 'Votre demande a bien été prise en compte. Vous allez recevoir un email contenant la procédure à suivre pour modifier votre mote de passe. Elle est valable durant 2 heures. ');
                 } else {
-                    $this->addFlash('notice', "Une demande de réinitialistion de votre mot de passe vous a déjà été envoyé");
+                    $this->addFlash('notice', 'Une demande de réinitialistion de votre mot de passe vous a déjà été envoyé');
                 }
             } else {
-                $this->addFlash('notice', "L'email saisis n'est rattaché à aucun compte");
+                $this->addFlash('error', 'L\'email saisi n\'est rattaché à aucun compte');
             }
         }
 
@@ -289,9 +281,9 @@ class CustomerController extends Controller
 
                         $customerManager->resetToken($customer);
 
-                        $this->addFlash("success", "Votre mot de passe a bien été modifié");
+                        $this->addFlash("success", 'Votre mot de passe a bien été modifié');
                     } else {
-                        $this->addFlash('notice', "Les mots de passes ne sont pas identiques");
+                        $this->addFlash('error', 'Les mots de passes ne sont pas identiques');
 
                         return $this->render('/profile/profile_register.html.twig', [
                             'form' => $form->createView()
@@ -307,11 +299,10 @@ class CustomerController extends Controller
                 // Mise à null du token pour pouvoir le réinitialiser
                 $customerManager->resetToken($customer);
 
-                $this->addFlash('notice', "Par mesure de sécurité, le validité du lien pour réinitialiser 
-                votre mot de passe a expriré. Veuillez relancer la procédure de réinitialisation.");
+                $this->addFlash('notice', 'Par mesure de sécurité, le validité du lien pour réinitialiser votre mot de passe a expriré. Veuillez relancer la procédure de réinitialisation.');
             }
         } else {
-            $this->addFlash('notice', "Une erreur a été détectée dans le processus de modification du mot de passe");
+            $this->addFlash('error', 'Une erreur a été détectée dans le processus de modification du mot de passe.');
             return $this->render('/profile/profile_password_reset.html.twig');
         }
 

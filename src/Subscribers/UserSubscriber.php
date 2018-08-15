@@ -8,7 +8,7 @@
 
 namespace App\Subscribers;
 
-use App\Events\UserCreatedEvent;
+use App\Events\UserEvents;
 use App\Notifier\Notifier;
 use App\Services\EmployeeService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -43,14 +43,14 @@ class UserSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            UserCreatedEvent::NAME => 'onUserCreated',
+            UserEvents::USER_CREATED => 'onUserCreated',
         ];
     }
 
     /**
-     * @param UserCreatedEvent $event
+     * @param UserEvents $event
      */
-    public function onUserCreated(UserCreatedEvent $event): void
+    public function onUserCreated(UserEvents $event): void
     {
         $user = $event->getUser();
         $message = 'Dear '.$user->getFirstName().', votre compte a bien été créé! Bienvenu(e) chez Dream Team Coworking!';
