@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Address;
 use App\Entity\Customer;
 use App\Events\UserEvents;
 use App\Form\CustomerType;
@@ -61,6 +62,10 @@ class CustomerController extends Controller
     ): Response {
         $customer = new Customer();
 
+        $address = new Address();
+
+        $customer->addAddress($address);
+
         $form = $this->createForm(CustomerType::class, $customer);
 
         $form->handleRequest($request);
@@ -117,7 +122,16 @@ class CustomerController extends Controller
      */
     public function updateCustomer(Request $request, CustomerManager $customerManager, UserPasswordEncoderInterface $encoder): Response
     {
+
         $customer = $this->getUser();
+
+        $addresses = iterator_to_array($customer->getAddresses());
+
+        // Si pas d'addresse on en créée une
+        if (!$addresses) {
+            $address = new Address();
+            $customer->addAddress($address);
+        }
 
         $form = $this->createForm(CustomerType::class, $customer, ['context'=>'edit']);
 
