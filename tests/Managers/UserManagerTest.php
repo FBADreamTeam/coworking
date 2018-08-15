@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Manager;
+namespace App\Tests\Managers;
 
 use App\Entity\Customer;
 use App\Managers\CustomerManager;
