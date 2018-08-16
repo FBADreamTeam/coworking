@@ -8,3 +8,6 @@
     padding-top: 120px;
     padding-bottom: 120px;
 }
+#room-list div.card {
+    width: 15rem;
+}

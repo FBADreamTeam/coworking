@@ -14,10 +14,9 @@
 {% block content %}
 
 <div id="wrapper" class="container-fluid features_col">
-    <div class="row bg-light">
-
+    <div class="row">
         <div class="col-sm-2 ">
-            <a href="{{ path('booking_index') }}" class="btn btn-info"><i class="fas fa-arrow-left pr-2"></i>{{ 'booking.btn.back'|trans }}</a>
+            <a href="{{ path('booking_index') }}" class="btn btn-primary"><i class="fas fa-arrow-left pr-2"></i>{{ 'booking.btn.back'|trans }}</a>
         </div>
         <div class="col-sm-8 text-center">
             {% if interval.d >= 1 %}
@@ -29,11 +28,11 @@
                 {% set from_label = 'booking.titles.fromHour'|trans %}
                 {% set to_label = 'booking.titles.toHour'|trans %}
             {% endif %}
-            <h2>{{ room.name }} - {{ from_label }} <span class="font-italic">{{ booking.startDate|date(date_format) }}</span>
+            <h2 class="font-weight-bold">{{ room.name }} - {{ from_label }} <span class="font-italic">{{ booking.startDate|date(date_format) }}</span>
                 {{ to_label }} <span class="font-italic">{{ booking.endDate|date(date_format) }}</span></h2>
         </div>
-        <div id="price" class="col-sm-2 text-sm-right">
-            <div class="font-weight-bold"><span id="price-placeholder">{{ booking.totalHTWithoutOptions|price }}</span><i class="fa fa-shopping-cart pl-2"></i></div>
+        <div id="price" class="col-sm-2 text-sm-right text-white">
+            <span class="font-weight-bold bg-primary p-2"><span id="price-placeholder">{{ booking.totalHTWithoutOptions|price }}</span><i class="fa fa-shopping-cart pl-2"></i></span>
         </div>
     </div>
     <div class="row pt-4">
@@ -68,7 +67,7 @@
                                                 <p>{{ option.label }}</p>
                                             </div>
                                             <div class="col-6 text-right">
-                                                <span class="p-2 bg-success text-white">{{ option.price|price }}</span>
+                                                <span class="p-2 bg-primary text-white">{{ option.price|price }}</span>
                                             </div>
                                         </div>
                                         <p>{{ option.description }}</p>
@@ -165,7 +164,7 @@
     <script src="{{ asset('/js/bootstrap-input-spinner.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js" integrity="sha256-59IZ5dbLyByZgSsRE3Z0TjDuX7e1AiqW5bZ8Bg50dsU=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js" integrity="sha256-uKe4jCg18Q60qLNG8dIei2y3ZVhcHADuEQFlpQ/hBRY=" crossorigin="anonymous"></script>
-    <script src="{{ asset('/js/booking.js') }}"></script>
+    <script src="{{ asset('/js/price_calculator.js') }}"></script>
 {% endblock %}
 
 
@@ -175,8 +174,8 @@
             // Input Spinner Setup
 
             $("input[type='number']").inputSpinner({
-                buttonsClass:   "btn-success btn-sm",
-                groupClass:     "input-group-sm w-50"
+                buttonsClass:   "btn-primary",
+                groupClass:     "w-50"
             });
 
             // Full Calendar Setup
