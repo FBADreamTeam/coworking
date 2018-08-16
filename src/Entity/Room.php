@@ -165,7 +165,9 @@ class Room
 
     /**
      * @param int $hourlyPrice
+     *
      * @return Room
+     *
      * @throws PriceException
      */
     public function setHourlyPrice(int $hourlyPrice): self
@@ -183,7 +185,9 @@ class Room
 
     /**
      * @param int $dailyPrice
+     *
      * @return Room
+     *
      * @throws PriceException
      */
     public function setDailyPrice(int $dailyPrice): self
@@ -201,7 +205,9 @@ class Room
 
     /**
      * @param int $weeklyPrice
+     *
      * @return Room
+     *
      * @throws PriceException
      */
     public function setWeeklyPrice(int $weeklyPrice): self
@@ -219,7 +225,9 @@ class Room
 
     /**
      * @param int $monthlyPrice
+     *
      * @return Room
+     *
      * @throws PriceException
      */
     public function setMonthlyPrice(int $monthlyPrice): self
@@ -290,6 +298,7 @@ class Room
 
     /**
      * @param int $price
+     *
      * @throws PriceException
      */
     private function checkPrice(int $price)

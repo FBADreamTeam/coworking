@@ -59,12 +59,12 @@ abstract class AbstractUser implements UserInterface
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     *
      */
     private $expiredToken;
 
     /**
      * AbstractUser constructor.
+     *
      * @param string|null $firstName
      * @param string|null $lastName
      * @param string|null $email
@@ -77,7 +77,6 @@ abstract class AbstractUser implements UserInterface
         $this->email = $email;
         $this->password = $password;
     }
-
 
     public function getId()
     {
@@ -154,7 +153,7 @@ abstract class AbstractUser implements UserInterface
 
     public function getFullName(): string
     {
-        return $this->getFirstName() . ' ' . $this->getLastName();
+        return $this->getFirstName().' '.$this->getLastName();
     }
 
     /**

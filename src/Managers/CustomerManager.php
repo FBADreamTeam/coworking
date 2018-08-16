@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: brahim
  * Date: 31/07/2018
- * Time: 17:29
+ * Time: 17:29.
  */
 
 namespace App\Managers;
@@ -11,16 +11,16 @@ namespace App\Managers;
 use App\Entity\Address;
 use App\Entity\Customer;
 use App\Events\UserEvents;
+use App\Repository\CustomerRepository;
+use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class CustomerManager
+class CustomerManager extends AbstractManager
 {
     /**
-     * @var EntityManagerInterface
+     * @var CustomerRepository|ObjectRepository
      */
-    private $em;
-
     private $repository;
 
     /**
@@ -30,7 +30,7 @@ class CustomerManager
 
     public function __construct(EntityManagerInterface $em, EventDispatcherInterface $dispatcher)
     {
-        $this->em = $em;
+        parent::__construct($em);
         $this->dispatcher = $dispatcher;
         $this->repository = $this->em->getRepository(Customer::class);
     }
@@ -45,7 +45,6 @@ class CustomerManager
 
     /**
      * @param Customer $customer
-     * @return void
      */
     public function createCustomer(Customer $customer): void
     {
@@ -57,7 +56,6 @@ class CustomerManager
 
     /**
      * @param Address $address
-     * @return void
      */
     public function addAddressCustomer(Address $address): void
     {
@@ -65,9 +63,6 @@ class CustomerManager
         $this->em->flush();
     }
 
-    /**
-     * @return void
-     */
     public function updateCustomer(): void
     {
         $this->em->flush();
@@ -75,7 +70,6 @@ class CustomerManager
 
     /**
      * @param Address $address
-     * @return void
      */
     public function deleteAddressCustomer(Address $address): void
     {
@@ -84,33 +78,39 @@ class CustomerManager
     }
 
     /**
-     * Gestion des doublons par email
+     * Gestion des doublons par email.
+     *
      * @param string $email
+     *
      * @return bool
      */
     public function checkDuplicateEmail(string $email): bool
     {
-        return $this->repository->findByEmail($email) ? true : false;
+        return $this->repository->findBy(['email' => $email]) ? true : false;
     }
 
     /**
      * @param string $email
+     *
      * @return bool
      */
     public function checkTokenExist(string $email): bool
     {
-        $customer = $this->repository->findOneBy(['email'=>$email]);
+        /** @var Customer $customer */
+        $customer = $this->repository->findOneBy(['email' => $email]);
 
         return $customer->getToken() ? true : false;
     }
 
     /**
-     * @param int $id
+     * @param int    $id
      * @param string $token
+     *
      * @return bool
      */
     public function checkTokenValid(int $id, string $token): bool
     {
+        /** @var Customer $customer */
         $customer = $this->repository->find($id);
 
         return ($customer->getToken() === $token) ? true : false;
@@ -118,7 +118,7 @@ class CustomerManager
 
     /**
      * @param Customer $customer
-     * @param string $token
+     * @param string   $token
      */
     public function insertToken(Customer $customer, string $token): void
     {
@@ -146,9 +146,10 @@ class CustomerManager
     }
 
     /**
-     * @param string $email
+     * @param string        $email
      * @param \Swift_Mailer $mailer
-     * @param string $linkResetPassword
+     * @param string        $linkResetPassword
+     *
      * @throws \Exception
      */
     public function sendMessageGetPassword(string $email, \Swift_Mailer $mailer, string $linkResetPassword)
@@ -157,9 +158,9 @@ class CustomerManager
             ->setFrom('contact@dtcw.xyz')
             ->setTo($email)
             ->setBody(
-                "Bonjour," . PHP_EOL .
-                "Veuillez cliquer sur le lien suivant pour réinitialiser votre mot de passe. Le lien est valide durant 2 heures." . PHP_EOL .
-                '<a href="' . $linkResetPassword . '">Réinitialiser votre mot depasse</a>'
+                'Bonjour,'.PHP_EOL.
+                'Veuillez cliquer sur le lien suivant pour réinitialiser votre mot de passe. Le lien est valide durant 2 heures.'.PHP_EOL.
+                '<a href="'.$linkResetPassword.'">Réinitialiser votre mot depasse</a>'
             );
 
         try {

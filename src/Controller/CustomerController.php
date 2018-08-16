@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Address;
 use App\Entity\Customer;
-use App\Events\UserEvents;
 use App\Form\CustomerType;
 use App\Form\CustomerLoginType;
 use App\Form\PasswordProfileType;
@@ -21,10 +20,11 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class CustomerController extends Controller
 {
-
     /**
      * @Route("/profile/login", name="profile_login")
+     *
      * @param AuthenticationUtils $authenticationUtils
+     *
      * @return RedirectResponse|Response
      */
     public function login(AuthenticationUtils $authenticationUtils)
@@ -34,7 +34,7 @@ class CustomerController extends Controller
         }
 
         $form = $this->createForm(CustomerLoginType::class, [
-            'email' => $authenticationUtils->getLastUsername()
+            'email' => $authenticationUtils->getLastUsername(),
         ]);
 
         // Récupération du message d'erreur
@@ -42,16 +42,18 @@ class CustomerController extends Controller
 
         return $this->render('/profile/profile_login.html.twig', [
             'form' => $form->createView(),
-            'error' => $error
+            'error' => $error,
         ]);
     }
 
     /**
      * @Route("/profile/new", name="profile_new")
-     * @param Request $request
+     *
+     * @param Request                      $request
      * @param UserPasswordEncoderInterface $encoder
-     * @param EventDispatcherInterface $dispatcher
-     * @param CustomerManager $customerManager
+     * @param EventDispatcherInterface     $dispatcher
+     * @param CustomerManager              $customerManager
+     *
      * @return Response
      */
     public function addCustomer(
@@ -80,7 +82,7 @@ class CustomerController extends Controller
                 $this->addFlash('error', 'L\'email saisi est déjà enregistré');
 
                 return $this->render('/profile/profile_register.html.twig', [
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
                 ]);
             }
 
@@ -95,7 +97,7 @@ class CustomerController extends Controller
                     $this->addFlash('error', 'Les mots de passes ne sont pas identiques');
 
                     return $this->render('/profile/profile_register.html.twig', [
-                        'form' => $form->createView()
+                        'form' => $form->createView(),
                     ]);
                 }
             }
@@ -108,16 +110,17 @@ class CustomerController extends Controller
         }
 
         return $this->render('/profile/profile_register.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
     /**
      * @Route("/profile/update", name="profile_update")
      *
-     * @param Request $request
-     * @param CustomerManager $customerManager
+     * @param Request                      $request
+     * @param CustomerManager              $customerManager
      * @param UserPasswordEncoderInterface $encoder
+     *
      * @return Response
      */
     public function updateCustomer(Request $request, CustomerManager $customerManager, UserPasswordEncoderInterface $encoder): Response
@@ -132,7 +135,7 @@ class CustomerController extends Controller
             $customer->addAddress($address);
         }
 
-        $form = $this->createForm(CustomerType::class, $customer, ['context'=>'edit']);
+        $form = $this->createForm(CustomerType::class, $customer, ['context' => 'edit']);
 
         $customerEmployee = $customer->getEmail(); // Mail du user en Bdd
 
@@ -141,7 +144,6 @@ class CustomerController extends Controller
         $emailCustomerForm = $customer->getEmail();
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             // Gestion des doublons emails
             if ($customerEmployee !== $emailCustomerForm) {
                 $duplicateEmail = $customerManager->checkDuplicateEmail($emailCustomerForm);
@@ -153,7 +155,7 @@ class CustomerController extends Controller
                     $customer->setEmail($customerEmployee);
 
                     return $this->render('/profile/profile_update.html.twig', [
-                        'form' => $form->createView()
+                        'form' => $form->createView(),
                     ]);
                 }
             }
@@ -169,7 +171,7 @@ class CustomerController extends Controller
                     $this->addFlash('error', 'Les mots de passes ne sont pas identiques');
 
                     return $this->render('/profile/profile_update.html.twig', [
-                        'form' => $form->createView()
+                        'form' => $form->createView(),
                     ]);
                 }
             }
@@ -180,24 +182,26 @@ class CustomerController extends Controller
         }
 
         return $this->render('/profile/profile_update.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
     /**
      * @Route("/profile/password/forget", name="profile_password_forget")
      *
-     * @param Request $request
+     * @param Request         $request
      * @param CustomerManager $customerManager
-     * @param \Swift_Mailer $mailer
+     * @param \Swift_Mailer   $mailer
+     *
      * @return Response
+     *
      * @throws \Exception
      */
     public function forgetPassword(Request $request, CustomerManager $customerManager, \Swift_Mailer $mailer)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $form = $this->createForm(PasswordProfileType::class, null, ['context' => "create"]);
+        $form = $this->createForm(PasswordProfileType::class, null, ['context' => 'create']);
 
         $form->handleRequest($request);
 
@@ -206,15 +210,13 @@ class CustomerController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // On check que l'email est dans la bdd
             if ($customerManager->checkDuplicateEmail($email)) {
-
                 // on check si un token est présent
                 if (!$customerManager->checkTokenExist($email)) {
-
                     // Génération du token
                     $chaine = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
                     $token = md5(str_shuffle($chaine));
 
-                    /** @var  Customer $customer */
+                    /** @var Customer $customer */
                     $customer = $em->getRepository(Customer::class)
                         ->findOneBy(['email' => $email]);
 
@@ -239,32 +241,31 @@ class CustomerController extends Controller
         }
 
         return $this->render('/profile/profile_password.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
     /**
      * @Route("/profile/password/update/{id}/{token}", name="profile_password_update")
      *
-     * @param Customer $customer
-     * @param string $token
-     * @param CustomerManager $customerManager
-     * @param Request $request
+     * @param Customer                     $customer
+     * @param string                       $token
+     * @param CustomerManager              $customerManager
+     * @param Request                      $request
      * @param UserPasswordEncoderInterface $encoder
+     *
      * @return Response
      */
     public function updatePassword(Customer $customer, $token, CustomerManager $customerManager, Request $request, UserPasswordEncoderInterface $encoder)
     {
         // On vérifi que le token en GET soit identique en bdd
         if ($customerManager->checkTokenValid($customer->getId(), $token)) {
-
             // on vérifi que le token est encore valide en vérifiant la date d'expiration
             $dateToday = new \DateTime();
             $dateExpiredToken = $customer->getExpiredToken();
 
             // on check si une demande n'a pas déjà été envoyée
             if ($dateToday < $dateExpiredToken) {
-
                 // On affiche le formulaire de changement de password et on le traite
                 $form = $this->createForm(PasswordProfileType::class, null, ['context' => 'edit']);
                 $form->handleRequest($request);
@@ -280,21 +281,20 @@ class CustomerController extends Controller
 
                         $customerManager->resetToken($customer);
 
-                        $this->addFlash("success", 'Votre mot de passe a bien été modifié');
+                        $this->addFlash('success', 'Votre mot de passe a bien été modifié');
                     } else {
                         $this->addFlash('error', 'Les mots de passes ne sont pas identiques');
 
                         return $this->render('/profile/profile_register.html.twig', [
-                            'form' => $form->createView()
+                            'form' => $form->createView(),
                         ]);
                     }
                 }
 
                 return $this->render('/profile/profile_password_reset.html.twig', [
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
                 ]);
             } else {
-
                 // Mise à null du token pour pouvoir le réinitialiser
                 $customerManager->resetToken($customer);
 
@@ -302,6 +302,7 @@ class CustomerController extends Controller
             }
         } else {
             $this->addFlash('error', 'Une erreur a été détectée dans le processus de modification du mot de passe.');
+
             return $this->render('/profile/profile_password_reset.html.twig');
         }
 

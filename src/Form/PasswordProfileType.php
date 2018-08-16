@@ -13,30 +13,30 @@ class PasswordProfileType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($options['context'] == 'create') {
+        if ('create' == $options['context']) {
             $builder
                 ->add('email', EmailType::class, [
                 ]);
         }
 
-        if ($options['context'] == 'edit') {
+        if ('edit' == $options['context']) {
             $builder
                 ->add('password', PasswordType::class, [
                     'label' => 'Saisissez votre nouveau mot de passe',
                     'attr' => [
-                        'minlength' => 8
-                    ]
+                        'minlength' => 8,
+                    ],
                 ])
                 ->add('password_confirm', PasswordType::class, [
                     'label' => 'Saisissez une nouvelle foi votre mot de passe',
                     'attr' => [
-                        'minlength' => 8
-                    ]
+                        'minlength' => 8,
+                    ],
                 ]);
         }
 
         $builder->add('submit', SubmitType::class, [
-            'label' => 'Envoyer'
+            'label' => 'Envoyer',
         ]);
     }
 
@@ -44,7 +44,7 @@ class PasswordProfileType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => null,
-            'context' => ''
+            'context' => '',
         ]);
     }
 }

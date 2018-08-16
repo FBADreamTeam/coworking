@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: Etudiant0
  * Date: 02/07/2018
- * Time: 11:27
+ * Time: 11:27.
  */
 
 namespace App\Form;
@@ -23,17 +23,17 @@ class CustomerLoginType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Email'
-                ]
+                    'placeholder' => 'Email',
+                ],
             ])
             ->add('password', PasswordType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => '********'
-                ]
+                    'placeholder' => '********',
+                ],
             ])
             ->add('submit', SubmitType::class, [
-               'label' => 'Connexion'
+               'label' => 'Connexion',
             ])
         ;
     }
@@ -44,9 +44,10 @@ class CustomerLoginType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => null
+            'data_class' => null,
         ]);
     }
+
     /**
      * @return null|string
      */

@@ -111,6 +111,7 @@ class RoomFormType extends AbstractType
 
     /**
      * Définir les options par défaut pour le formulaire.
+     *
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)

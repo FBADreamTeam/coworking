@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: Fried
  * Date: 25/07/2018
- * Time: 16:48
+ * Time: 16:48.
  */
 
 namespace App\Events;
@@ -22,6 +22,7 @@ class OrderEvents extends Event
 
     /**
      * OrderEvents constructor.
+     *
      * @param Order $order
      */
     public function __construct(Order $order)

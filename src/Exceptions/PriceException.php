@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: Fried
  * Date: 15/08/2018
- * Time: 17:28
+ * Time: 17:28.
  */
 
 namespace App\Exceptions;
@@ -14,6 +14,7 @@ class PriceException extends \Exception
 
     /**
      * PriceException constructor.
+     *
      * @param string $message
      */
     public function __construct(string $message = '')

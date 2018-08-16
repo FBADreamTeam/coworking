@@ -19,16 +19,16 @@ class BookingType extends AbstractType
     {
         $builder
             ->add('startDate', DateType::class, [
-                'translation_domain'    => 'admin',
-                'label'                 => 'admin.forms.booking.start_date'
+                'translation_domain' => 'admin',
+                'label' => 'admin.forms.booking.start_date',
             ])
             ->add('endDate', DateType::class, [
-                'translation_domain'    => 'admin',
-                'label'                 => 'admin.forms.booking.end_date'
+                'translation_domain' => 'admin',
+                'label' => 'admin.forms.booking.end_date',
             ])
             ->add('room', EntityType::class, [
-                'class'         => Room::class,
-                'choice_label'  => 'name',
+                'class' => Room::class,
+                'choice_label' => 'name',
                 'query_builder' => function (EntityRepository $repo) use ($options) {
                     return $repo
                         ->createQueryBuilder('r')
@@ -39,14 +39,14 @@ class BookingType extends AbstractType
                 },
             ])
             ->add('customer', EntityType::class, [
-                'class'                 => Customer::class,
-                'choice_label'          => 'fullName',
-                'translation_domain'    => 'admin',
-                'label'                 => 'admin.forms.booking.customer',
+                'class' => Customer::class,
+                'choice_label' => 'fullName',
+                'translation_domain' => 'admin',
+                'label' => 'admin.forms.booking.customer',
             ])
             ->add('submit', SubmitType::class, [
-                'translation_domain'    => 'admin',
-                'label'                 => 'admin.forms.btn.submit',
+                'translation_domain' => 'admin',
+                'label' => 'admin.forms.btn.submit',
             ])
         ;
     }
@@ -54,7 +54,7 @@ class BookingType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class'    => Booking::class,
+            'data_class' => Booking::class,
             'room_category' => 'Bureau',
         ]);
     }
