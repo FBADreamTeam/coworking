@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: Fried
  * Date: 25/07/2018
- * Time: 16:51
+ * Time: 16:51.
  */
 
 namespace App\Events;
@@ -16,12 +16,13 @@ class UserEvents extends Event
     public const USER_CREATED = 'user.created';
 
     /**
-     * @var AbstractUser $user
+     * @var AbstractUser
      */
     protected $user;
 
     /**
      * UserEvents constructor.
+     *
      * @param AbstractUser $user
      */
     public function __construct(AbstractUser $user)

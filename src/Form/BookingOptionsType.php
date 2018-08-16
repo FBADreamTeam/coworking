@@ -14,9 +14,9 @@ class BookingOptionsType extends AbstractType
     {
         $builder
             ->add('quantity', IntegerType::class, [
-                'label'     => false,
-                'required'  => false,
-                'attr'      => ['class' => 'btn-sm'],
+                'label' => false,
+                'required' => false,
+                'attr' => ['class' => 'btn-sm'],
             ])
         ;
     }

@@ -10,7 +10,6 @@ namespace App\Controller;
 
 use App\Entity\Address;
 use App\Entity\Booking;
-use App\Entity\BookingOptions;
 use App\Entity\Customer;
 use App\Entity\Order;
 use App\Entity\Room;
@@ -19,12 +18,12 @@ use App\Events\OrderEvents;
 use App\Form\AddressType;
 use App\Form\BookingAddOptionsType;
 use App\Form\OrderType;
+use App\Managers\AddressManager;
 use App\Managers\BookingManager;
+use App\Managers\OrderManager;
 use App\Managers\RoomManager;
-use App\Services\BookingPriceCalculator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,7 +42,9 @@ class BookingController extends Controller
 {
     /**
      * @Route("/", name="booking_index")
+     *
      * @param SessionInterface $session
+     *
      * @return Response
      */
     public function index(SessionInterface $session): Response
@@ -78,12 +79,10 @@ class BookingController extends Controller
     public function filter(Request $request, RoomManager $roomManager)
     {
         if ($request->isXmlHttpRequest()) {
-            // Filter rooms by availability
             $data = [];
-
             // get all types of rooms
             $types = $this->getDoctrine()->getRepository(RoomType::class)->findAll();
-
+            // Filter rooms by availability
             /** @var RoomType $type */
             foreach ($types as $type) {
                 $data[$type->getId()] = $roomManager->filterByType($type, $request->get('startDate'), $request->get('endDate'));
@@ -93,96 +92,79 @@ class BookingController extends Controller
         }
 
         $this->addFlash('notice', 'Sorry, unauthorized action');
+
         return $this->redirectToRoute('booking_index');
     }
 
     /**
      * @Route("/options", name="booking_options")
      *
-     * @param Request $request
-     * @param SessionInterface $session
-     *
-     * @param BookingManager $bookingManager
+     * @param Request             $request
+     * @param SessionInterface    $session
+     * @param BookingManager      $bookingManager
      * @param SerializerInterface $serializer
      * @param TranslatorInterface $translator
+     *
      * @return JsonResponse|Response
+     *
      * @throws \Exception
      */
     public function selectOptions(Request $request, SessionInterface $session, BookingManager $bookingManager, SerializerInterface $serializer, TranslatorInterface $translator)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        // request comes from calendar view, expects an url
+        // Request comes from calendar view, expects an url
         if ($request->isXmlHttpRequest() && $request->isMethod('POST')) {
             // set the room and date values in session
             $this->setSessionKeys($session, $request->get('roomId'), $request->get('startDate'), $request->get('endDate'));
 
-            // return url to form
+            // Return url to form
             return new JsonResponse(['url' => $this->generateUrl('booking_options')]);
         }
 
-        // request comes from redirecting from ajax, expects a form
-        if (! $request->isXmlHttpRequest() && $request->isMethod('GET')) {
-            // create a Booking from a room and dates
-            $booking = $bookingManager->createBookingFromRoomAndDates(
-                (int)$session->get('roomId'),
+        // Request comes from redirecting from ajax, expects a form
+        if (!$request->isXmlHttpRequest() && $request->isMethod('GET')) {
+            // Create a Booking from a room and dates
+            $booking = $bookingManager->createBookingAndCalculatePriceWithoutOptions(
+                (int) $session->get('roomId'),
                 $session->get('startDate'),
                 $session->get('endDate')
             );
-            // set the available options from the room
-            $bookingManager->createBookingOptions($booking);
-            // calculate the basic price from the selected dates of the booking
-            $bookingManager->calculatePriceWithoutOptions($booking);
-
+            // Get the start and end dates from the session as DateTime instances
             $startDateTime = new \DateTime($session->get('startDate'));
             $endDateTime = new \DateTime($session->get('endDate'));
-
+            // Create the form
             $form = $this->createForm(BookingAddOptionsType::class, $booking);
-
+            // Render the template
             return $this->render('booking/options_form.html.twig', [
-                'interval'          => $startDateTime->diff($endDateTime),
-                'room'              => $booking->getRoom(),
-                'booking'           => $booking,
-                'encodedOptions'    => $serializer->serialize($booking->getRoomOptionsAsHashedArray(), 'json', ['groups' => 'options']),
-                'form'              => $form->createView(),
+                'interval' => $startDateTime->diff($endDateTime),
+                'room' => $booking->getRoom(),
+                'booking' => $booking,
+                'encodedOptions' => $serializer->serialize($booking->getRoomOptionsAsHashedArray(), 'json', ['groups' => 'options']),
+                'form' => $form->createView(),
             ]);
         }
 
-        // request comes from POST, payload is a form with booking options
+        // Request comes from POST, payload is a form with booking options
         if (!$request->isXmlHttpRequest() && $request->isMethod('POST')) {
+            // Create a Booking from a room and dates
             $booking = $bookingManager->createBookingAndCalculatePriceWithoutOptions(
-                (int)$session->get('roomId'),
+                (int) $session->get('roomId'),
                 $session->get('startDate'),
                 $session->get('endDate')
             );
-
+            // Create the form and handle the request
             $form = $this->createForm(BookingAddOptionsType::class, $booking)
                 ->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $bookingManager->calculateHTPrice($booking);
-
-                /*
-                 * Here, we have a Booking with Options and a final price.
-                 * We now need to redirect the customers to the checkout page,
-                 * where they will be able to verify their booking and select / add
-                 * addresses.
-                 * But first, Booking goes to the datatbase, then its id is recovered and set to the session !
-                 */
-
-                /*
-                 * TODO: Set a specific status for the Booking entity (pending?) and a ttl to automatically remove the booking if it isn't purchased.
-                 */
-
-                $em->persist($booking);
-                $em->flush();
-                $em->refresh($booking);
+                // Handle the request and calculate the price
+                $bookingManager->handleCreateRequest($booking);
+                // Set the booking id in the session for further use
                 $session->set('booking_id', $booking->getId());
-
+                // If customer is not already logged in, add a message flash before the Security redirection
                 if (null === $this->getUser()) {
                     $this->addFlash('notice', $translator->trans('booking.msg.customermustlog', [], 'booking'));
                 }
-
+                // Redirect to checkout
                 return $this->redirectToRoute('booking_checkout');
             }
         }
@@ -194,66 +176,59 @@ class BookingController extends Controller
     /**
      * @Route("/checkout", name="booking_checkout")
      *
-     * @param Request $request
-     * @param SessionInterface $session
-     * @param EventDispatcherInterface $dispatcher
+     * @param Request             $request
+     * @param SessionInterface    $session
+     * @param BookingManager      $bookingManager
+     * @param AddressManager      $addressManager
+     * @param OrderManager        $orderManager
      * @param TranslatorInterface $translator
+     *
      * @return Response
      */
-    public function bookingCheckout(Request $request, SessionInterface $session, EventDispatcherInterface $dispatcher, TranslatorInterface $translator): Response
+    public function bookingCheckout(Request $request, SessionInterface $session, BookingManager $bookingManager, AddressManager $addressManager, OrderManager $orderManager, TranslatorInterface $translator): Response
     {
+        // Get the customer
+        /** @var Customer $customer */
         $customer = $this->getUser();
 
-        if ((null === $customer) || (! $customer instanceof Customer)) {
-            throw new \LogicException('A Customer instance is required.');
-        }
-
-        $bookingId = $session->get('booking_id');
-
-        if (null === $bookingId) {
+        // Try to get a booking from the id in the session and add to it the current customer
+        try {
+            $booking = $bookingManager->getBookingFromIdWithCustomer(
+                (int) $session->get('booking_id'),
+                $customer
+            );
+        } catch (\Exception $e) {
             $this->addFlash('notice', $translator->trans('booking.error.missingId', [], 'booking'));
+
             return $this->redirectToRoute('booking_index');
         }
 
-        $em = $this->getDoctrine()->getManager();
-
-        /** @var Booking $booking */
-        $booking = $em->getRepository(Booking::class)->find($bookingId);
-        $booking->setCustomer($customer);
-
-        $address = new Address();
-        $address->setCustomer($customer);
-
-        $formAddress = $this->createForm(AddressType::class, $address);
-        $formAddress->handleRequest($request);
+        // Create a new address and attach the current customer to it
+        $address = $addressManager->getNewAddressWithCustomer($customer);
+        // Create the form with the new address and handle the request
+        $formAddress = $this->createForm(AddressType::class, $address)
+            ->handleRequest($request);
 
         if ($formAddress->isSubmitted() && $formAddress->isValid()) {
-            $customer->addAddress($address);
-            $em->persist($address);
-            $em->persist($customer);
-            $em->flush();
+            // Handle the request, persist the new address and add it to the current customer
+            $addressManager->handleCreateRequest($address);
+            // Redirect to the current checkout
             return $this->redirectToRoute('booking_checkout');
         }
 
-        $order = new Order();
-        $order->setBooking($booking);
-        $order->setDate(new \DateTime());
-        $order->setTotalHT($booking->getTotalHT());
-
-        $formOrder = $this->createForm(OrderType::class, $order);
-        $formOrder->handleRequest($request);
+        // Create a new order from the booking
+        $order = $orderManager->createOrderFromBooking($booking);
+        // Create the form with the new order and handle the request
+        $formOrder = $this->createForm(OrderType::class, $order)
+            ->handleRequest($request);
 
         if ($formOrder->isSubmitted() && $formOrder->isValid()) {
-            $em->persist($booking);
-            $em->persist($order);
-            $em->flush();
-
-            $orderEvent = new OrderEvents($order);
-            $dispatcher->dispatch(OrderEvents::ORDER_PLACED, $orderEvent);
-
+            // Handle the request, persist the order and dispatch an OrderEvents::ORDER_PLACED event
+            $orderManager->handleCreateRequest($order);
+            // Redirect to the confirmation view
             return $this->redirectToRoute('booking_confirm', ['id' => $booking->getId()]);
         }
-
+        // Render the checkout view
         return $this->render('booking/booking_checkout.html.twig', [
             'booking' => $booking,
             'formAddress' => $formAddress->createView(),
@@ -267,23 +242,27 @@ class BookingController extends Controller
      * @IsGranted("ROLE_USER")
      *
      * @param Booking $booking
+     *
      * @return Response
      */
     public function bookingConfirm(Booking $booking): Response
     {
-        if (! BookingManager::checkBookingCustomerIsValid($booking, $this->getUser())) {
+        // Check if the customer in the booking is the same as the one logged in
+        if (!BookingManager::checkBookingCustomerIsValid($booking, $this->getUser())) {
             $this->addFlash('error', 'customer.invalid');
+
             return $this->redirectToRoute('index');
         }
-
+        // Render the confirmation view
         return $this->render('booking/booking_confirm.html.twig', [
             'booking' => $booking,
         ]);
     }
 
     /**
+     * Removes all the session keys associated with a booking.
+     *
      * @param SessionInterface $session
-     * @return void
      */
     private function cleanSession(SessionInterface $session): void
     {
@@ -294,11 +273,12 @@ class BookingController extends Controller
     }
 
     /**
+     * Sets the session keys/values associated with a booking.
+     *
      * @param SessionInterface $session
-     * @param int|null $roomId
-     * @param string|null $startDate
-     * @param string|null $endDate
-     * @return void
+     * @param int|null         $roomId
+     * @param string|null      $startDate
+     * @param string|null      $endDate
      */
     private function setSessionKeys(
         SessionInterface $session,

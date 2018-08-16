@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: brahim
  * Date: 02/08/2018
- * Time: 12:23
+ * Time: 12:23.
  */
 
 namespace App\Controller\Admin;
@@ -25,15 +25,15 @@ use App\Managers\CustomerManager;
 /**
  * @Route("/_secure")
  * Class AdminController
- * @package App\Controller\Admin
  */
 class CustomerController extends Controller
 {
-
     /**
      * @Route("/customer/list", name="admin_customer_list")
      * @@Security("has_role('ROLE_ADMIN')")
+     *
      * @param CustomerManager $customerManager
+     *
      * @return Response
      */
     public function listCustomer(CustomerManager $customerManager): Response
@@ -41,7 +41,7 @@ class CustomerController extends Controller
         $customers = $customerManager->listCustomer();
 
         return $this->render('/admin/customer/list_customer.html.twig', [
-            'customers' => $customers
+            'customers' => $customers,
         ]);
     }
 
@@ -49,10 +49,11 @@ class CustomerController extends Controller
      * @Route("/customer/edit/{id}", name="admin_customer_edit")
      * @@Security("has_role('ROLE_ADMIN')")
      *
-     * @param Customer $customer
-     * @param Request $request
+     * @param Customer                     $customer
+     * @param Request                      $request
      * @param UserPasswordEncoderInterface $encoder
-     * @param CustomerManager $customerManager
+     * @param CustomerManager              $customerManager
+     *
      * @return RedirectResponse|Response
      */
     public function editCustomer(Customer $customer, Request $request, UserPasswordEncoderInterface $encoder, CustomerManager $customerManager)
@@ -66,17 +67,16 @@ class CustomerController extends Controller
         $emailCustomerForm = $customer->getEmail(); // Mail du user saisi dans le formulaire
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             // Gestion des doublons
 
             if ($customerEmployee !== $emailCustomerForm) {
                 $duplicateEmail = $customerManager->checkDuplicateEmail($emailCustomerForm);
 
                 if ($duplicateEmail) {
-                    $this->addFlash('notice', "Le mail existe déjà");
+                    $this->addFlash('notice', 'Le mail existe déjà');
 
                     return $this->render('/admin/customer/edit_customer.html.twig', [
-                        'form' => $form->createView()
+                        'form' => $form->createView(),
                     ]);
                 }
             }
@@ -89,10 +89,10 @@ class CustomerController extends Controller
                 if ($password === $passwordConfirm) {
                     $customer->setPassword($encoder->encodePassword($customer, $password));
                 } else {
-                    $this->addFlash('notice', "Les mots de passes ne sont pas identiques");
+                    $this->addFlash('notice', 'Les mots de passes ne sont pas identiques');
 
                     return $this->render('/admin/customer/edit_customer.html.twig', [
-                        'form' => $form->createView()
+                        'form' => $form->createView(),
                     ]);
                 }
             }
@@ -105,7 +105,7 @@ class CustomerController extends Controller
         }
 
         return $this->render('/admin/customer/edit_customer.html.twig', [
-            'form' => $form->createview()
+            'form' => $form->createview(),
         ]);
     }
 
@@ -115,9 +115,11 @@ class CustomerController extends Controller
      *
      * @ParamConverter("customer", options={"mapping": {"id_customer": "id"}})
      * @ParamConverter("address", options={"mapping": {"id_address": "id"}})
-     * @param Address $address
-     * @param Request $request
+     *
+     * @param Address         $address
+     * @param Request         $request
      * @param CustomerManager $customerManager
+     *
      * @return RedirectResponse|Response
      */
     public function editAddressCustomer(Address $address, Request $request, CustomerManager $customerManager)
@@ -135,7 +137,7 @@ class CustomerController extends Controller
         }
 
         return $this->render('/admin/customer/edit_address.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -144,9 +146,10 @@ class CustomerController extends Controller
      * @@Security("has_role('ROLE_ADMIN')")
      * @ParamConverter("customer", options={"mapping": {"id_customer": "id"}})
      *
-     * @param Customer $customer
-     * @param Request $request
+     * @param Customer        $customer
+     * @param Request         $request
      * @param CustomerManager $customerManager
+     *
      * @return RedirectResponse|Response
      */
     public function addAddressCustomer(Customer $customer, Request $request, CustomerManager $customerManager)
@@ -167,7 +170,7 @@ class CustomerController extends Controller
         }
 
         return $this->render('/admin/customer/add_address.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -176,8 +179,9 @@ class CustomerController extends Controller
      * @@Security("has_role('ROLE_ADMIN')")
      * @ParamConverter("address", options={"mapping": {"id": "id"}})
      *
-     * @param Address $address
+     * @param Address         $address
      * @param CustomerManager $customerManager
+     *
      * @return RedirectResponse
      */
     public function deleteAddressCustomer(Address $address, CustomerManager $customerManager): RedirectResponse

@@ -9,13 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class RoomManager
+class RoomManager extends AbstractManager
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
-
     /**
      * @var ImageUploader
      */
@@ -30,19 +25,18 @@ class RoomManager
      * RoomManager constructor.
      *
      * @param EntityManagerInterface $em
-     * @param ImageUploader $uploader
-     * @param SerializerInterface $serializer
+     * @param ImageUploader          $uploader
+     * @param SerializerInterface    $serializer
      */
     public function __construct(EntityManagerInterface $em, ImageUploader $uploader, SerializerInterface $serializer)
     {
-        $this->em = $em;
+        parent::__construct($em);
         $this->uploader = $uploader;
         $this->serializer = $serializer;
     }
 
     /**
      * @param Room $room
-     * @return void
      */
     public function createRoom(Room $room): void
     {
@@ -55,7 +49,6 @@ class RoomManager
 
     /**
      * @param Room $room
-     * @return void
      */
     public function editRoom(Room $room): void
     {
@@ -76,16 +69,15 @@ class RoomManager
 
     /**
      * @param Room $room
-     * @return void
      */
     public function uploadImage(Room $room): void
     {
         // if we have an UploadedFile, user wants to update the featured image
         if ($room->getFeaturedImage() instanceof UploadedFile) {
             // we check if the article already has a featured image
-            if (file_exists($this->uploader->getDirectory() . $room->getFeaturedImage()) && is_file($this->uploader->getDirectory() . $room->getFeaturedImage())) {
+            if (file_exists($this->uploader->getDirectory().$room->getFeaturedImage()) && is_file($this->uploader->getDirectory().$room->getFeaturedImage())) {
                 // if it exists, we delete it
-                unlink($this->uploader->getDirectory() . $room->getFeaturedImage());
+                unlink($this->uploader->getDirectory().$room->getFeaturedImage());
             }
             // Uploads the file
             $this->uploader->upload($room, 'featuredImage', 'name');
@@ -94,8 +86,9 @@ class RoomManager
 
     /**
      * @param RoomType $type
-     * @param string $startDate
-     * @param string $endDate
+     * @param string   $startDate
+     * @param string   $endDate
+     *
      * @return mixed
      */
     public function filterByType(RoomType $type, string $startDate, string $endDate)
@@ -119,7 +112,7 @@ class RoomManager
             ->setParameters([
                 'type' => $type,
                 'startDate' => $startDate,
-                'endDate' => $endDate
+                'endDate' => $endDate,
             ])
             ->orderBy('r.id')
             ->getQuery()
@@ -131,6 +124,7 @@ class RoomManager
     /**
      * @param string $startDate
      * @param string $endDate
+     *
      * @return mixed
      */
     public function filter(string $startDate, string $endDate)
@@ -152,7 +146,7 @@ class RoomManager
             ->where('(b.startDate >= :endDate AND b.endDate <= :startDate) OR (b.startDate IS NULL AND b.endDate IS NULL)')
             ->setParameters([
                 'startDate' => $startDate,
-                'endDate' => $endDate
+                'endDate' => $endDate,
             ])
             ->orderBy('r.roomType')
             ->getQuery()
@@ -165,6 +159,7 @@ class RoomManager
 
     /**
      * @param array $data
+     *
      * @return string
      */
     public function serialize(array $data): string

@@ -23,6 +23,7 @@ class BookingOptions implements \JsonSerializable
      * @ORM\Column(type="integer")
      * @Assert\GreaterThanOrEqual(value="1", message="admin.booking_options.quantity.greater_than")
      * @Groups({"filter", "options"})
+     *
      * @var int
      */
     private $quantity;
@@ -31,6 +32,7 @@ class BookingOptions implements \JsonSerializable
      * @ORM\ManyToOne(targetEntity="App\Entity\RoomOption")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"filter", "options"})
+     *
      * @var RoomOption
      */
     private $roomOption;
@@ -38,6 +40,7 @@ class BookingOptions implements \JsonSerializable
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Booking", inversedBy="bookingOptions")
      * @ORM\JoinColumn(nullable=false)
+     *
      * @var Booking
      */
     private $booking;
@@ -90,7 +93,8 @@ class BookingOptions implements \JsonSerializable
     }
 
     /**
-     * Shortcut to get the RoomOption label directly
+     * Shortcut to get the RoomOption label directly.
+     *
      * @return string
      */
     public function getLabel(): string
@@ -99,7 +103,8 @@ class BookingOptions implements \JsonSerializable
     }
 
     /**
-     * Shortcut to get the RoomOption description directly
+     * Shortcut to get the RoomOption description directly.
+     *
      * @return string
      */
     public function getDescription(): string
@@ -108,7 +113,8 @@ class BookingOptions implements \JsonSerializable
     }
 
     /**
-     * Shortcut to get the RoomOption price directly
+     * Shortcut to get the RoomOption price directly.
+     *
      * @return int
      */
     public function getPrice(): int

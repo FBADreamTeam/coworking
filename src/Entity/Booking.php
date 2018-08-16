@@ -64,21 +64,35 @@ class Booking
      */
     private $totalHT;
 
+    /**
+     * Booking constructor.
+     */
     public function __construct()
     {
         $this->bookingOptions = new ArrayCollection();
     }
 
+    /**
+     * @return mixed
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getStartDate(): ?\DateTimeInterface
     {
         return $this->startDate;
     }
 
+    /**
+     * @param \DateTimeInterface $startDate
+     *
+     * @return Booking
+     */
     public function setStartDate(\DateTimeInterface $startDate): self
     {
         $this->startDate = $startDate;
@@ -86,11 +100,19 @@ class Booking
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getEndDate(): ?\DateTimeInterface
     {
         return $this->endDate;
     }
 
+    /**
+     * @param \DateTimeInterface $endDate
+     *
+     * @return Booking
+     */
     public function setEndDate(\DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
@@ -98,11 +120,19 @@ class Booking
         return $this;
     }
 
+    /**
+     * @return Room
+     */
     public function getRoom(): Room
     {
         return $this->room;
     }
 
+    /**
+     * @param Room|null $room
+     *
+     * @return Booking
+     */
     public function setRoom(?Room $room): self
     {
         $this->room = $room;
@@ -110,11 +140,19 @@ class Booking
         return $this;
     }
 
+    /**
+     * @return Customer|null
+     */
     public function getCustomer(): ?Customer
     {
         return $this->customer;
     }
 
+    /**
+     * @param Customer|null $customer
+     *
+     * @return Booking
+     */
     public function setCustomer(?Customer $customer): self
     {
         $this->customer = $customer;
@@ -131,20 +169,31 @@ class Booking
     }
 
     /**
+     * Return an associative array of RoomOption, where the key is the roomOption id
+     * and the value the roomOption object itself ([roomOption->id] = roomOption).
+     *
      * @return array
      */
     public function getRoomOptionsAsHashedArray(): array
     {
+        // initialize options array
         $options = [];
         /** @var BookingOptions $bookingOption */
         foreach ($this->bookingOptions as $bookingOption) {
+            // get the roomOption associated with the bookingOption
             $roomOption = $bookingOption->getRoomOption();
+            // add the roomOption at its id key in the options array
             $options[$roomOption->getId()] = $roomOption;
         }
 
         return $options;
     }
 
+    /**
+     * @param BookingOptions $bookingOption
+     *
+     * @return Booking
+     */
     public function addBookingOption(BookingOptions $bookingOption): self
     {
         if (!$this->bookingOptions->contains($bookingOption)) {
@@ -155,6 +204,11 @@ class Booking
         return $this;
     }
 
+    /**
+     * @param BookingOptions $bookingOption
+     *
+     * @return Booking
+     */
     public function removeBookingOption(BookingOptions $bookingOption): self
     {
         if ($this->bookingOptions->contains($bookingOption)) {
@@ -169,11 +223,19 @@ class Booking
         return $this;
     }
 
+    /**
+     * @return Order|null
+     */
     public function getOrder(): ?Order
     {
         return $this->order;
     }
 
+    /**
+     * @param Order $order
+     *
+     * @return Booking
+     */
     public function setOrder(Order $order): self
     {
         $this->order = $order;
@@ -186,11 +248,19 @@ class Booking
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getTotalHTWithoutOptions(): ?int
     {
         return $this->totalHTWithoutOptions;
     }
 
+    /**
+     * @param int|null $totalHTWithoutOptions
+     *
+     * @return Booking
+     */
     public function setTotalHTWithoutOptions(?int $totalHTWithoutOptions): self
     {
         $this->totalHTWithoutOptions = $totalHTWithoutOptions;
@@ -198,11 +268,19 @@ class Booking
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getTotalHT(): ?int
     {
         return $this->totalHT;
     }
 
+    /**
+     * @param int|null $totalHT
+     *
+     * @return Booking
+     */
     public function setTotalHT(?int $totalHT): self
     {
         $this->totalHT = $totalHT;

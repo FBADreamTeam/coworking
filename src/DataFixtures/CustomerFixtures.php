@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: brahim
  * Date: 27/07/2018
- * Time: 15:39
+ * Time: 15:39.
  */
 
 namespace App\DataFixtures;
@@ -23,6 +23,7 @@ class CustomerFixtures extends Fixture
 
     /**
      * EmployeeFixtures constructor.
+     *
      * @param UserPasswordEncoderInterface $encoder
      */
     public function __construct(UserPasswordEncoderInterface $encoder)

@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\Address;
 use App\Entity\Customer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -23,6 +22,7 @@ class AddressRepository extends ServiceEntityRepository
 
     /**
      * @param Customer $customer
+     *
      * @return mixed
      */
     public function getAddressesFromCustomer(Customer $customer)

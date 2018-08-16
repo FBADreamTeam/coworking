@@ -3,22 +3,9 @@
 namespace App\Managers;
 
 use App\Entity\RoomOption;
-use Doctrine\ORM\EntityManagerInterface;
 
-class RoomOptionManager
+class RoomOptionManager extends AbstractManager
 {
-    private $em;
-
-    /**
-     * RoomManager constructor.
-     *
-     * @param EntityManagerInterface $em
-     */
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
     /**
      * @param RoomOption $roomOption
      */

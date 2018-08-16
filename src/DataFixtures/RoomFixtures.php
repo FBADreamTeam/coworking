@@ -37,7 +37,7 @@ class RoomFixtures extends Fixture
 
         for ($i = 0; $i < 5; ++$i) {
             $room = new Room();
-            $room->setName('bureau n°'.($i+1));
+            $room->setName('bureau n°'.($i + 1));
             $room->setCapacity(10);
             $room->setDailyPrice(1000);
             $room->setHourlyPrice(200);
@@ -62,7 +62,7 @@ class RoomFixtures extends Fixture
 
         for ($i = 0; $i < 5; ++$i) {
             $room = new Room();
-            $room->setName('Salle n°'.($i+1));
+            $room->setName('Salle n°'.($i + 1));
             $room->setCapacity(1000);
             $room->setDailyPrice(1000);
             $room->setHourlyPrice(200);

@@ -44,7 +44,7 @@ class Notifier implements NotifierInterface
         $mail = new \Swift_Message($subject, $message);
         $mail->addFrom($this->customerServiceEmail);
 
-        /**
+        /*
          * @var AbstractUser
          */
         foreach ($users as $user) {

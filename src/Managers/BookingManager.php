@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: Fried
  * Date: 14/08/2018
- * Time: 16:35
+ * Time: 16:35.
  */
 
 namespace App\Managers;
@@ -15,13 +15,8 @@ use App\Entity\Room;
 use App\Services\BookingPriceCalculator;
 use Doctrine\ORM\EntityManagerInterface;
 
-class BookingManager
+class BookingManager extends AbstractManager
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $em;
-
     /**
      * @var BookingPriceCalculator
      */
@@ -29,18 +24,20 @@ class BookingManager
 
     /**
      * BookingManager constructor.
+     *
      * @param EntityManagerInterface $em
      * @param BookingPriceCalculator $calculator
      */
     public function __construct(EntityManagerInterface $em, BookingPriceCalculator $calculator)
     {
-        $this->em = $em;
+        parent::__construct($em);
         $this->calculator = $calculator;
     }
 
     /**
-     * @param Booking $booking
+     * @param Booking  $booking
      * @param Customer $customer
+     *
      * @return bool
      */
     public static function checkBookingCustomerIsValid(Booking $booking, Customer $customer): bool
@@ -49,10 +46,12 @@ class BookingManager
     }
 
     /**
-     * @param int $roomId
+     * @param int    $roomId
      * @param string $startDate
      * @param string $endDate
+     *
      * @return Booking
+     *
      * @throws \Exception
      */
     public function createBookingFromRoomAndDates(int $roomId, string $startDate, string $endDate): Booking
@@ -108,6 +107,7 @@ class BookingManager
 
     /**
      * @param Booking $booking
+     *
      * @throws \Exception
      */
     public function calculatePriceWithoutOptions(Booking $booking): void
@@ -129,6 +129,7 @@ class BookingManager
 
     /**
      * @param Booking $booking
+     *
      * @throws \Exception
      */
     public function calculateHTPrice(Booking $booking): void
@@ -140,10 +141,12 @@ class BookingManager
     }
 
     /**
-     * @param int $roomId
+     * @param int    $roomId
      * @param string $startDate
      * @param string $endDate
+     *
      * @return Booking
+     *
      * @throws \Exception
      */
     public function createBookingAndCalculatePriceWithoutOptions(int $roomId, string $startDate, string $endDate): Booking
@@ -158,5 +161,49 @@ class BookingManager
         $this->calculatePriceWithoutOptions($booking);
 
         return $booking;
+    }
+
+    /**
+     * @param int      $bookingId
+     * @param Customer $customer
+     *
+     * @return Booking
+     */
+    public function getBookingFromIdWithCustomer(int $bookingId, Customer $customer): Booking
+    {
+        /** @var Booking|null $booking */
+        $booking = $this->em->getRepository(Booking::class)->find($bookingId);
+        if (null === $booking) {
+            throw new \LogicException('The booking #'.$bookingId.' was not found.');
+        }
+        $booking->setCustomer($customer);
+
+        return $booking;
+    }
+
+    /**
+     * @param Booking $booking
+     *
+     * @throws \Exception
+     */
+    public function handleCreateRequest(Booking $booking): void
+    {
+        $this->calculateHTPrice($booking);
+
+        /*
+         * Here, we have a Booking with Options and a final price.
+         * We now need to redirect the customers to the checkout page,
+         * where they will be able to verify their booking and select / add
+         * addresses.
+         * But first, Booking goes to the datatbase, then its id is recovered and set to the session !
+         */
+
+        /*
+         * TODO: Set a specific status for the Booking entity (pending?) and a ttl to automatically remove the booking if it isn't purchased.
+         */
+
+        $this->em->persist($booking);
+        $this->em->flush();
+        $this->em->refresh($booking);
     }
 }

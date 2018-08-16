@@ -9,7 +9,6 @@ use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,7 +21,7 @@ class InvoiceController extends Controller
      *
      * @IsGranted("ROLE_USER")
      *
-     * @param Booking $booking
+     * @param Booking  $booking
      * @param Customer $customer
      *
      * @return PdfResponse
@@ -31,7 +30,7 @@ class InvoiceController extends Controller
     {
         // we verify that the customer in the parameters is the same as the owner of the booking
         // if not, an exception is thrown
-        if (! BookingManager::checkBookingCustomerIsValid($booking, $this->getUser())) {
+        if (!BookingManager::checkBookingCustomerIsValid($booking, $this->getUser())) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'The customer #%d is not the same as the one from the booking (#%d)',

@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: brahim
  * Date: 26/07/2018
- * Time: 15:41
+ * Time: 15:41.
  */
 
 namespace App\Controller\Admin;
@@ -27,7 +27,6 @@ use Symfony\Component\Translation\TranslatorInterface;
 /**
  * @Route("/_secure")
  * Class AdminController
- * @package App\Controller\Admin
  */
 class AdminController extends Controller
 {
@@ -41,7 +40,9 @@ class AdminController extends Controller
 
     /**
      * @Route("/login", name="admin_login")
+     *
      * @param AuthenticationUtils $authenticationUtils
+     *
      * @return RedirectResponse|Response
      */
     public function login(AuthenticationUtils $authenticationUtils)
@@ -51,7 +52,7 @@ class AdminController extends Controller
         }
 
         $form = $this->createForm(CustomerLoginType::class, [
-            'email' => $authenticationUtils->getLastUsername()
+            'email' => $authenticationUtils->getLastUsername(),
         ]);
 
         // Récupération du message d'erreur
@@ -59,7 +60,7 @@ class AdminController extends Controller
 
         return $this->render('/admin/admin_login.html.twig', [
             'form' => $form->createView(),
-            'error' => $error
+            'error' => $error,
         ]);
     }
 
@@ -78,8 +79,10 @@ class AdminController extends Controller
     /**
      * @Route("/employee/new", name="admin_employee_new")
      * @Security("has_role('ROLE_ADMIN')")
-     * @param Request $request
+     *
+     * @param Request                      $request
      * @param UserPasswordEncoderInterface $encoder
+     *
      * @return RedirectResponse|Response
      */
     public function addEmployee(Request $request, UserPasswordEncoderInterface $encoder, EmployeeManager $employeeManager)
@@ -91,7 +94,6 @@ class AdminController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             // Gestion de la modification du mot de passe
             $password = $form->get('password')->getData();
             $passwordConfirm = $form->get('password_confirm')->getData();
@@ -100,23 +102,23 @@ class AdminController extends Controller
                 if ($password === $passwordConfirm) {
                     $employee->setPassword($encoder->encodePassword($employee, $password));
                 } else {
-                    $this->addFlash('notice', "Les mots de passes ne sont pas identiques");
+                    $this->addFlash('notice', 'Les mots de passes ne sont pas identiques');
 
                     return $this->render('/admin/employee/add_employee.html.twig', [
-                        'form' => $form->createView()
+                        'form' => $form->createView(),
                     ]);
                 }
             }
 
             $employeeManager->createEmployee($employee);
 
-            $this->addFlash('success', "Le compte a bien été créé");
+            $this->addFlash('success', 'Le compte a bien été créé');
 
             return $this->redirectToRoute('admin_employee_list');
         }
 
         return $this->render('/admin/employee/add_employee.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -124,9 +126,10 @@ class AdminController extends Controller
      * @Route("/employee/edit/{id}", name="admin_employee_edit")
      * @Security("has_role('ROLE_ADMIN')")
      *
-     * @param Employee $employee
-     * @param Request $request
+     * @param Employee                     $employee
+     * @param Request                      $request
      * @param UserPasswordEncoderInterface $encoder
+     *
      * @return RedirectResponse|Response
      */
     public function editEmployee(Employee $employee, Request $request, UserPasswordEncoderInterface $encoder, EmployeeManager $employeeManager)
@@ -140,14 +143,13 @@ class AdminController extends Controller
         $emailEmployeeForm = $employee->getEmail(); // Mail du user saisi dans le formulaire
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             // Gestion des doublons
             if ($emailEmployee !== $emailEmployeeForm) {
                 if ($employeeManager->checkDuplicateEmail($emailEmployeeForm)) {
-                    $this->addFlash('notice', "Le mail existe déjà");
+                    $this->addFlash('notice', 'Le mail existe déjà');
 
                     return $this->render('/admin/employee/edit_employee.html.twig', [
-                        'form' => $form->createView()
+                        'form' => $form->createView(),
                     ]);
                 }
             }
@@ -160,30 +162,32 @@ class AdminController extends Controller
                 if ($password === $passwordConfirm) {
                     $employee->setPassword($encoder->encodePassword($employee, $password));
                 } else {
-                    $this->addFlash('notice', "Les mots de passes ne sont pas identiques");
+                    $this->addFlash('notice', 'Les mots de passes ne sont pas identiques');
 
                     return $this->render('/admin/employee/edit_employee.html.twig', [
-                        'form' => $form->createView()
+                        'form' => $form->createView(),
                     ]);
                 }
             }
 
             $employeeManager->updateEmployee();
 
-            $this->addFlash('success', "Le compte a bien été modifié");
+            $this->addFlash('success', 'Le compte a bien été modifié');
 
             return $this->redirectToRoute('admin_employee_list');
         }
 
         return $this->render('/admin/employee/edit_employee.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
     /**
      * @Route("/profile/edit", name="profile_edit")
-     * @param Request $request
+     *
+     * @param Request                      $request
      * @param UserPasswordEncoderInterface $encoder
+     *
      * @return RedirectResponse|Response
      */
     public function editProfile(Request $request, UserPasswordEncoderInterface $encoder, EmployeeManager $employeeManager)
@@ -199,16 +203,15 @@ class AdminController extends Controller
         $emailEmployeeForm = $employee->getEmail(); // Mail du user saisi dans le formulaire
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             // Gestion des doublons
             if ($emailEmployee !== $emailEmployeeForm) {
                 if ($employeeManager->checkDuplicateEmail($emailEmployeeForm)) {
-                    $this->addFlash('notice', "Le mail existe déjà");
+                    $this->addFlash('notice', 'Le mail existe déjà');
 
                     $employee->setEmail($emailEmployee);
 
                     return $this->render('/admin/profile/edit_profile.html.twig', [
-                        'form' => $form->createView()
+                        'form' => $form->createView(),
                     ]);
                 }
             }
@@ -221,23 +224,23 @@ class AdminController extends Controller
                 if ($password === $passwordConfirm) {
                     $employee->setPassword($encoder->encodePassword($employee, $password));
                 } else {
-                    $this->addFlash('notice', "Les mots de passes ne sont pas identiques");
+                    $this->addFlash('notice', 'Les mots de passes ne sont pas identiques');
 
                     return $this->render('/admin/profile/edit_profile.html.twig', [
-                        'form' => $form->createView()
+                        'form' => $form->createView(),
                     ]);
                 }
             }
 
             $employeeManager->updateEmployee();
 
-            $this->addFlash('success', "Le compte a bien été modifié");
+            $this->addFlash('success', 'Le compte a bien été modifié');
 
             return $this->redirectToRoute('admin_index');
         }
 
         return $this->render('/admin/profile/edit_profile.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -245,8 +248,9 @@ class AdminController extends Controller
      * @Route("/employee/delete/{id}", name="admin_employee_delete")
      * @Security("has_role('ROLE_ADMIN')")
      *
-     * @param Employee $employee
+     * @param Employee        $employee
      * @param EmployeeManager $employeeManager
+     *
      * @return RedirectResponse
      */
     public function deleteEmployee(Employee $employee, EmployeeManager $employeeManager)
@@ -266,6 +270,7 @@ class AdminController extends Controller
      * @Route("/employee/show/{id}", name="admin_employee_show")
      *
      * @param Employee $employee
+     *
      * @return Response
      */
     public function showEmployee(Employee $employee): Response
@@ -275,14 +280,16 @@ class AdminController extends Controller
         }
 
         return $this->render('admin/employee/show_employee.html.twig', [
-            'employee' => $employee
+            'employee' => $employee,
         ]);
     }
 
     /**
      * @Route("/dt-trans", name="dt_trans")
-     * @param Request $request
+     *
+     * @param Request             $request
      * @param TranslatorInterface $translator
+     *
      * @return JsonResponse
      */
     public function getDataTablesTranslations(Request $request, TranslatorInterface $translator): JsonResponse
@@ -290,34 +297,34 @@ class AdminController extends Controller
         $locale = $request->getLocale();
 
         $translations = [
-            'sProcessing'       => $translator->trans('sProcessing', [], 'datatables', $locale),
-            'sSearch'           => $translator->trans('sSearch', [], 'datatables', $locale),
-            'sLengthMenu'       => $translator->trans('sLengthMenu', [], 'datatables', $locale),
-            'sInfo'             => $translator->trans('sInfo', [], 'datatables', $locale),
-            'sInfoEmpty'        => $translator->trans('sInfoEmpty', [], 'datatables', $locale),
-            'sInfoFiltered'     => $translator->trans('sInfoFiltered', [], 'datatables', $locale),
-            'sInfoThousands'     => $translator->trans('sInfoThousands', [], 'datatables', $locale),
-            'sInfoPostFix'      => '',
-            'sLoadingRecords'   => $translator->trans('sLoadingRecords', [], 'datatables', $locale),
-            'sZeroRecords'      => $translator->trans('sZeroRecord', [], 'datatables', $locale),
-            'sEmptyTable'       => $translator->trans('sEmptyTable', [], 'datatables', $locale),
-            'oPaginate'         => [
-                    'sFirst'    => $translator->trans('sFirst', [], 'datatables', $locale),
+            'sProcessing' => $translator->trans('sProcessing', [], 'datatables', $locale),
+            'sSearch' => $translator->trans('sSearch', [], 'datatables', $locale),
+            'sLengthMenu' => $translator->trans('sLengthMenu', [], 'datatables', $locale),
+            'sInfo' => $translator->trans('sInfo', [], 'datatables', $locale),
+            'sInfoEmpty' => $translator->trans('sInfoEmpty', [], 'datatables', $locale),
+            'sInfoFiltered' => $translator->trans('sInfoFiltered', [], 'datatables', $locale),
+            'sInfoThousands' => $translator->trans('sInfoThousands', [], 'datatables', $locale),
+            'sInfoPostFix' => '',
+            'sLoadingRecords' => $translator->trans('sLoadingRecords', [], 'datatables', $locale),
+            'sZeroRecords' => $translator->trans('sZeroRecord', [], 'datatables', $locale),
+            'sEmptyTable' => $translator->trans('sEmptyTable', [], 'datatables', $locale),
+            'oPaginate' => [
+                    'sFirst' => $translator->trans('sFirst', [], 'datatables', $locale),
                     'sPrevious' => $translator->trans('sPrevious', [], 'datatables', $locale),
-                    'sNext'     => $translator->trans('sNext', [], 'datatables', $locale),
-                    'sLast'     => $translator->trans('sLast', [], 'datatables', $locale),
+                    'sNext' => $translator->trans('sNext', [], 'datatables', $locale),
+                    'sLast' => $translator->trans('sLast', [], 'datatables', $locale),
             ],
-            'oAria'             => [
-                    'sSortAscending'    => $translator->trans('sSortAscending', [], 'datatables', $locale),
-                    'sSortDescending'   => $translator->trans('sSortDescending', [], 'datatables', $locale),
+            'oAria' => [
+                    'sSortAscending' => $translator->trans('sSortAscending', [], 'datatables', $locale),
+                    'sSortDescending' => $translator->trans('sSortDescending', [], 'datatables', $locale),
             ],
-            'select'            => [
+            'select' => [
                     'rows' => [
                         '_' => $translator->trans('s_', [], 'datatables', $locale),
                         '0' => $translator->trans('s0', [], 'datatables', $locale),
                         '1' => $translator->trans('s1', [], 'datatables', $locale),
-                    ]
-            ]
+                    ],
+            ],
         ];
 
         return new JsonResponse($translations);

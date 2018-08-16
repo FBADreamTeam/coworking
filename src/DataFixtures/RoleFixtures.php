@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: brahim
  * Date: 26/07/2018
- * Time: 16:29
+ * Time: 16:29.
  */
 
 namespace App\DataFixtures;

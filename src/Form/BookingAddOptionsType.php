@@ -16,12 +16,12 @@ class BookingAddOptionsType extends AbstractType
         $builder
             ->add('bookingOptions', CollectionType::class, [
                 // each entry in the array will be a bookingOption field
-                'entry_type'    => BookingOptionsType::class,
+                'entry_type' => BookingOptionsType::class,
             ])
             ->add('submit', SubmitType::class, [
-                'translation_domain'    => 'booking',
-                'label'                 => 'booking.btn.book',
-                'attr'                  => ['class' => 'btn-success w-100'],
+                'translation_domain' => 'booking',
+                'label' => 'booking.btn.book',
+                'attr' => ['class' => 'btn-success w-100'],
             ])
         ;
     }

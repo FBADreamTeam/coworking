@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: Fried
  * Date: 08/08/2018
- * Time: 16:47
+ * Time: 16:47.
  */
 
 namespace App\Services;
@@ -27,6 +27,7 @@ class BookingPriceCalculator
 
     /**
      * BookingPriceCalculator constructor.
+     *
      * @param string $businessHourStart
      * @param string $businessHourEnd
      */
@@ -36,10 +37,11 @@ class BookingPriceCalculator
         $this->businessHourEnd = new \DateTime($businessHourEnd);
     }
 
-
     /**
      * @param Booking $booking
+     *
      * @return int
+     *
      * @throws \Exception
      */
     public function calculateTotalPrice(Booking $booking): int
@@ -61,7 +63,9 @@ class BookingPriceCalculator
 
     /**
      * @param Booking $booking
+     *
      * @return int|null
+     *
      * @throws \Exception
      */
     public function calculateTotalPriceWithoutOptions(Booking $booking): ?int
@@ -76,12 +80,12 @@ class BookingPriceCalculator
 
         if ($days > 1) {
             // months
-            $price += (int)floor($days / 20) * $booking->getRoom()->getMonthlyPrice();
-            $days -= (int)floor($days / 20) * 20;
+            $price += (int) floor($days / 20) * $booking->getRoom()->getMonthlyPrice();
+            $days -= (int) floor($days / 20) * 20;
 
             // weeks
-            $price += (int)floor($days / 5) * $booking->getRoom()->getWeeklyPrice();
-            $days -= (int)floor($days / 5) * 5;
+            $price += (int) floor($days / 5) * $booking->getRoom()->getWeeklyPrice();
+            $days -= (int) floor($days / 5) * 5;
 
             // days
             $price += $days * $booking->getRoom()->getDailyPrice();
@@ -108,7 +112,9 @@ class BookingPriceCalculator
     /**
      * @param \DateTimeInterface $startDate
      * @param \DateTimeInterface $endDate
+     *
      * @return int
+     *
      * @throws \Exception
      */
     private function getBusinessDaysCount(\DateTimeInterface $startDate, \DateTimeInterface $endDate): int
@@ -122,8 +128,8 @@ class BookingPriceCalculator
             // Get the day as a numeric index (0 = Monday ... 7 = Sunday)
             $numericDay = $day->format('N');
             // if the is NOT a Saturday nor a Sunday
-            if ($numericDay !== '6' && $numericDay !== '7') {
-                $count++;
+            if ('6' !== $numericDay && '7' !== $numericDay) {
+                ++$count;
             }
         }
 

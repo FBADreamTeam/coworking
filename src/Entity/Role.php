@@ -26,6 +26,7 @@ class Role
 
     /**
      * Role constructor.
+     *
      * @param string|null $label
      */
     public function __construct(string $label = null)

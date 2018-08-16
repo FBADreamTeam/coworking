@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: brahim
  * Date: 26/07/2018
- * Time: 16:55
+ * Time: 16:55.
  */
 
 namespace App\DataFixtures;
@@ -13,9 +13,7 @@ use App\Entity\Role;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\Security\Core\Encoder\EncoderFactory;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class EmployeeFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -26,6 +24,7 @@ class EmployeeFixtures extends Fixture implements DependentFixtureInterface
 
     /**
      * EmployeeFixtures constructor.
+     *
      * @param UserPasswordEncoderInterface $encoder
      */
     public function __construct(UserPasswordEncoderInterface $encoder)
@@ -62,18 +61,20 @@ class EmployeeFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return array(
-            RoleFixtures::class
+            RoleFixtures::class,
         );
     }
 
     /**
-     * Returns an array of Employees
+     * Returns an array of Employees.
+     *
      * @param array $roles
+     *
      * @return Employee[]
      */
     private function getEmployees(array $roles): array
     {
-        $employees =  [
+        $employees = [
             new Employee('Fred', 'Delaval', 'fred@test.xyz', 'testtest', $roles[0]),
             new Employee('Brahim', 'Louridi', 'brahim@test.xyz', 'testtest', $roles[0]),
             new Employee('Alex', 'Canivez', 'alex@test.xyz', 'testtest', $roles[0]),
@@ -81,7 +82,7 @@ class EmployeeFixtures extends Fixture implements DependentFixtureInterface
         ];
 
         array_map(function ($employee) {
-            /**
+            /*
              * @var Employee $employee
              */
             $employee->setPassword($this->encoder->encodePassword($employee, $employee->getPassword()));
