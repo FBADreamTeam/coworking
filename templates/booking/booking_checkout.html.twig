@@ -8,77 +8,99 @@
 
 {% block content %}
     <div class="container p-120">
+
+        {# --NEW FORMS-- #}
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-md-8">
                 {# --RECAP CUSTOMER-- #}
-                {% set customer = booking.customer %}
-                <p>{{ customer.fullName }}</p>
-                {#<h3>{{ 'booking.titles.addresses'|trans }}</h3>#}
-                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseAddress" aria-expanded="false" aria-controls="collapseAddress">
-                    {{ 'booking.btn.addressAdd'|trans }}
-                </button>
-                <div class="collapse" id="collapseAddress">
-                    <div class="card card-body">
-                        {{ form_start(formAddress) }}
-                            {{ form_widget(formAddress) }}
-                            <button class="btn btn-primary" type="submit">{{ 'booking.btn.submit'|trans }}</button>
-                        {{ form_end(formAddress) }}
+                <div class="bg-light p-3">
+                    <p class="font-weight-bold text-info"><i class="fas fa-angle-right pr-1"></i>{{ 'booking.titles.customer'|trans }}</p>
+                    {% set customer = booking.customer %}
+                    <p class="font-weight-bold">{{ customer.fullName }}</p>
+                    <p>{{ customer.email }}</p>
+                </div>
+                {# --ADDRESS-- #}
+                <div class="bg-light p-3 mt-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="font-weight-bold text-info"><i class="fas fa-angle-right pr-1"></i>{{ 'booking.titles.addresses'|trans }}</p>
+                        </div>
+                        <div class="col-md-6 text-sm-right text-info">
+                            <a class="btn" data-toggle="collapse" data-target="#collapseAddress" aria-expanded="false" aria-controls="collapseAddress">{{ 'booking.btn.addressAdd'|trans }}<i class="fas fa-plus pl-1"></i></a>
+                        </div>
                     </div>
+                    <div class="collapse" id="collapseAddress">
+                        <div class="card card-body">
+                            {{ form_start(formAddress) }}
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    {{ form_row(formAddress.street, {attr: {class: 'form-control-sm', placeholder: 'booking.titles.street'}, label: false}) }}
+                                </div>
+                                <div class="col-sm-6">
+                                    {{ form_row(formAddress.postalCode, {attr: {class: 'form-control-sm', placeholder: 'booking.titles.zipcode'}, label: false}) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    {{ form_row(formAddress.city, {attr: {class: 'form-control-sm', placeholder: 'booking.titles.city'}, label: false}) }}
+                                </div>
+                                <div class="col-sm-6">
+                                    {{ form_row(formAddress.country, {attr: {class: 'form-control-sm', placeholder: 'booking.titles.country'}, label: false}) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    {{ form_row(formAddress.addressCpl, {attr: {class: 'form-control-sm', placeholder: 'booking.titles.addressCpl'}, label: false}) }}
+                                </div>
+                                <div class="col-sm-6">
+                                    <button class="btn btn-primary btn-sm" type="submit">{{ 'booking.btn.submit'|trans }}</button>
+                                </div>
+                            </div>
+                            {{ form_end(formAddress) }}
+                        </div>
+                    </div>
+
+                    {{ form_start(formOrder) }}
+                        {{ form_row(formOrder.address, {label_attr: {style: 'font-size: 0.5em;'}}) }}
+                    {{ form_end(formOrder) }}
                 </div>
             </div>
-            <div class="col-lg-6">
-                {# --RECAP BOOKING-- #}
-                <p>{{ 'booking.titles.fromDay'|trans }} {{ booking.startDate|date('Y-m-d H:i:s') }} {{ 'booking.titles.toDay'|trans }} {{ booking.endDate|date('Y-m-d H:i:s') }}</p>
-                {% set room = booking.room %}
-                <p>{{ booking.room.name }} : {{ booking.totalHTWithoutOptions|price }}</p>
-                {% for option in booking.bookingOptions %}
-                    <p>{{ option.label }} : {{ option.price|price }} * {{ option.quantity }} = {{ (option.price * option.quantity)|price }}</p>
-                {% endfor %}
-                <p>{{ 'booking.titles.totalHT'|trans }} = {{ booking.totalHT|price }}</p>
-                <p>{{ 'booking.titles.TVA'|trans }} = {{ (booking.totalHT * 0.2)|price }}</p>
-                <p>{{ 'booking.titles.total'|trans }} = {{ (booking.totalHT * 1.2)|price }}</p>
-                
-                {#{{ form(formOrder) }}#}
-                
-                {{ form_start(formOrder) }}
-                    {{ form_widget(formOrder.address) }}
-                {{ form_end(formOrder) }}
+            <div class="col-md-4 bg-info text-white">
+                {# --ORDER SUMMARY-- #}
+                <p class="font-weight-bold text-white pt-3"><i class="fas fa-angle-right pr-1"></i>{{ 'booking.titles.orderSummary'|trans }}</p>
+                <p class="text-white"><small>{{ 'booking.titles.fromDay'|trans }} {{ booking.startDate|date('Y-m-d H:i:s') }} {{ 'booking.titles.toDay'|trans }} {{ booking.endDate|date('Y-m-d H:i:s') }}</small></p>
+                <table class="table table-sm">
+                    <tbody>
+                        <tr>
+                            <td>{{ booking.room.name }}</td>
+                            <td></td>
+                            <td class="text-sm-right">{{ booking.totalHTWithoutOptions|price }}</td>
+                        </tr>
+                        {% for option in booking.bookingOptions %}
+                            <tr>
+                                <td>{{ option.label }}</td>
+                                <td>{{ option.quantity }}</td>
+                                <td class="text-sm-right">{{ (option.price * option.quantity)|price }}</td>
+                            </tr>
+                        {% endfor %}
+                        <tr class="font-weight-bold">
+                            <td class="text-sm-right">{{ 'booking.titles.totalHT'|trans }}</td>
+                            <td></td>
+                            <td class="text-sm-right">{{ booking.totalHT|price }}</td>
+                        </tr>
+                        <tr class="font-weight-bold">
+                            <td class="text-sm-right">{{ 'booking.titles.TVA'|trans }}</td>
+                            <td></td>
+                            <td class="text-sm-right">{{ (booking.totalHT * 0.2)|price }}</td>
+                        </tr>
+                        <tr class="font-weight-bold">
+                            <td class="text-sm-right">{{ 'booking.titles.total'|trans }}</td>
+                            <td></td>
+                            <td class="text-sm-right">{{ (booking.totalHT * 1.2)|price }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block final_javascripts %}
-    <script>
-        // setup an "add an address" link
-        let $addTagButton = $('<button id="address_add" type="button" class="btn btn-primary">Add an address</button>');
-        $('#booking_confirm_addresses').append($addTagButton);
-        // var $newLinkLi = $('<li></li>').append($addTagButton);
-
-        jQuery(document).ready(function() {
-            // Get the ul that holds the collection of tags
-            // $collectionHolder = $('ul.tags');
-            $collectionHolder = $('#booking_confirm_addresses');
-
-            $addTagButton.on('click', function(e) {
-                // add a new tag form (see next code block)
-                addAddressForm($collectionHolder, $('#address_add'));
-            });
-
-            function addAddressForm($collectionHolder, $button) {
-                // Get the data-prototype explained earlier
-                let prototype = $collectionHolder.data('prototype');
-                let newForm = prototype;
-
-                // Replace '__name__' in the prototype's HTML to
-                // instead be a number based on how many items we have
-                newForm = newForm.replace(/__name__label__/g, '');
-                newForm = newForm.replace(/__name__/g, 1);
-
-                $collectionHolder.append(newForm);
-
-                $button.remove();
-            }
-        });
-    </script>
 {% endblock %}

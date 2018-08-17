@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Entity\Address;
 use App\Entity\Order;
 use App\Repository\AddressRepository;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -19,18 +18,10 @@ class OrderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-//            ->add('address', EntityType::class, [
-//                'class' => Address::class,
-//                'expanded' => true,
-//                'multiple' => false,
-//                'label' => false,
-//                'query_builder' => function(EntityRepository $er) {
-//                    return $er->createQueryBuilder('a');
-//                },
-//            ])
             ->add('submit', SubmitType::class, [
                 'translation_domain' => 'booking',
-                'label' => 'booking.btn.submit',
+                'label' => 'booking.btn.order',
+                'attr' => ['class' => 'btn btn-primary'],
             ])
             ->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
                 /** @var Order $order */

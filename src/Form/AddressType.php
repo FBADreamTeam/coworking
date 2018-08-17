@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Address;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,7 +17,7 @@ class AddressType extends AbstractType
                 'translation_domain' => 'booking',
                 'label' => 'booking.titles.street',
             ])
-            ->add('postalCode', IntegerType::class, [
+            ->add('postalCode', TextType::class, [
                 'translation_domain' => 'booking',
                 'label' => 'booking.titles.zipcode',
                 'attr' => [

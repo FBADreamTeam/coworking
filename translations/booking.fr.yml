@@ -31,9 +31,12 @@ booking:
     country: Pays
     addressCpl: Complément
     bookingConfirm: 'Confirmation de réservation'
+    orderSummary: 'Votre Commande'
+    customer: 'Client'
   btn:
     back: 'Retour'
     addressAdd: 'Ajouter une adresse de facturation'
+    order: Commander
   msg:
     success: 'Votre réservation a été sauvegardée !'
     customermustlog: 'Vous devez vous connecter à votre compte pour continuer votre réservation !'

@@ -31,9 +31,12 @@ booking:
     country: Country
     addressCpl: 'Address complement'
     bookingConfirm: 'Booking confirmation'
+    orderSummary: 'Order Summary'
+    customer: 'Customer'
   btn:
     back: 'Back to results page'
     addressAdd: 'Add a billing address'
+    order: Order
   msg:
     success: 'Your booking has been saved!'
     customermustlog: 'You must sign in your account to continue your booking!'

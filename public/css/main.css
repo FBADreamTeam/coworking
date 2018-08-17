@@ -11,3 +11,9 @@
 #room-list div.card {
     width: 15rem;
 }
+/*Position radios and checkboxes more better*/
+input[type="radio"],
+input[type="checkbox"] {
+    margin-top: 0.6em;
+    margin-left: 0;
+}
