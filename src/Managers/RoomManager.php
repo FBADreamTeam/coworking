@@ -4,6 +4,7 @@ namespace App\Managers;
 
 use App\Entity\Room;
 use App\Entity\RoomType;
+use App\Repository\RoomRepository;
 use App\Services\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -93,68 +94,13 @@ class RoomManager extends AbstractManager
      */
     public function filterByType(RoomType $type, string $startDate, string $endDate)
     {
-        // SELECT * FROM room r0_
-        // LEFT JOIN booking b1_ ON r0_.id = b1_.room_id
-        // WHERE r0_.room_type_id = 3 AND
-        // (
-        //  (b1_.start_date >= "2018-08-12T09:00:00+02:00" OR b1_.end_date <= "2018-08-12T18:00:00+02:00")
-        // OR
-        //  (b1_.start_date IS NULL AND b1_.end_date IS NULL)
-        //  )
-        // ORDER BY r0.id
+        $startDateTime = new \DateTime($startDate);
+        $endDateTime = new \DateTime($endDate);
 
-        $qb = $this->em->createQueryBuilder();
-        $query = $qb->select('r')
-            ->from(Room::class, 'r')
-            ->leftJoin('r.bookings', 'b')
-            ->where('r.roomType = :type')
-            ->andWhere('(b.startDate >= :endDate OR b.endDate <= :startDate) OR (b.startDate IS NULL AND b.endDate IS NULL)')
-            ->setParameters([
-                'type' => $type,
-                'startDate' => $startDate,
-                'endDate' => $endDate,
-            ])
-            ->orderBy('r.id')
-            ->getQuery()
-        ;
+        /** @var RoomRepository $repo */
+        $repo = $this->em->getRepository(Room::class);
 
-        return $query->getResult();
-    }
-
-    /**
-     * @param string $startDate
-     * @param string $endDate
-     *
-     * @return mixed
-     */
-    public function filter(string $startDate, string $endDate)
-    {
-        // SELECT * FROM room r0_
-        // LEFT JOIN booking b1_ ON r0_.id = b1_.room_id
-        // WHERE
-        //  (b1_.start_date >= "2018-08-01 12:00:00" AND b1_.end_date <= "2018-08-01 11:00:00")
-        //      OR
-        //  (b1_.start_date IS NULL AND b1_.end_date IS NULL)
-        // ORDER BY r0_.roomType
-
-//        $repo = $this->em->getRepository(Room::class);
-//        $query = $repo->createQueryBuilder('r')
-        $qb = $this->em->createQueryBuilder();
-        $query = $qb->select('r')
-            ->from(Room::class, 'r')
-            ->leftJoin('r.bookings', 'b')
-            ->where('(b.startDate >= :endDate AND b.endDate <= :startDate) OR (b.startDate IS NULL AND b.endDate IS NULL)')
-            ->setParameters([
-                'startDate' => $startDate,
-                'endDate' => $endDate,
-            ])
-            ->orderBy('r.roomType')
-            ->getQuery()
-        ;
-
-//        dd($query->getSQL());
-
-        return $query->getResult();
+        return $repo->getAvailableBookingsByType($type, $startDateTime, $endDateTime);
     }
 
     /**

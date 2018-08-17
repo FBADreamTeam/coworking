@@ -313,8 +313,8 @@
                     // console.log(day);
                 },
                 select: function(start, end) {
-                    startDate = moment(start.format());
-                    endDate = moment(end.format());
+                    startDate = moment(start);
+                    endDate = moment(end);
                     // console.log('--SELECT--');
                     // console.log(startDate);
                     // console.log(endDate);
@@ -326,7 +326,8 @@
                     // setTimeout(() => {
                     //     filterRooms($('a.nav-link').attr('data-type'), start.format('YYYY-MM-DD HH:MM:SS'), end.format('YYYY-MM-DD HH:MM:SS'));
                     // }, 10000);
-                    filterRooms($('a.nav-link').attr('data-type'), start.format('YYYY-MM-DD HH:MM:SS'), end.format('YYYY-MM-DD HH:MM:SS'));
+                    // filterRooms($('a.nav-link').attr('data-type'), start.format('YYYY-MM-DD HH:MM:SS'), end.format('YYYY-MM-DD HH:MM:SS'));
+                    filterRooms($('a.nav-link').attr('data-type'), start.format(), end.format());
                 }
             });
 

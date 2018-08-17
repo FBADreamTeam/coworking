@@ -80,8 +80,10 @@ class BookingController extends Controller
     {
         if ($request->isXmlHttpRequest()) {
             $data = [];
+
             // get all types of rooms
             $types = $this->getDoctrine()->getRepository(RoomType::class)->findAll();
+
             // Filter rooms by availability
             /** @var RoomType $type */
             foreach ($types as $type) {
