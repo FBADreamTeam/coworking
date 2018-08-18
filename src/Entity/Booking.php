@@ -16,6 +16,8 @@ class Booking
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     *
+     * @var int
      */
     private $id;
 
@@ -23,6 +25,8 @@ class Booking
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank(message="admin.booking.start_date.not_blank")
      * @Assert\DateTime(message="admin.booking.start_date.valid")
+     *
+     * @var \DateTimeInterface
      */
     private $startDate;
 
@@ -30,37 +34,51 @@ class Booking
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank(message="admin.booking.end_date.not_blank")
      * @Assert\DateTime(message="admin.booking.end_date.valid")
+     *
+     * @var \DateTimeInterface
      */
     private $endDate;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Room", inversedBy="bookings")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @var Room
      */
     private $room;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="bookings")
+     *
+     * @var Customer
      */
     private $customer;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\BookingOptions", mappedBy="booking", orphanRemoval=true, cascade={"persist", "remove"})
+     *
+     * @var BookingOptions[]|ArrayCollection
      */
     private $bookingOptions;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Order", mappedBy="booking", cascade={"persist", "remove"})
+     *
+     * @var Order
      */
     private $order;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     *
+     * @var int
      */
     private $totalHTWithoutOptions;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     *
+     * @var int
      */
     private $totalHT;
 
@@ -73,9 +91,9 @@ class Booking
     }
 
     /**
-     * @return mixed
+     * @return int|null
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }

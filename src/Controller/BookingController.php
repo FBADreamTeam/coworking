@@ -192,9 +192,9 @@ class BookingController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Handle the request and calculate the price
-            $bookingManager->handleCreateRequest($booking);
-            // Set the booking id in the session for further use
-            $session->set('booking_id', $booking->getId());
+            $bookingManager->handleBookingOptionsRequest($booking);
+            // Set the booking in the session for further use
+            $session->set('booking', $booking);
             // If customer is not already logged in, add a message flash before the Security redirection
             if (null === $this->getUser()) {
                 $this->addFlash('notice', $translator->trans('booking.msg.customermustlog', [], 'booking'));
@@ -222,17 +222,10 @@ class BookingController extends Controller
         /** @var Customer $customer */
         $customer = $this->getUser();
 
-        // Try to get a booking from the id in the session and add to it the current customer
-        try {
-            $booking = $bookingManager->getBookingFromIdWithCustomer(
-                (int) $session->get('booking_id'),
-                $customer
-            );
-        } catch (\Exception $e) {
-            $this->addFlash('notice', $translator->trans('booking.error.missingId', [], 'booking'));
-
-            return $this->redirectToRoute('booking_index');
-        }
+        // Get the booking from the session and add to it the current customer
+        /** @var Booking $booking */
+        $booking = $session->get('booking');
+        $booking->setCustomer($customer);
 
         // Create a new address and attach the current customer to it
         $address = $addressManager->getNewAddressWithCustomer($customer);
@@ -300,7 +293,7 @@ class BookingController extends Controller
         $session->remove('roomId');
         $session->remove('startDate');
         $session->remove('endDate');
-        $session->remove('booking_id');
+        $session->remove('booking');
     }
 
     /**
