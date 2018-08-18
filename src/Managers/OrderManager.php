@@ -10,6 +10,8 @@ namespace App\Managers;
 
 use App\Entity\Booking;
 use App\Entity\Order;
+use App\Entity\Room;
+use App\Entity\RoomOption;
 use App\Events\OrderEvents;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -53,11 +55,36 @@ class OrderManager extends AbstractManager
      */
     public function handleCreateRequest(Order $order): void
     {
-        $this->em->persist($order->getBooking());
+        $booking = $order->getBooking();
+        $this->refreshBookingFromSession($booking);
+        $this->em->persist($booking);
         $this->em->persist($order);
         $this->em->flush();
 
         $orderEvent = new OrderEvents($order);
         $this->dispatcher->dispatch(OrderEvents::ORDER_PLACED, $orderEvent);
+    }
+
+    /**
+     * @param Booking $booking
+     */
+    private function refreshBookingFromSession(Booking $booking): void
+    {
+        // refresh room
+        $room = $booking->getRoom();
+        /** @var Room $roomFromDB */
+        $roomFromDB = $this->em->getRepository(Room::class)->find($room->getId());
+        $this->em->refresh($roomFromDB);
+        $booking->setRoom($roomFromDB);
+
+        // refresh roomOptions
+        $bookingOptions = $booking->getBookingOptions();
+        $roomOptionsRepo = $this->em->getRepository(RoomOption::class);
+        foreach ($bookingOptions as $bookingOption) {
+            /** @var RoomOption $roomOption */
+            $roomOption = $roomOptionsRepo->find($bookingOption->getRoomOption()->getId());
+            $this->em->refresh($roomOption);
+            $bookingOption->setRoomOption($roomOption);
+        }
     }
 }

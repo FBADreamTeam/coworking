@@ -31,13 +31,16 @@ booking:
     country: Pays
     addressCpl: Complément
     bookingConfirm: 'Confirmation de réservation'
+    orderSummary: 'Votre Commande'
+    customer: 'Client'
   btn:
     back: 'Retour'
     addressAdd: 'Ajouter une adresse de facturation'
+    order: Commander
   msg:
     success: 'Votre réservation a été sauvegardée !'
     customermustlog: 'Vous devez vous connecter à votre compte pour continuer votre réservation !'
-    yourorder: 'Votre commande # est: '
+    yourorder: 'Votre n° de commande est: '
     ordersentence: 'Vous recevrez un e-mail de confirmation avec les détails de votre commande.'
   error:
     missingId: 'Une erreur est survenue ! Notre équipe a été prévenue !'

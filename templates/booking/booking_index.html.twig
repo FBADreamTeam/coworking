@@ -9,22 +9,25 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" integrity="sha256-Tu3DN+5kwrhzlzhNUMuGht2h7cR6ARgKcYemB9u5SzA=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="{{ asset('css/loader.css') }}">
 {% endblock %}
 
 {% block content %}
-    <div class="container-fluid bg-white">
-        <div class="row">
-            <div class="col-md-4 features_col">
+    <div class="container-fluid features_col ">
+        <div class="row pt-4">
+            <div class="col-md-5">
                 {# --CALENDAR-- #}
                 <div id="calendar"></div>
             </div>
-            <div class="col-md-8 features_col">
+            <div class="col-md-7">
+                {# --LOADER-- #}
+                <div class="loader" style="display:none;"></div>
                 {#<div class="container">#}
                     <div class="row">
                         <div class="col-md-12">
 
                             {# --NAV-- #}
-                            <ul class="nav nav-tabs" id="h-tabs-tab" role="tablist">
+                            <ul class="nav nav-pills mb-2" id="h-tabs-tab" role="tablist">
                                 {% for key, value in data %}
                                     <li class="nav-item">
                                         <a class="nav-link {% if loop.first %} {{ 'active' }} {% endif %}"
@@ -40,28 +43,59 @@
                                 {% endfor %}
                             </ul>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="tab-content" id="h-tabs-tabContent">
-                                    {% for key, value in data %}
-                                        <div class="tab-pane fade {% if loop.first %} {{ 'show active' }} {% endif %}" id="h-tabs-{{ key }}" role="tabpanel" aria-labelledby="h-tabs-{{ key }}-tab">
-                                            {% for room in value['rooms'] %}
-                                                {# --CARDS-- #}
-                                                <div class="card m-2 float-lg-left" style="width: 18rem;" data-id="{{ room.id }}">
-                                                    <img class="card-img-top" src="{{ asset(getAssetsDir() ~ room.featuredImage) }}" alt="{{ room.name }}">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title">{{ room.name }}</h5>
-                                                        <div class="card-text">
-                                                            {{ room.description }}
-                                                            {{ room.capacity }}
+                    </div>
+                    <div id="room-list" class="row">
+                        <div class="col-md-12">
+                            <div class="tab-content" id="h-tabs-tabContent">
+                                {% for key, value in data %}
+                                    <div class="tab-pane fade {% if loop.first %} {{ 'show active' }} {% endif %}" id="h-tabs-{{ key }}" role="tabpanel" aria-labelledby="h-tabs-{{ key }}-tab">
+                                        {% for room in value['rooms'] %}
+                                            {# --CARDS-- #}
+                                            <div class="card m-2 float-lg-left" data-id="{{ room.id }}">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-sm-8">
+                                                            <h3>{{ room.name }}</h3>
                                                         </div>
-                                                        <a href="#" class="btn btn-primary">{{ 'booking.btn.book'|trans }}</a>
+                                                        <div class="col-sm-4 text-sm-right">
+                                                            {% if room.featuredImage %}
+                                                                <a href="#" data-toggle="modal" data-target="#imageModal{{ room.id }}"><i class="fas fa-eye"></i></a>
+                                                                <!-- Modal -->
+                                                                <div class="modal fade" id="imageModal{{ room.id }}" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel{{ room.id }}" aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title" id="imageModalLabel{{ room.id }}">{{ room.name }}</h5>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <img src="{{ asset(getAssetsDir() ~ room.featuredImage) }}" alt="{{ room.name }}">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
                                                     </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            {{ room.description }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="offset-6"></div>
+                                                        <div class="col-sm-6 text-sm-right text-white">
+                                                            <span class="bg-primary px-2">{{ room.capacity }} <i class="fas fa-users"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <a href="#" class="btn btn-primary btn-block mt-2">{{ 'booking.btn.book'|trans }}</a>
                                                 </div>
-                                            {% endfor %}
-                                        </div>
-                                    {% endfor %}
-                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -89,6 +123,7 @@
             let root = $('#h-tabs-tabContent');
             let assetsDir = '{{ asset(getAssetsDir()) }}';
             let bookingBtnLabel = '{{ 'booking.btn.book'|trans }}';
+            let $loader = $('.loader');
 
             let displayRooms = function(type, rooms, active) {
 
@@ -113,7 +148,12 @@
                 // for each rooms, create a card
                 rooms.forEach(function(room) {
                     // body
-                    let body = '<div class="card m-2 float-lg-left" style="width: 18rem;" data-id="' + room.id + '"><img class="card-img-top" src="' + assetsDir + room.featuredImage + '" alt="' + room.name + '"><div class="card-body"><h5 class="card-title">' + room.name + '</h5><div class="card-text">' + room.description + ' ' + room.capacity + '</div><a href="#" class="btn btn-primary">' + bookingBtnLabel + '</a></div></div>';
+                    let body = '<div class="card m-2 float-lg-left" data-id="' + room.id + '"><div class="card-body"><div class="row"><div class="col-sm-8"><h3>' + room.name + '</h3></div><div class="col-sm-4 text-sm-right">';
+                    if (room.featuredImage) {
+                        body += '<a href="#" data-toggle="modal" data-target="#imageModal' + room.id + '"><i class="fas fa-eye"></i></a><div class="modal fade" id="imageModal' + room.id + '" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel' + room.id + '" aria-hidden="true"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="imageModalLabel' + room.id + '">' + room.name + '</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><img src="' + assetsDir + room.featuredImage + '" alt="' + room.name + '"></div></div></div></div>';
+                    }
+                    body += '</div></div><div class="row"><div class="col-sm-12">' + room.description + '</div></div><div class="row"><div class="offset-6"></div><div class="col-sm-6 text-sm-right text-white"><span class="bg-primary px-2">' + room.capacity + ' <i class="fas fa-users"></i></span></div></div><a href="#" class="btn btn-primary btn-block mt-2">' + bookingBtnLabel + '</a></div></div>';
+
                     // append body to header
                     $('#' + key).append($(body));
                 });
@@ -138,8 +178,8 @@
                         let types = JSON.parse(data['rooms']);
                         // console.log(types);
 
-                        // clear root
-                        root.empty();
+                        // // clear root
+                        // root.empty();
 
                         for(let key in types) {
                             let rooms = types[key];
@@ -148,7 +188,14 @@
                             displayRooms(key, rooms, active);
                         }
 
-                        setClickCallback(bookingClick);
+                        // $loader.addClass('fadeOut');
+                        // $loader.hide();
+                        $loader.fadeOut('fast', () => {
+                            setClickCallback(bookingClick);
+                            enableBtn();
+                        });
+                        // setClickCallback(bookingClick);
+                        // enableBtn();
                     }
                 });
             };
@@ -203,6 +250,7 @@
 
             // page is now ready, initialize the calendar...
             $('#calendar').fullCalendar({
+                themeSystem:       'bootstrap4',
                 defaultView: 		'agendaDay',
                 locale: 			'fr',
                 timezone: 			'local',
@@ -245,6 +293,14 @@
                         // options apply to basicDay and agendaDay views
                     }
                 },
+                buttonText:     {
+                    today:    'auj',
+                    month:    'mois',
+                    week:     'semaine',
+                    day:      'jour',
+                    list:     'liste',
+                },
+                allDayText:     'jour',
                 selectable:     true,
                 unselectAuto:   false,
                 selectOverlap:  false,
@@ -257,14 +313,21 @@
                     // console.log(day);
                 },
                 select: function(start, end) {
-                    startDate = moment(start.format());
-                    endDate = moment(end.format());
+                    startDate = moment(start);
+                    endDate = moment(end);
                     // console.log('--SELECT--');
                     // console.log(startDate);
                     // console.log(endDate);
 
-                    filterRooms($('a.nav-link').attr('data-type'), start.format('YYYY-MM-DD HH:MM:SS'), end.format('YYYY-MM-DD HH:MM:SS'));
-                    enableBtn();
+                    // clear root
+                    root.empty();
+                    // show loader
+                    $loader.show();
+                    // setTimeout(() => {
+                    //     filterRooms($('a.nav-link').attr('data-type'), start.format('YYYY-MM-DD HH:MM:SS'), end.format('YYYY-MM-DD HH:MM:SS'));
+                    // }, 10000);
+                    // filterRooms($('a.nav-link').attr('data-type'), start.format('YYYY-MM-DD HH:MM:SS'), end.format('YYYY-MM-DD HH:MM:SS'));
+                    filterRooms($('a.nav-link').attr('data-type'), start.format(), end.format());
                 }
             });
 

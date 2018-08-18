@@ -14,6 +14,7 @@ use App\Entity\Customer;
 use App\Entity\Room;
 use App\Services\BookingPriceCalculator;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class BookingManager extends AbstractManager
 {
@@ -23,15 +24,22 @@ class BookingManager extends AbstractManager
     protected $calculator;
 
     /**
+     * @var SerializerInterface
+     */
+    protected $serializer;
+
+    /**
      * BookingManager constructor.
      *
      * @param EntityManagerInterface $em
      * @param BookingPriceCalculator $calculator
+     * @param SerializerInterface    $serializer
      */
-    public function __construct(EntityManagerInterface $em, BookingPriceCalculator $calculator)
+    public function __construct(EntityManagerInterface $em, BookingPriceCalculator $calculator, SerializerInterface $serializer)
     {
         parent::__construct($em);
         $this->calculator = $calculator;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -164,46 +172,24 @@ class BookingManager extends AbstractManager
     }
 
     /**
-     * @param int      $bookingId
-     * @param Customer $customer
-     *
-     * @return Booking
-     */
-    public function getBookingFromIdWithCustomer(int $bookingId, Customer $customer): Booking
-    {
-        /** @var Booking|null $booking */
-        $booking = $this->em->getRepository(Booking::class)->find($bookingId);
-        if (null === $booking) {
-            throw new \LogicException('The booking #'.$bookingId.' was not found.');
-        }
-        $booking->setCustomer($customer);
-
-        return $booking;
-    }
-
-    /**
      * @param Booking $booking
      *
      * @throws \Exception
      */
-    public function handleCreateRequest(Booking $booking): void
+    public function handleBookingOptionsRequest(Booking $booking): void
     {
         $this->calculateHTPrice($booking);
-
-        /*
-         * Here, we have a Booking with Options and a final price.
-         * We now need to redirect the customers to the checkout page,
-         * where they will be able to verify their booking and select / add
-         * addresses.
-         * But first, Booking goes to the datatbase, then its id is recovered and set to the session !
-         */
-
         /*
          * TODO: Set a specific status for the Booking entity (pending?) and a ttl to automatically remove the booking if it isn't purchased.
          */
+    }
 
+    /**
+     * @param Booking $booking
+     */
+    public function handleCreateRequest(Booking $booking): void
+    {
         $this->em->persist($booking);
         $this->em->flush();
-        $this->em->refresh($booking);
     }
 }

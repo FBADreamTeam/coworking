@@ -12,7 +12,6 @@ use App\Entity\RoomOption;
 use App\Form\RoomOptionFormType;
 use App\Managers\RoomOptionManager;
 use App\Repository\RoomOptionRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,8 +23,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 class RoomOptionController extends Controller
 {
     /**
-     * @Route("/", name="room_option_index")
-     * @Method({"GET"})
+     * @Route("/", name="room_option_index", methods={"GET"})
      *
      * @param RoomOptionRepository $roomOptionRepository
      *
@@ -42,8 +40,7 @@ class RoomOptionController extends Controller
     }
 
     /**
-     * @Route("/add", name="room_option_add")
-     * @Method({"POST"})
+     * @Route("/add", name="room_option_add", methods={"POST"})
      * @Security("has_role('ROLE_ADMIN')")
      *
      * @param Request           $request
@@ -74,8 +71,7 @@ class RoomOptionController extends Controller
     }
 
     /**
-     * @Route("/show/{id}", name="room_option_show")
-     * @Method({"GET"})
+     * @Route("/show/{id}", name="room_option_show", methods={"GET"})
      * @Security("has_role('ROLE_ADMIN')")
      *
      * @param RoomOption           $id
@@ -93,8 +89,7 @@ class RoomOptionController extends Controller
     }
 
     /**
-     * @Route("/edit/{id}", name="room_option_edit")
-     * @Method({"POST"})
+     * @Route("/edit/{id}", name="room_option_edit", methods={"POST"})
      * @Security("has_role('ROLE_ADMIN')")
      *
      * @param RoomOption        $roomOption
@@ -126,8 +121,7 @@ class RoomOptionController extends Controller
     }
 
     /**
-     * @Route("/delete/{id}", name="room_option_delete")
-     * @Method({"DELETE"})
+     * @Route("/delete/{id}", name="room_option_delete", methods={"DELETE"})
      * @Security("has_role('ROLE_ADMIN')")
      *
      * @param RoomOption        $roomOption

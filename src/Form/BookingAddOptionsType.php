@@ -21,7 +21,7 @@ class BookingAddOptionsType extends AbstractType
             ->add('submit', SubmitType::class, [
                 'translation_domain' => 'booking',
                 'label' => 'booking.btn.book',
-                'attr' => ['class' => 'btn-success w-100'],
+                'attr' => ['class' => 'btn-primary w-100 font-weight-bold'],
             ])
         ;
     }
