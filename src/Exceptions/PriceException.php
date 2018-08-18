@@ -17,7 +17,7 @@ class PriceException extends \Exception
      *
      * @param string $message
      */
-    public function __construct(string $message = '')
+    public function __construct(string $message = self::PRICE_LESS_OR_EQUAL_TO_0)
     {
         parent::__construct($message);
     }

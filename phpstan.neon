@@ -4,7 +4,8 @@ parameters:
 	autoload_files:
 		- bin/.phpunit/phpunit-6.5/vendor/autoload.php
 	ignoreErrors:
-		- '/Call to an undefined method object::getRepository()/'
+		- '#Call to an undefined method object::getRepository()#'
+		- '#Access to an undefined property [a-zA-Z0-9\\_]+::\$id#'
 	includes:
 		- vendor/phpstan/phpstan-phpunit/extension.neon
 		- vendor/phpstan/phpstan-doctrine/extension.neon
