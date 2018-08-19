@@ -301,10 +301,10 @@ class Room
      *
      * @throws PriceException
      */
-    private function checkPrice(int $price)
+    private function checkPrice(int $price): void
     {
         if ($price <= 0) {
-            throw new PriceException(PriceException::PRICE_LESS_OR_EQUAL_TO_0);
+            throw new PriceException();
         }
     }
 }

@@ -12,6 +12,8 @@ use App\Entity\Booking;
 use App\Entity\BookingOptions;
 use App\Entity\Customer;
 use App\Entity\Room;
+use App\Exceptions\BookingInvalidDatesException;
+use App\Exceptions\PriceException;
 use App\Services\BookingPriceCalculator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -54,6 +56,43 @@ class BookingManager extends AbstractManager
     }
 
     /**
+     * @param \DateTimeInterface $date
+     *
+     * @throws BookingInvalidDatesException
+     */
+    public static function checkDateBeforeNow(\DateTimeInterface $date): void
+    {
+        if ($date <= new \DateTime()) {
+            throw new BookingInvalidDatesException(BookingInvalidDatesException::DATES_BEFORE_NOW);
+        }
+    }
+
+    /**
+     * @param \DateTimeInterface $startDate
+     * @param \DateTimeInterface $endDate
+     *
+     * @throws BookingInvalidDatesException
+     */
+    public static function checkDates(\DateTimeInterface $startDate, \DateTimeInterface $endDate): void
+    {
+        if ($startDate > $endDate) {
+            throw new BookingInvalidDatesException();
+        }
+    }
+
+    /**
+     * @param int $price
+     *
+     * @throws PriceException
+     */
+    public static function checkPrice(int $price): void
+    {
+        if ($price <= 0) {
+            throw new PriceException();
+        }
+    }
+
+    /**
      * @param int    $roomId
      * @param string $startDate
      * @param string $endDate
@@ -69,10 +108,16 @@ class BookingManager extends AbstractManager
         $startDateTime = new \DateTime($startDate);
         $endDateTime = new \DateTime($endDate);
 
+        // check dates
+        self::checkDateBeforeNow($startDateTime);
+        self::checkDateBeforeNow($endDateTime);
+        self::checkDates($startDateTime, $endDateTime);
+
         // finding the room
         /** @var Room $room */
         $room = $this->em->getRepository(Room::class)->find($roomId);
         $booking->setRoom($room);
+
         $booking->setStartDate($startDateTime);
         $booking->setEndDate($endDateTime);
 
@@ -120,7 +165,9 @@ class BookingManager extends AbstractManager
      */
     public function calculatePriceWithoutOptions(Booking $booking): void
     {
-        $booking->setTotalHTWithoutOptions($this->calculator->calculateTotalPriceWithoutOptions($booking));
+        $price = $this->calculator->calculateTotalPriceWithoutOptions($booking);
+        self::checkPrice($price);
+        $booking->setTotalHTWithoutOptions($price);
     }
 
     public function clearEmptyOptions(Booking $booking): void
@@ -145,7 +192,9 @@ class BookingManager extends AbstractManager
         // first, we clear the options with 0 or null quantity
         $this->clearEmptyOptions($booking);
         // then, we calculate the price
-        $booking->setTotalHT($this->calculator->calculateTotalPrice($booking));
+        $price = $this->calculator->calculateTotalPrice($booking);
+        self::checkPrice($price);
+        $booking->setTotalHT($price);
     }
 
     /**
