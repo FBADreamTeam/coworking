@@ -118,7 +118,7 @@ class Booking
     public function setStartDate(\DateTimeInterface $startDate): self
     {
         $this->startDate = $startDate;
-        $this->checkDates();
+//        $this->checkDates();
 
         return $this;
     }
@@ -141,7 +141,7 @@ class Booking
     public function setEndDate(\DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
-        $this->checkDates();
+//        $this->checkDates();
 
         return $this;
     }
@@ -291,7 +291,7 @@ class Booking
      */
     public function setTotalHTWithoutOptions(?int $totalHTWithoutOptions): self
     {
-        $this->checkPrice($totalHTWithoutOptions);
+//        $this->checkPrice($totalHTWithoutOptions);
         $this->totalHTWithoutOptions = $totalHTWithoutOptions;
 
         return $this;
@@ -314,31 +314,9 @@ class Booking
      */
     public function setTotalHT(?int $totalHT): self
     {
-        $this->checkPrice($totalHT);
+//        $this->checkPrice($totalHT);
         $this->totalHT = $totalHT;
 
         return $this;
-    }
-
-    /**
-     * @throws BookingInvalidDatesException
-     */
-    protected function checkDates(): void
-    {
-        if ((null !== $this->startDate) && (null !== $this->endDate) && ($this->startDate > $this->endDate)) {
-            throw new BookingInvalidDatesException();
-        }
-    }
-
-    /**
-     * @param int|null $price
-     *
-     * @throws PriceException
-     */
-    protected function checkPrice(?int $price): void
-    {
-        if ($price && $price <= 0) {
-            throw new PriceException();
-        }
     }
 }

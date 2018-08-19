@@ -129,22 +129,22 @@ class BookingTest extends TestCase
         $this->assertInstanceOf(ArrayCollection::class, $this->booking->getBookingOptions());
     }
 
-    public function testStartDateCannotBeAfterEndDate(): void
-    {
-        $this->expectException(BookingInvalidDatesException::class);
-        $this->booking->setEndDate(new \DateTime('2018-08-18'));
-        $this->booking->setStartDate(new \DateTime('2018-08-19'));
-    }
+//    public function testStartDateCannotBeAfterEndDate(): void
+//    {
+//        $this->expectException(BookingInvalidDatesException::class);
+//        $this->booking->setEndDate(new \DateTime('2018-08-18'));
+//        $this->booking->setStartDate(new \DateTime('2018-08-19'));
+//    }
 
-    public function testBookingPricesCannotBeLessOrEqualToZero(): void
-    {
-        $this->expectException(PriceException::class);
-        $this->booking->setTotalHT(0);
-        $this->expectException(PriceException::class);
-        $this->booking->setTotalHTWithoutOptions(0);
-        $this->expectException(PriceException::class);
-        $this->booking->setTotalHT(-10);
-        $this->expectException(PriceException::class);
-        $this->booking->setTotalHTWithoutOptions(-10);
-    }
+//    public function testBookingPricesCannotBeLessOrEqualToZero(): void
+//    {
+//        $this->expectException(PriceException::class);
+//        $this->booking->setTotalHT(0);
+//        $this->expectException(PriceException::class);
+//        $this->booking->setTotalHTWithoutOptions(0);
+//        $this->expectException(PriceException::class);
+//        $this->booking->setTotalHT(-10);
+//        $this->expectException(PriceException::class);
+//        $this->booking->setTotalHTWithoutOptions(-10);
+//    }
 }

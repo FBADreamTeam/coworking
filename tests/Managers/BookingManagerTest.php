@@ -15,6 +15,7 @@ use App\Entity\Room;
 use App\Entity\RoomOption;
 use App\Entity\RoomType;
 use App\Exceptions\BookingInvalidDatesException;
+use App\Exceptions\PriceException;
 use App\Managers\BookingManager;
 use App\Repository\RoomRepository;
 use App\Services\BookingPriceCalculator;
@@ -37,6 +38,12 @@ class BookingManagerTest extends TestCase
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $serializerMock;
 
+    /** @var \DateTime */
+    protected $startDate;
+
+    /** @var \DateTime */
+    protected $endDate;
+
     protected function setUp(): void
     {
         /** @var EntityManagerInterface&PHPUnit_Framework_MockObject_MockObject $emMock */
@@ -51,6 +58,12 @@ class BookingManagerTest extends TestCase
         $this->emMock = $emMock;
         $this->calculatorMock = $calculatorMock;
         $this->serializerMock = $serializerMock;
+
+        $this->startDate = new \DateTime();
+        $this->startDate->add(new \DateInterval('P2D'));
+
+        $this->endDate = new \DateTime();
+        $this->endDate->add(new \DateInterval('P3D'));
     }
 
     public function testCanBeConstructed(): void
@@ -79,18 +92,28 @@ class BookingManagerTest extends TestCase
         $roomRepoMock->method('find')->willReturn($roomMock);
 
         $this->emMock->method('getRepository')->willReturn($roomRepoMock);
-        $this->emMock->expects($this->exactly(2))->method('getRepository')->with($this->equalTo(Room::class));
+        $this->emMock->expects($this->exactly(1))->method('getRepository')->with($this->equalTo(Room::class));
 
-        $booking = $this->bookingManager->createBookingFromRoomAndDates(1, '2018-08-18', '2018-08-19');
+        $booking = $this->bookingManager->createBookingFromRoomAndDates(1, $this->startDate->format('Y-m-d'), $this->endDate->format('Y-m-d'));
 
         $this->assertEquals(1, $booking->getRoom()->getId());
         $this->assertInstanceOf(\DateTimeInterface::class, $booking->getStartDate());
-        $this->assertEquals('2018-08-18', $booking->getStartDate()->format('Y-m-d'));
+        $this->assertEquals($this->startDate->format('Y-m-d'), $booking->getStartDate()->format('Y-m-d'));
         $this->assertInstanceOf(\DateTimeInterface::class, $booking->getEndDate());
-        $this->assertEquals('2018-08-19', $booking->getEndDate()->format('Y-m-d'));
+        $this->assertEquals($this->endDate->format('Y-m-d'), $booking->getEndDate()->format('Y-m-d'));
 
         $this->expectException(BookingInvalidDatesException::class);
-        $this->bookingManager->createBookingFromRoomAndDates(1, '2018-08-20', '2018-08-19');
+        $this->bookingManager->createBookingFromRoomAndDates(1, $this->endDate->format('Y-m-d'), $this->startDate->format('Y-m-d'));
+    }
+
+    public function testCheckDateBeforeNow(): void
+    {
+        $startDate = (new \DateTime())->sub(new \DateInterval('P4D'));
+        $endDate = (new \DateTime())->sub(new \DateInterval('P5D'));
+
+        $this->expectException(BookingInvalidDatesException::class);
+        $this->expectExceptionMessage(BookingInvalidDatesException::DATES_BEFORE_NOW);
+        $this->bookingManager->createBookingFromRoomAndDates(1, $startDate->format('Y-m-d'), $endDate->format('Y-m-d'));
     }
 
     public function testClearEmptyOptions(): void
@@ -115,8 +138,11 @@ class BookingManagerTest extends TestCase
 
     public function testCalculatePriceWithoutOptions(): void
     {
-        $this->calculatorMock->method('calculateTotalPriceWithoutOptions')->willReturn(1000);
-        $this->calculatorMock->expects($this->once())
+        $this->calculatorMock
+            ->method('calculateTotalPriceWithoutOptions')
+            ->willReturn(1000)
+        ;
+        $this->calculatorMock->expects($this->any())
             ->method('calculateTotalPriceWithoutOptions')
             ->with($this->isInstanceOf(Booking::class))
         ;
@@ -125,6 +151,33 @@ class BookingManagerTest extends TestCase
         $this->bookingManager->calculatePriceWithoutOptions($booking);
 
         $this->assertEquals(1000, $booking->getTotalHTWithoutOptions());
+
+        // test price checks
+        /** @var EntityManagerInterface&PHPUnit_Framework_MockObject_MockObject $emMock */
+        $emMock = $this->createMock(EntityManagerInterface::class);
+        /** @var SerializerInterface&PHPUnit_Framework_MockObject_MockObject $serializerMock */
+        $serializerMock = $this->createMock(SerializerInterface::class);
+        /** @var BookingPriceCalculator&PHPUnit_Framework_MockObject_MockObject $calculatorMock */
+        $calculatorMock = $this->createMock(BookingPriceCalculator::class);
+        $calculatorMock
+            ->method('calculateTotalPriceWithoutOptions')
+            ->willReturn(0)
+        ;
+
+        $bookingManager = new BookingManager($emMock, $calculatorMock, $serializerMock);
+        $this->expectException(PriceException::class);
+        $bookingManager->calculatePriceWithoutOptions($booking);
+
+        /** @var BookingPriceCalculator&PHPUnit_Framework_MockObject_MockObject $calculatorMock */
+        $calculatorMock = $this->createMock(BookingPriceCalculator::class);
+        $calculatorMock
+            ->method('calculateTotalPriceWithoutOptions')
+            ->willReturn(-10)
+        ;
+
+        $bookingManager = new BookingManager($emMock, $calculatorMock, $serializerMock);
+        $this->expectException(PriceException::class);
+        $bookingManager->calculatePriceWithoutOptions($booking);
     }
 
     public function testCreateBookingOptions(): void
@@ -189,7 +242,7 @@ class BookingManagerTest extends TestCase
             ->with($this->isInstanceOf(Booking::class))
         ;
 
-        $booking = $this->bookingManager->createBookingAndCalculatePriceWithoutOptions(1, '2018-08-19', '2018-08-20');
+        $booking = $this->bookingManager->createBookingAndCalculatePriceWithoutOptions(1, $this->startDate->format('Y-m-d'), $this->endDate->format('Y-m-d'));
 
         $this->assertEquals(1000, $booking->getTotalHTWithoutOptions());
     }
