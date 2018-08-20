@@ -1,6 +1,8 @@
 <?php
 
-use \Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+namespace App\Tests\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class CustomerControllerFunctionalTest extends WebTestCase
 {
@@ -28,22 +30,21 @@ class CustomerControllerFunctionalTest extends WebTestCase
         $crawler = $client->request('GET', '/profile/new'); // Le crawler nous permet de naviguer dans le DOM
 
         $form = $crawler->selectButton('Valider')->form();
-        $form['customer[firstName]'] = "brahim Test";
-        $form['customer[lastName]'] = "louridi Test";
-        $form['customer[addresses][0][street]'] = "rue des fous";
+        $form['customer[firstName]'] = 'brahim Test';
+        $form['customer[lastName]'] = 'louridi Test';
+        $form['customer[addresses][0][street]'] = 'rue des fous';
         $form['customer[addresses][0][postalCode]'] = 77130;
-        $form['customer[addresses][0][city]'] = "MELUN";
-        $form['customer[addresses][0][country]'] = "France";
-        $form['customer[addresses][0][addressCpl]'] = "bla bla 10";
-        $form['customer[email]'] = "test".rand(0, 100)."@test".rand(0, 100).".com";
-        $form['customer[password]'] = "testtest";
-        $form['customer[password_confirm]'] = "testtest";
+        $form['customer[addresses][0][city]'] = 'MELUN';
+        $form['customer[addresses][0][country]'] = 'France';
+        $form['customer[addresses][0][addressCpl]'] = 'bla bla 10';
+        $form['customer[email]'] = 'test'.rand(0, 100).'@test'.rand(0, 100).'.com';
+        $form['customer[password]'] = 'testtest';
+        $form['customer[password_confirm]'] = 'testtest';
 
         $client->submit($form);
 
         $client->followRedirect(); // On doit suivre la redirection lors de l'inscription du user pour récupérer le bon contenu
 
-        $this->assertContains( 'Votre compte a bien été créé', $client->getResponse()->getContent() );
+        $this->assertContains('Votre compte a bien été créé', $client->getResponse()->getContent());
     }
-
 }
