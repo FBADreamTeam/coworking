@@ -16,6 +16,8 @@
         <env name="SHELL_VERBOSITY" value="-1" />
         <!-- define your env variables for the test env here -->
         <env name="DATABASE_URL" value="sqlite:///%kernel.project_dir%/var/data.db"/>
+        <env name="PANTHER_NO_HEADLESS" value="1"/>
+        <env name="PANTHER_CHROME_ARGUMENTS" value="--disable-gpu"/>
 
         <!-- ###+ knplabs/knp-snappy-bundle ### -->
         <env name="WKHTMLTOPDF_PATH" value="/usr/local/bin/wkhtmltopdf"/>
