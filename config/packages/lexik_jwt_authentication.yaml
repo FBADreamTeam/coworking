@@ -3,3 +3,31 @@ lexik_jwt_authentication:
     public_key: '%env(resolve:JWT_PUBLIC_KEY)%'
     pass_phrase: '%env(JWT_PASSPHRASE)%'
     token_ttl: 3600
+    user_identity_field: email  # key under which the user identity will be stored in the token payload
+    clock_skew: 0
+
+    # token encoding/decoding settings
+    encoder:
+        # token encoder/decoder service - default implementation based on the lcobucci/jwt library
+        service:            lexik_jwt_authentication.encoder.lcobucci
+
+        # encryption algorithm used by the encoder service
+        signature_algorithm: RS256
+
+    # token extraction settings
+    token_extractors:
+        # look for a token as Authorization Header
+        authorization_header:
+            enabled: true
+            prefix:  Bearer
+            name:    Authorization
+
+        # check token in a cookie
+        cookie:
+            enabled: false
+            name:    BEARER
+
+        # check token in query string parameter
+        query_parameter:
+            enabled: false
+            name:    bearer

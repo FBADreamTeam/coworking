@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Managers;
+namespace App\Tests\Notifier;
 
 use App\Entity\Customer;
 use App\Events\UserEvents;
@@ -15,7 +15,7 @@ use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class UserManagerFunctionalTest extends WebTestCase
+class NotifierTest extends WebTestCase
 {
     /**
      * Called before doing test.
@@ -30,24 +30,7 @@ class UserManagerFunctionalTest extends WebTestCase
         $application->run(new StringInput('doctrine:database:drop --env=test --force'));
         $application->run(new StringInput('doctrine:database:create --env=test'));
         $application->run(new StringInput('doctrine:schema:update --env=test --force'));
-    }
-
-    /**
-     * Test just create user.
-     */
-    public function testCreateUser(): void
-    {
-        $client = static::createClient();
-        /** @var CustomerManager $service */
-        $service = $client->getContainer()->get(CustomerManager::class);
-        $entityManager = $client->getContainer()->get('doctrine');
-        $user = new Customer();
-        $user->setFirstName('alex');
-        $user->setLastName('Canivez');
-        $user->setEmail('customer@xyz.com');
-        $user->setPassword('toto');
-        $service->createCustomer($user);
-        $this->assertCount(1, $entityManager->getRepository(Customer::class)->findAll());
+        $application->run(new StringInput('doctrine:fixtures:load --env=test'));
     }
 
     /**
@@ -69,11 +52,11 @@ class UserManagerFunctionalTest extends WebTestCase
          * We tell what we expect
          */
         $dispatcherMock->expects($this->once())
-                ->method('dispatch')
-                ->with(
-                    $this->stringContains(UserEvents::USER_CREATED),
-                    $this->isInstanceOf(Event::class)
-                );
+            ->method('dispatch')
+            ->with(
+                $this->stringContains(UserEvents::USER_CREATED),
+                $this->isInstanceOf(Event::class)
+            );
 
         /**
          * Get instance of manager.
@@ -84,36 +67,12 @@ class UserManagerFunctionalTest extends WebTestCase
          * Create Customer.
          */
         $user = new Customer();
-        $user->setEmail('customer2@xyz.com');
+        $user->setEmail('customer@xyz.com');
         $user->setFirstName('alex');
         $user->setLastName('Canivez');
         $user->setPassword('toto');
         $manager->createCustomer($user);
 
-        $this->assertCount(1, $client->getContainer()->get('doctrine')->getRepository(Customer::class)->findAll());
-    }
-
-    public function testUpdateCustomer()
-    {
-        $client = static::createClient();
-        /** @var CustomerManager $service */
-        $service = $client->getContainer()->get(CustomerManager::class);
-        $entityManager = $client->getContainer()->get('doctrine');
-
-        $customer = $entityManager
-                ->getRepository(Customer::class)
-                ->findOneBy(['firstName' => 'alex'])
-            ;
-
-        $customer->setFirstName('brahimTest');
-
-        $service->updateCustomer();
-
-        $customer = $entityManager
-                ->getRepository(Customer::class)
-                ->findOneBy(['firstName' => 'brahimTest']) ? true : false
-            ;
-
-        $this->assertTrue($customer);
+        $this->assertCount(3, $client->getContainer()->get('doctrine')->getRepository(Customer::class)->findAll());
     }
 }

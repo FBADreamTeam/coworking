@@ -1,0 +1,67 @@
+{# templates/security/login.html.twig #}
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <div class="features">
+        <div class="container">
+            <div class="row align-items-end">
+
+                <!-- Features Item -->
+                <div class="col-lg-12 features_col">
+                    <h2 class="greetings"></h2>
+                    <div class="my-info">
+                        <hr>
+                        <p>Email : <span class="mymail"></span></p>
+                        <hr>
+                        <div class="address">
+                            <div class="row">
+
+                            </div>
+                        </div>
+
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function(){
+            var access_token = localStorage.getItem('jsonLoginToken');
+            $.ajax({
+                url: "/api/user/info",
+                method : 'GET',
+                beforeSend : function( xhr ) {
+                    xhr.setRequestHeader( 'Authorization', 'BEARER ' + access_token );
+                },
+                success: function(response, status, xhr){
+                    console.log(response);
+                    $('.greetings').html("Bonjour "+ response.firstName + ' '+ response.lastName);
+                    $('.mymail').html(response.email);
+                    var addresses = "";
+                    response.addresses.forEach(function(element, index) {
+                        addresses += "<div class='col-md-4'>"+
+                                "<p>Adresse "+(index+1) +" :</p>" +
+                                "<p class=\"street\">"+element.street+"</p>";
+                                if(element.cpl !== null){
+                                    addresses += "<p class=\"address_cpl\">"+element.cpl+"</p>";
+                                }
+                        addresses += "<p class=\"postal-code\">"+element.postal_code+" "+element.city+", "+element.country+"</p>" +
+                            "</div>";
+                    });
+                    $('.address .row').html(addresses);
+
+                },
+                error: function(xhr, status, error) {
+                    if (error === 'Unauthorized'){
+                        window.location.replace('http://coworking.local/login');
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}

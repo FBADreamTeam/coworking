@@ -37,20 +37,18 @@
                         data: JSON.stringify({
                             email: usernameInput.val(),
                             password: passwordInput.val()
-                        })
-                    })
-                        .done(function(data) {
-                            console.log(data);
+                        }),
+                        success: function(data, status, xhr){
                             if (!localStorage) {
                                 return;
                             }
-
                             localStorage.setItem('jsonLoginToken', data['token']);
-                            console.log(localStorage);
-                        })
-                        .fail(function () {
-                            
-                        });
+                            window.location.replace('http://coworking.local/info_user');
+                        },
+                        error: function(xhr, status, error) {
+
+                        }
+                    });
                 });
             };
 

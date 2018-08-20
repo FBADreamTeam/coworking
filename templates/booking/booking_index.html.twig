@@ -54,10 +54,10 @@
                                             <div class="card m-2 float-lg-left" data-id="{{ room.id }}">
                                                 <div class="card-body">
                                                     <div class="row">
-                                                        <div class="col-sm-8">
+                                                        <div class="col-sm-9">
                                                             <h3>{{ room.name }}</h3>
                                                         </div>
-                                                        <div class="col-sm-4 text-sm-right">
+                                                        <div class="col-sm-3 text-sm-right">
                                                             {% if room.featuredImage %}
                                                                 <a href="#" data-toggle="modal" data-target="#imageModal{{ room.id }}"><i class="fas fa-eye"></i></a>
                                                                 <!-- Modal -->
@@ -71,7 +71,7 @@
                                                                                 </button>
                                                                             </div>
                                                                             <div class="modal-body">
-                                                                                <img src="{{ asset(getAssetsDir() ~ room.featuredImage) }}" alt="{{ room.name }}">
+                                                                                <img src="{{ asset(getAssetsDir() ~ room.featuredImage) }}" alt="{{ room.name }}" style="width: 100%;">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -148,9 +148,9 @@
                 // for each rooms, create a card
                 rooms.forEach(function(room) {
                     // body
-                    let body = '<div class="card m-2 float-lg-left" data-id="' + room.id + '"><div class="card-body"><div class="row"><div class="col-sm-8"><h3>' + room.name + '</h3></div><div class="col-sm-4 text-sm-right">';
+                    let body = '<div class="card m-2 float-lg-left" data-id="' + room.id + '"><div class="card-body"><div class="row"><div class="col-sm-9"><h3>' + room.name + '</h3></div><div class="col-sm-3 text-sm-right">';
                     if (room.featuredImage) {
-                        body += '<a href="#" data-toggle="modal" data-target="#imageModal' + room.id + '"><i class="fas fa-eye"></i></a><div class="modal fade" id="imageModal' + room.id + '" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel' + room.id + '" aria-hidden="true"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="imageModalLabel' + room.id + '">' + room.name + '</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><img src="' + assetsDir + room.featuredImage + '" alt="' + room.name + '"></div></div></div></div>';
+                        body += '<a href="#" data-toggle="modal" data-target="#imageModal' + room.id + '"><i class="fas fa-eye"></i></a><div class="modal fade" id="imageModal' + room.id + '" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel' + room.id + '" aria-hidden="true"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="imageModalLabel' + room.id + '">' + room.name + '</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><img src="' + assetsDir + room.featuredImage + '" alt="' + room.name + '" style="width: 100%;"></div></div></div></div>';
                     }
                     body += '</div></div><div class="row"><div class="col-sm-12">' + room.description + '</div></div><div class="row"><div class="offset-6"></div><div class="col-sm-6 text-sm-right text-white"><span class="bg-primary px-2">' + room.capacity + ' <i class="fas fa-users"></i></span></div></div><a href="#" class="btn btn-primary btn-block mt-2">' + bookingBtnLabel + '</a></div></div>';
 
