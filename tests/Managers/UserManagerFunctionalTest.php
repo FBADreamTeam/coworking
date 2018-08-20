@@ -94,4 +94,29 @@ class UserManagerFunctionalTest extends WebTestCase
 
         $this->assertCount(1, $client->getContainer()->get('doctrine')->getRepository(Customer::class)->findAll());
     }
+
+    public function testUpdateCustomer()
+    {
+        $client = static::createClient();
+        /** @var CustomerManager $service */
+        $service = $client->getContainer()->get(CustomerManager::class);
+        $entityManager = $client->getContainer()->get('doctrine');
+
+        $customer = $entityManager
+            ->getRepository(Customer::class)
+            ->findOneBy(['firstName' => 'alex'])
+        ;
+
+        $customer->setFirstName('brahimTest');
+
+        $service->updateCustomer();
+
+        $customer = $entityManager
+            ->getRepository(Customer::class)
+            ->findOneBy(['firstName' => 'brahimTest']) ? TRUE : FALSE
+        ;
+
+        $this->assertTrue($customer);
+    }
+
 }
