@@ -34,10 +34,10 @@ class CustomerFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $customer = new Customer();
-        $customer->setFirstName('first name test 1');
-        $customer->setLastName('last name test 1');
+        $customer->setFirstName('Alexandre');
+        $customer->setLastName('Canivez');
         $customer->setPassword($this->encoder->encodePassword($customer, 'testtest'));
-        $customer->setEmail('test@test.xyz');
+        $customer->setEmail('alex@test.xyz');
         $address = new Address();
         $address->setStreet('66 rue Test');
         $address->setPostalCode('75019');
@@ -46,10 +46,10 @@ class CustomerFixtures extends Fixture
         $customer->addAddress($address);
 
         $customer2 = new Customer();
-        $customer2->setFirstName('first name test 2');
-        $customer2->setLastName('last name test 2');
+        $customer2->setFirstName('Fred');
+        $customer2->setLastName('Delaval-dupuis');
         $customer2->setPassword($this->encoder->encodePassword($customer, 'testtest'));
-        $customer2->setEmail('test2@test.xyz');
+        $customer2->setEmail('fred@test.xyz');
         $address2 = new Address();
         $address2->setStreet('66 rue Test');
         $address2->setPostalCode('75019');
@@ -58,8 +58,22 @@ class CustomerFixtures extends Fixture
         $address2->setAddressCpl('n°2');
         $customer2->addAddress($address2);
 
+        $customer3 = new Customer();
+        $customer3->setFirstName('Brahim');
+        $customer3->setLastName('Louridi');
+        $customer3->setPassword($this->encoder->encodePassword($customer, 'testtest'));
+        $customer3->setEmail('brahim@test.xyz');
+        $address3 = new Address();
+        $address3->setStreet('66 rue Test');
+        $address3->setPostalCode('75019');
+        $address3->setCity('Paris');
+        $address3->setCountry('France');
+        $address3->setAddressCpl('n°2');
+        $customer2->addAddress($address3);
+
         $manager->persist($customer);
         $manager->persist($customer2);
+        $manager->persist($customer3);
 
         $manager->flush();
     }

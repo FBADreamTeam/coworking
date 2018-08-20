@@ -35,9 +35,17 @@ class RoomFixtures extends Fixture
         $roomType->setRoomOptions($this->addRoomOptions($om, $roomType));
         $om->persist($roomType);
 
+        $deskName = [
+            'Moineau',
+            'Chouette',
+            'Cygogne',
+            'Corneille',
+            'Goélan',
+        ];
+
         for ($i = 0; $i < 5; ++$i) {
             $room = new Room();
-            $room->setName('bureau n°'.($i + 1));
+            $room->setName('bureau '.$deskName[$i]);
             $room->setCapacity(10);
             $room->setDailyPrice(1000);
             $room->setHourlyPrice(200);
@@ -45,6 +53,7 @@ class RoomFixtures extends Fixture
             $room->setMonthlyPrice(14000);
             $room->setDescription('Super joli bureau');
             $room->setStatus('dispo');
+            $room->setFeaturedImage('bureau-amenage.jpeg');
             $room->setRoomType($roomType);
             $om->persist($room);
         }
@@ -60,9 +69,17 @@ class RoomFixtures extends Fixture
         $roomType->setRoomOptions($this->addRoomOptions($om, $roomType));
         $om->persist($roomType);
 
+        $roomName = [
+            'Picasso',
+            'Van Gogh',
+            'Cézanne',
+            'Monet',
+            'Gauguin',
+        ];
+
         for ($i = 0; $i < 5; ++$i) {
             $room = new Room();
-            $room->setName('Salle n°'.($i + 1));
+            $room->setName('Salle '.$roomName[$i]);
             $room->setCapacity(1000);
             $room->setDailyPrice(1000);
             $room->setHourlyPrice(200);
@@ -70,6 +87,7 @@ class RoomFixtures extends Fixture
             $room->setMonthlyPrice(14000);
             $room->setDescription('Super jolie salle');
             $room->setStatus('dispo');
+            $room->setFeaturedImage('conference-room-beautiful-view.jpg');
             $room->setRoomType($roomType);
             $om->persist($room);
         }
@@ -81,9 +99,16 @@ class RoomFixtures extends Fixture
      */
     private function addRoomOptions(ObjectManager $om, RoomType $roomType)
     {
+        $optionName = [
+            'Ordinateur',
+            'Bureau(x) supplémentaire(s)',
+            'Petit-déjeuner',
+            'Forfait impression',
+            'Téléphone',
+        ];
         for ($i = 0; $i < 5; ++$i) {
             $roomOption = new RoomOption();
-            $roomOption->setLabel('Option n°'.$i);
+            $roomOption->setLabel($optionName[$i]);
             $roomOption->setDescription('Description de l\'option');
             $roomOption->setPrice(1000);
             $roomOption->addRoomType($roomType);

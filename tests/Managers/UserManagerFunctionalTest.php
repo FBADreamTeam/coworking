@@ -5,15 +5,9 @@ namespace App\Tests\Managers;
 use App\Entity\Customer;
 use App\Events\UserEvents;
 use App\Managers\CustomerManager;
-use Doctrine\ORM\EntityManager;
-use PHPUnit_Framework_MockObject_MockObject;
-use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Console\Input\StringInput;
-use Symfony\Component\EventDispatcher\Event;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class UserManagerFunctionalTest extends WebTestCase
 {
