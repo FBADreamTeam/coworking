@@ -81,7 +81,7 @@ class BookingPantherWebTest extends PantherTestCase
         $this->assertEquals(200, $response->getStatus());
         $this->assertEquals('form', $client->findElement(WebDriverBy::name('customer_login'))->getTagName());
 
-        $client->findElement(WebDriverBy::id('customer_login_email'))->sendKeys('test@test.xyz');
+        $client->findElement(WebDriverBy::id('customer_login_email'))->sendKeys('alex@test.xyz');
         $client->findElement(WebDriverBy::id('customer_login_password'))->sendKeys('testtest');
         $client->findElement(WebDriverBy::id('customer_login_submit'))->submit();
         sleep(4);

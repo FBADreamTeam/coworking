@@ -2,10 +2,28 @@
 
 namespace App\Tests\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Console\Input\StringInput;
 
 class CustomerControllerFunctionalTest extends WebTestCase
 {
+    /**
+     * Called before doing test.
+     *
+     * @throws \Exception
+     */
+    public static function setUpBeforeClass()
+    {
+        $client = self::createClient();
+        $application = new Application($client->getKernel());
+        $application->setAutoExit(false);
+        $application->run(new StringInput('doctrine:database:drop --env=test --force'));
+        $application->run(new StringInput('doctrine:database:create --env=test'));
+        $application->run(new StringInput('doctrine:schema:update --env=test --force'));
+        $application->run(new StringInput('doctrine:fixtures:load --env=test'));
+    }
+
     public function testLoginPageIsUp()
     {
         $client = static::createClient();

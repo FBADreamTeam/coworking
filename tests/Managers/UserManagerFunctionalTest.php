@@ -42,7 +42,6 @@ class UserManagerFunctionalTest extends WebTestCase
         $service = $client->getContainer()->get(CustomerManager::class);
         $entityManager = $client->getContainer()->get('doctrine');
         $user = new Customer();
-        $user->setEmail('customer@xyz.com');
         $user->setFirstName('alex');
         $user->setLastName('Canivez');
         $user->setEmail('customer@xyz.com');
@@ -85,10 +84,9 @@ class UserManagerFunctionalTest extends WebTestCase
          * Create Customer.
          */
         $user = new Customer();
-        $user->setEmail('customer@xyz.com');
+        $user->setEmail('customer2@xyz.com');
         $user->setFirstName('alex');
         $user->setLastName('Canivez');
-        $user->setEmail('customer@xyz.com');
         $user->setPassword('toto');
         $manager->createCustomer($user);
 
