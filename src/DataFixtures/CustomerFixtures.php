@@ -44,6 +44,12 @@ class CustomerFixtures extends Fixture
         $address->setCity('Paris');
         $address->setCountry('France');
         $customer->addAddress($address);
+        $address4 = new Address();
+        $address4->setStreet('66 rue Test');
+        $address4->setPostalCode('75019');
+        $address4->setCity('Paris');
+        $address4->setCountry('France');
+        $customer->addAddress($address4);
 
         $customer2 = new Customer();
         $customer2->setFirstName('Fred');

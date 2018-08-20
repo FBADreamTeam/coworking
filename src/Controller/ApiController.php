@@ -57,13 +57,21 @@ class ApiController extends Controller
      *   "_api_receive"=false
      * })
      */
-    public function customerInfo()
+    public function customerInfo(): JsonResponse
     {
-//        dd($this->getUser());
+        $userAddresses = [];
+        foreach ($this->getUser()->getAddresses() as $id => $address) {
+            $userAddresses[$id]['street'] = $address->getStreet();
+            $userAddresses[$id]['cpl'] = $address->getAddressCpl();
+            $userAddresses[$id]['postal_code'] = $address->getPostalCode();
+            $userAddresses[$id]['city'] = $address->getCity();
+            $userAddresses[$id]['country'] = $address->getCountry();
+        }
         $responseUser = [
             'firstName' => $this->getUser()->getFirstName(),
             'lastName' => $this->getUser()->getLastName(),
             'email' => $this->getUser()->getEmail(),
+            'addresses' => $userAddresses,
         ];
 
         return new JsonResponse($responseUser);

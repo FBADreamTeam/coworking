@@ -17,7 +17,6 @@ use Doctrine\ORM\Mapping as ORM;
  *       "user_info"="user_info"
  *     },
  * })
- * @ApiResource()
  */
 class Customer extends AbstractUser
 {

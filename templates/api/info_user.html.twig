@@ -13,7 +13,13 @@
                         <hr>
                         <p>Email : <span class="mymail"></span></p>
                         <hr>
+                        <div class="address">
+                            <div class="row">
 
+                            </div>
+                        </div>
+
+                        <hr>
                     </div>
                 </div>
             </div>
@@ -36,6 +42,19 @@
                     console.log(response);
                     $('.greetings').html("Bonjour "+ response.firstName + ' '+ response.lastName);
                     $('.mymail').html(response.email);
+                    var addresses = "";
+                    response.addresses.forEach(function(element, index) {
+                        addresses += "<div class='col-md-4'>"+
+                                "<p>Adresse "+(index+1) +" :</p>" +
+                                "<p class=\"street\">"+element.street+"</p>";
+                                if(element.cpl !== null){
+                                    addresses += "<p class=\"address_cpl\">"+element.cpl+"</p>";
+                                }
+                        addresses += "<p class=\"postal-code\">"+element.postal_code+" "+element.city+", "+element.country+"</p>" +
+                            "</div>";
+                    });
+                    $('.address .row').html(addresses);
+
                 },
                 error: function(xhr, status, error) {
                     if (error === 'Unauthorized'){
