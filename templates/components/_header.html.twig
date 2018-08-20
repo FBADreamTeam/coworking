@@ -15,19 +15,17 @@
         <ul class="nav_items">
             <li class="active"><a href="{{path('index')}}"><span>{{ 'nav.home' | trans }}</span></a></li>
             <li><a href="{{path('booking_index')}}"><span>{{ 'nav.booking' | trans }}</span></a></li>
-            <li><a href="blog.html"><span>{{ 'nav.pricing' | trans }}</span></a></li>
-            <li><a href="contact.html"><span>{{ 'nav.contact' | trans }}</span></a></li>
+
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <li> <a href="{{ path('profile_update') }}">Mon compte</a></li>
                 <li >
                     <a href="{{ path('profile_logout') }}">{{ 'nav.logout' | trans }} </a>
                 </li>
             {% else %}
-                {#<li {% if (active == 'adduser') %} class="active" {% endif %}>#}
                 <li>
                     <a href="{{ path('profile_new') }}">{{ 'nav.register' | trans }} </a>
                 </li>
-                {#<li {% if (active == 'login') %} class="active" {% endif %}>#}
+
                 <li>
                     <a href="{{ path('profile_login') }}">{{ 'nav.login' | trans }} </a>
                 </li>
