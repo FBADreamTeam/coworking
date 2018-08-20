@@ -5,8 +5,8 @@ php:
 #  - nightly #Last hot version
 
 #  Use when we do functional test with Panther
-#addons:
-#  chrome: stable
+addons:
+  chrome: stable
 
 cache:
   directories:
