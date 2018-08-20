@@ -16,6 +16,8 @@ class RoomFixtures extends Fixture
      * Load data fixtures with the passed EntityManager.
      *
      * @param ObjectManager $manager
+     *
+     * @throws \App\Exceptions\PriceException
      */
     public function load(ObjectManager  $manager)
     {
@@ -27,6 +29,8 @@ class RoomFixtures extends Fixture
 
     /**
      * @param ObjectManager $om
+     *
+     * @throws \App\Exceptions\PriceException
      */
     private function addRoomDesk(ObjectManager $om)
     {
@@ -45,7 +49,7 @@ class RoomFixtures extends Fixture
 
         for ($i = 0; $i < 5; ++$i) {
             $room = new Room();
-            $room->setName('bureau '.$deskName[$i]);
+            $room->setName('Bureau '.$deskName[$i]);
             $room->setCapacity(10);
             $room->setDailyPrice(1000);
             $room->setHourlyPrice(200);
@@ -61,6 +65,8 @@ class RoomFixtures extends Fixture
 
     /**
      * @param ObjectManager $om
+     *
+     * @throws \App\Exceptions\PriceException
      */
     private function addRoomConference(ObjectManager $om): void
     {

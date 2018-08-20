@@ -5,9 +5,15 @@ namespace App\Tests\Managers;
 use App\Entity\Customer;
 use App\Events\UserEvents;
 use App\Managers\CustomerManager;
+use Doctrine\ORM\EntityManager;
+use PHPUnit_Framework_MockObject_MockObject;
+use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Console\Input\StringInput;
+use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class UserManagerFunctionalTest extends WebTestCase
 {
@@ -64,11 +70,11 @@ class UserManagerFunctionalTest extends WebTestCase
          * We tell what we expect
          */
         $dispatcherMock->expects($this->once())
-            ->method('dispatch')
-            ->with(
-                $this->stringContains(UserEvents::USER_CREATED),
-                $this->isInstanceOf(Event::class)
-            );
+                ->method('dispatch')
+                ->with(
+                    $this->stringContains(UserEvents::USER_CREATED),
+                    $this->isInstanceOf(Event::class)
+                );
 
         /**
          * Get instance of manager.
@@ -97,20 +103,19 @@ class UserManagerFunctionalTest extends WebTestCase
         $entityManager = $client->getContainer()->get('doctrine');
 
         $customer = $entityManager
-            ->getRepository(Customer::class)
-            ->findOneBy(['firstName' => 'alex'])
-        ;
+                ->getRepository(Customer::class)
+                ->findOneBy(['firstName' => 'alex'])
+            ;
 
         $customer->setFirstName('brahimTest');
 
         $service->updateCustomer();
 
         $customer = $entityManager
-            ->getRepository(Customer::class)
-            ->findOneBy(['firstName' => 'brahimTest']) ? TRUE : FALSE
-        ;
+                ->getRepository(Customer::class)
+                ->findOneBy(['firstName' => 'brahimTest']) ? true : false
+            ;
 
         $this->assertTrue($customer);
     }
-
 }
