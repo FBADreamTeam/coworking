@@ -149,7 +149,7 @@
                     </div>
                     <div id="collapseImages" class="collapse" aria-labelledby="headingImages" data-parent="#accordion">
                         <div class="card-body">
-                            <img src="{{ asset(getAssetsDir() ~ room.featuredImage) }}" alt="{{ room.name }}">
+                            <img src="{{ asset(getAssetsDir() ~ room.featuredImage) }}" alt="{{ room.name }}" class="img-fluid">
                         </div>
                     </div>
                 </div>
@@ -185,12 +185,6 @@
             let endDate = moment('{{ booking.endDate|date('Y-m-d H:i:s') }}');
             let duration = moment.duration(endDate.diff(startDate));
 
-            // console.log(startDate);
-            // console.log(endDate);
-            // console.log(duration.asDays());
-            // console.log(duration.asWeeks());
-            // console.log(duration.asMonths());
-
             // compute the view to display (day, week, month)
             let view = '';
             let allDay = false;
@@ -205,8 +199,6 @@
             } else {
                 view = 'agendaDay';
             }
-
-            // console.log(view);
 
             // adding FullCalendar
             $('#full-calendar').fullCalendar({

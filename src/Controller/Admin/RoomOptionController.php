@@ -32,7 +32,6 @@ class RoomOptionController extends Controller
     public function index(RoomOptionRepository $roomOptionRepository)
     {
         $roomOptions = $roomOptionRepository->findAllWithRoomTypes();
-        dump($roomOptions);
 
         return $this->render('admin/room_option/index.html.twig', [
             'roomOptions' => $roomOptions,
