@@ -119,6 +119,7 @@ class RoomFormType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Room::class,
             'image_url' => null,
+            'translation_domain' => 'admin',
         ]);
     }
 }

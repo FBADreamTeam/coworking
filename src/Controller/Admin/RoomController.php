@@ -78,7 +78,7 @@ class RoomController extends Controller
     }
 
     /**
-     * @Route("/edit/{id}", name="room_edit", methods={"POST"})
+     * @Route("/edit/{id}", name="room_edit", methods={"GET","POST"})
      * @Security("has_role('ROLE_ADMIN')")
      *
      * @param Room        $room
