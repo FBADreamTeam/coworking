@@ -124,7 +124,7 @@ class CustomerController extends Controller
      */
     public function editAddressCustomer(Address $address, Request $request, CustomerManager $customerManager)
     {
-        $form = $this->createForm(AddressType::class, $address, ['context' => 'customer.create']);
+        $form = $this->createForm(AddressType::class, $address);
 
         $form->handleRequest($request);
 

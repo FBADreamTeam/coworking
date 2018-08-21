@@ -34,6 +34,7 @@ admin:
       home: 'Accueil Rooms'
     rooms-list: 'Gestion des Rooms'
     roomsOption-list: 'Gestion des rooms options'
+    editAddress: 'Modifier une adresse'
   rooms:
     btn:
       add: 'Ajouter des pièces'

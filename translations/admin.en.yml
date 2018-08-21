@@ -34,6 +34,7 @@ admin:
       home: 'Rooms Home'
     rooms-list: 'Rooms Management'
     roomsOption-list: 'Rooms options Management'
+    editAddress: 'Edit address'
   rooms:
     btn:
       add: 'Add rooms'
