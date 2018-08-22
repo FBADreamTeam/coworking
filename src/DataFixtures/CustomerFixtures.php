@@ -45,7 +45,7 @@ class CustomerFixtures extends Fixture
         $address->setCountry('France');
         $customer->addAddress($address);
         $address4 = new Address();
-        $address4->setStreet('66 rue Test');
+        $address4->setStreet('82 rue Test');
         $address4->setPostalCode('75019');
         $address4->setCity('Paris');
         $address4->setCountry('France');
@@ -75,7 +75,7 @@ class CustomerFixtures extends Fixture
         $address3->setCity('Paris');
         $address3->setCountry('France');
         $address3->setAddressCpl('n°2');
-        $customer2->addAddress($address3);
+        $customer3->addAddress($address3);
 
         $manager->persist($customer);
         $manager->persist($customer2);
