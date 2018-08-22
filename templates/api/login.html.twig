@@ -43,7 +43,7 @@
                                 return;
                             }
                             localStorage.setItem('jsonLoginToken', data['token']);
-                            window.location.replace('/api/info_user');
+                            window.location.replace('{{ path('info_user') }}');
                         },
                         error: function(xhr, status, error) {
 

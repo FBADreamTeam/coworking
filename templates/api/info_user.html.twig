@@ -39,7 +39,7 @@
         $(document).ready(function(){
             var access_token = localStorage.getItem('jsonLoginToken');
             $.ajax({
-                url: "/api/user/info",
+                url: '{{path('user_info')}}',
                 method : 'GET',
                 beforeSend : function( xhr ) {
                     xhr.setRequestHeader( 'Authorization', 'BEARER ' + access_token );
@@ -64,7 +64,7 @@
                 },
                 error: function(xhr, status, error) {
                     if (error === 'Unauthorized'){
-                        window.location.replace('/api/login');
+                        window.location.replace('{{path('login_jwt')}}');
                     }
                 }
             });
