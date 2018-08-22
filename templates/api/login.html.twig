@@ -4,7 +4,7 @@
 {% block content %}
 <div class="features">
     <div class="container">
-        <div class="row align-items-end">
+        <div class="row  justify-content-md-center align-items-end" style="margin-top: 150px;">
 
             <!-- Features Item -->
             <div class="col-lg-4 features_col">
@@ -43,7 +43,7 @@
                                 return;
                             }
                             localStorage.setItem('jsonLoginToken', data['token']);
-                            window.location.replace('/info_user');
+                            window.location.replace('/api/info_user');
                         },
                         error: function(xhr, status, error) {
 
