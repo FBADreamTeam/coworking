@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class ApiController extends Controller
 {
     /**
-     * @Route("/login", name="login_jwt")
+     * @Route("/api/login", name="login_jwt")
      * @Method("GET")
      *
      * @param AuthenticationUtils $utils
@@ -39,7 +39,7 @@ class ApiController extends Controller
     }
 
     /**
-     * @Route("/info_user", name="info_user")
+     * @Route("/api/info_user", name="info_user")
      * @Method("GET")
      *
      * @return \Symfony\Component\HttpFoundation\Response

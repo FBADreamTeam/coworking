@@ -1,13 +1,19 @@
 {# templates/security/login.html.twig #}
 {% extends 'layout.html.twig' %}
 
-{% block content %}
-    <div class="features">
-        <div class="container">
-            <div class="row align-items-end">
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/loader.css') }}">
+{% endblock %}
 
+
+{% block content %}
+    {# --LOADER-- #}
+        <div class="container features_col" >
+            <div class="row align-items-end" style="min-height: 200px;">
+                <div class="loader"></div>
                 <!-- Features Item -->
-                <div class="col-lg-12 features_col">
+                <div class="col-lg-12 hidecol" style="display: none;">
                     <h2 class="greetings"></h2>
                     <div class="my-info">
                         <hr>
@@ -23,8 +29,8 @@
                     </div>
                 </div>
             </div>
+
         </div>
-    </div>
 {% endblock %}
 
 {% block javascripts %}
@@ -39,7 +45,6 @@
                     xhr.setRequestHeader( 'Authorization', 'BEARER ' + access_token );
                 },
                 success: function(response, status, xhr){
-                    console.log(response);
                     $('.greetings').html("Bonjour "+ response.firstName + ' '+ response.lastName);
                     $('.mymail').html(response.email);
                     var addresses = "";
@@ -54,11 +59,12 @@
                             "</div>";
                     });
                     $('.address .row').html(addresses);
-
+                    $('.loader').hide();
+                    $('.hidecol').show();
                 },
                 error: function(xhr, status, error) {
                     if (error === 'Unauthorized'){
-                        window.location.replace('http://coworking.local/login');
+                        window.location.replace('/api/login');
                     }
                 }
             });

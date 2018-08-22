@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for C:\wamp64\www\coworking\src/Entity</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../.css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="../.css/nv.d3.min.css" rel="stylesheet" type="text/css">
+  <link href="../.css/style.css" rel="stylesheet" type="text/css">
+  <!--[if lt IE 9]>
+  <script src="../.js/html5shiv.min.js"></script>
+  <script src="../.js/respond.min.js"></script>
+  <![endif]-->
+ </head>
+ <body>
+  <header>
+   <div class="container">
+    <div class="row">
+     <div class="col-md-12">
+      <ol class="breadcrumb">
+        <li><a href="../index.html">C:\wamp64\www\coworking\src</a></li>
+        <li><a href="index.html">Entity</a></li>
+        <li class="active">(Dashboard)</li>
+
+      </ol>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Order.php.html#12">App\Entity\Order</a></td><td class="text-right">23%</td></tr>
+       <tr><td><a href="RoomOption.php.html#14">App\Entity\RoomOption</a></td><td class="text-right">40%</td></tr>
+       <tr><td><a href="BookingOptions.php.html#12">App\Entity\BookingOptions</a></td><td class="text-right">55%</td></tr>
+       <tr><td><a href="AbstractUser.php.html#12">App\Entity\AbstractUser</a></td><td class="text-right">61%</td></tr>
+       <tr><td><a href="Room.php.html#16">App\Entity\Room</a></td><td class="text-right">62%</td></tr>
+       <tr><td><a href="Role.php.html#11">App\Entity\Role</a></td><td class="text-right">83%</td></tr>
+       <tr><td><a href="RoomType.php.html#14">App\Entity\RoomType</a></td><td class="text-right">85%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Room.php.html#16">App\Entity\Room</a></td><td class="text-right">127</td></tr>
+       <tr><td><a href="RoomOption.php.html#14">App\Entity\RoomOption</a></td><td class="text-right">94</td></tr>
+       <tr><td><a href="Order.php.html#12">App\Entity\Order</a></td><td class="text-right">89</td></tr>
+       <tr><td><a href="AbstractUser.php.html#12">App\Entity\AbstractUser</a></td><td class="text-right">73</td></tr>
+       <tr><td><a href="BookingOptions.php.html#12">App\Entity\BookingOptions</a></td><td class="text-right">43</td></tr>
+       <tr><td><a href="RoomType.php.html#14">App\Entity\RoomType</a></td><td class="text-right">17</td></tr>
+       <tr><td><a href="Role.php.html#11">App\Entity\Role</a></td><td class="text-right">5</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="AbstractUser.php.html#81"><abbr title="App\Entity\AbstractUser::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RoomOption.php.html#56"><abbr title="App\Entity\RoomOption::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AbstractUser.php.html#150"><abbr title="App\Entity\AbstractUser::eraseCredentials">eraseCredentials</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Role.php.html#37"><abbr title="App\Entity\Role::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Room.php.html#118"><abbr title="App\Entity\Room::setName">setName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Room.php.html#130"><abbr title="App\Entity\Room::setCapacity">setCapacity</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Room.php.html#142"><abbr title="App\Entity\Room::setDescription">setDescription</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Room.php.html#154"><abbr title="App\Entity\Room::setStatus">setStatus</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Room.php.html#292"><abbr title="App\Entity\Room::setFeaturedImage">setFeaturedImage</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RoomOption.php.html#61"><abbr title="App\Entity\RoomOption::getLabel">getLabel</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#67"><abbr title="App\Entity\Order::setDate">setDate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RoomOption.php.html#66"><abbr title="App\Entity\RoomOption::setLabel">setLabel</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RoomOption.php.html#73"><abbr title="App\Entity\RoomOption::getDescription">getDescription</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RoomOption.php.html#78"><abbr title="App\Entity\RoomOption::setDescription">setDescription</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RoomOption.php.html#85"><abbr title="App\Entity\RoomOption::getPrice">getPrice</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RoomOption.php.html#129"><abbr title="App\Entity\RoomOption::jsonSerialize">jsonSerialize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RoomOption.php.html#136"><abbr title="App\Entity\RoomOption::anonymousFunction:136#542">anonymousFunction:136#542</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RoomType.php.html#58"><abbr title="App\Entity\RoomType::setLabel">setLabel</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#86"><abbr title="App\Entity\Order::getAddress">getAddress</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#91"><abbr title="App\Entity\Order::setAddress">setAddress</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#62"><abbr title="App\Entity\Order::getDate">getDate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#55"><abbr title="App\Entity\Order::setTotalHT">setTotalHT</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AbstractUser.php.html#154"><abbr title="App\Entity\AbstractUser::getFullName">getFullName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AbstractUser.php.html#162"><abbr title="App\Entity\AbstractUser::getToken">getToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AbstractUser.php.html#170"><abbr title="App\Entity\AbstractUser::setToken">setToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AbstractUser.php.html#178"><abbr title="App\Entity\AbstractUser::getCreatedToken">getCreatedToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AbstractUser.php.html#186"><abbr title="App\Entity\AbstractUser::setCreatedToken">setCreatedToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AbstractUser.php.html#194"><abbr title="App\Entity\AbstractUser::getExpiredToken">getExpiredToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AbstractUser.php.html#202"><abbr title="App\Entity\AbstractUser::setExpiredToken">setExpiredToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Address.php.html#61"><abbr title="App\Entity\Address::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BookingOptions.php.html#54"><abbr title="App\Entity\BookingOptions::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BookingOptions.php.html#83"><abbr title="App\Entity\BookingOptions::getBooking">getBooking</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BookingOptions.php.html#110"><abbr title="App\Entity\BookingOptions::getDescription">getDescription</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BookingOptions.php.html#100"><abbr title="App\Entity\BookingOptions::getLabel">getLabel</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BookingOptions.php.html#120"><abbr title="App\Entity\BookingOptions::getPrice">getPrice</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="BookingOptions.php.html#140"><abbr title="App\Entity\BookingOptions::jsonSerialize">jsonSerialize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#45"><abbr title="App\Entity\Order::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Order.php.html#50"><abbr title="App\Entity\Order::getTotalHT">getTotalHT</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="RoomType.php.html#73"><abbr title="App\Entity\RoomType::setRoomOptions">setRoomOptions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Room.php.html#233"><abbr title="App\Entity\Room::setMonthlyPrice">setMonthlyPrice</abbr></a></td><td class="text-right">33%</td></tr>
+       <tr><td><a href="Room.php.html#213"><abbr title="App\Entity\Room::setWeeklyPrice">setWeeklyPrice</abbr></a></td><td class="text-right">33%</td></tr>
+       <tr><td><a href="Room.php.html#193"><abbr title="App\Entity\Room::setDailyPrice">setDailyPrice</abbr></a></td><td class="text-right">33%</td></tr>
+       <tr><td><a href="Room.php.html#173"><abbr title="App\Entity\Room::setHourlyPrice">setHourlyPrice</abbr></a></td><td class="text-right">33%</td></tr>
+       <tr><td><a href="RoomOption.php.html#90"><abbr title="App\Entity\RoomOption::setPrice">setPrice</abbr></a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="Room.php.html#304"><abbr title="App\Entity\Room::checkPrice">checkPrice</abbr></a></td><td class="text-right">66%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Order.php.html#50"><abbr title="App\Entity\Order::getTotalHT">getTotalHT</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Order.php.html#62"><abbr title="App\Entity\Order::getDate">getDate</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Order.php.html#86"><abbr title="App\Entity\Order::getAddress">getAddress</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="RoomOption.php.html#61"><abbr title="App\Entity\RoomOption::getLabel">getLabel</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="RoomOption.php.html#73"><abbr title="App\Entity\RoomOption::getDescription">getDescription</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="RoomOption.php.html#85"><abbr title="App\Entity\RoomOption::getPrice">getPrice</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="RoomOption.php.html#90"><abbr title="App\Entity\RoomOption::setPrice">setPrice</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="Room.php.html#304"><abbr title="App\Entity\Room::checkPrice">checkPrice</abbr></a></td><td class="text-right">2</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 5.3.2</a> using <a href="https://secure.php.net/" target="_top">PHP 7.2.4</a> with <a href="https://xdebug.org/">Xdebug 2.6.1</a> and <a href="https://phpunit.de/">PHPUnit 6.5.10</a> at Wed Aug 22 8:51:40 UTC 2018.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="../.js/jquery.min.js" type="text/javascript"></script>
+  <script src="../.js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="../.js/holder.min.js" type="text/javascript"></script>
+  <script src="../.js/d3.min.js" type="text/javascript"></script>
+  <script src="../.js/nv.d3.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([0,0,0,1,0,1,1,2,0,2,1,3], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([39,0,0,0,4,0,1,1,0,0,0,97], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[61.29032258064516,28,"<a href=\"AbstractUser.php.html#12\">App\\Entity\\AbstractUser<\/a>"],[96.15384615384616,22,"<a href=\"Address.php.html#11\">App\\Entity\\Address<\/a>"],[100,35,"<a href=\"Booking.php.html#15\">App\\Entity\\Booking<\/a>"],[55.00000000000001,17,"<a href=\"BookingOptions.php.html#12\">App\\Entity\\BookingOptions<\/a>"],[100,18,"<a href=\"Customer.php.html#21\">App\\Entity\\Customer<\/a>"],[100,11,"<a href=\"Employee.php.html#10\">App\\Entity\\Employee<\/a>"],[23.076923076923077,13,"<a href=\"Order.php.html#12\">App\\Entity\\Order<\/a>"],[83.33333333333334,5,"<a href=\"Role.php.html#11\">App\\Entity\\Role<\/a>"],[62,40,"<a href=\"Room.php.html#16\">App\\Entity\\Room<\/a>"],[40.74074074074074,19,"<a href=\"RoomOption.php.html#14\">App\\Entity\\RoomOption<\/a>"],[85.71428571428571,17,"<a href=\"RoomType.php.html#14\">App\\Entity\\RoomType<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[100,5,"<a href=\"AbstractUser.php.html#73\">App\\Entity\\AbstractUser::__construct<\/a>"],[0,1,"<a href=\"AbstractUser.php.html#81\">App\\Entity\\AbstractUser::getId<\/a>"],[100,2,"<a href=\"AbstractUser.php.html#86\">App\\Entity\\AbstractUser::getFirstName<\/a>"],[100,1,"<a href=\"AbstractUser.php.html#91\">App\\Entity\\AbstractUser::setFirstName<\/a>"],[100,2,"<a href=\"AbstractUser.php.html#98\">App\\Entity\\AbstractUser::getLastName<\/a>"],[100,1,"<a href=\"AbstractUser.php.html#103\">App\\Entity\\AbstractUser::setLastName<\/a>"],[100,2,"<a href=\"AbstractUser.php.html#110\">App\\Entity\\AbstractUser::getEmail<\/a>"],[100,1,"<a href=\"AbstractUser.php.html#115\">App\\Entity\\AbstractUser::setEmail<\/a>"],[100,2,"<a href=\"AbstractUser.php.html#122\">App\\Entity\\AbstractUser::getPassword<\/a>"],[100,1,"<a href=\"AbstractUser.php.html#127\">App\\Entity\\AbstractUser::setPassword<\/a>"],[100,1,"<a href=\"AbstractUser.php.html#137\">App\\Entity\\AbstractUser::getSalt<\/a>"],[100,1,"<a href=\"AbstractUser.php.html#145\">App\\Entity\\AbstractUser::getUsername<\/a>"],[0,1,"<a href=\"AbstractUser.php.html#150\">App\\Entity\\AbstractUser::eraseCredentials<\/a>"],[0,1,"<a href=\"AbstractUser.php.html#154\">App\\Entity\\AbstractUser::getFullName<\/a>"],[0,1,"<a href=\"AbstractUser.php.html#162\">App\\Entity\\AbstractUser::getToken<\/a>"],[0,1,"<a href=\"AbstractUser.php.html#170\">App\\Entity\\AbstractUser::setToken<\/a>"],[0,1,"<a href=\"AbstractUser.php.html#178\">App\\Entity\\AbstractUser::getCreatedToken<\/a>"],[0,1,"<a href=\"AbstractUser.php.html#186\">App\\Entity\\AbstractUser::setCreatedToken<\/a>"],[0,1,"<a href=\"AbstractUser.php.html#194\">App\\Entity\\AbstractUser::getExpiredToken<\/a>"],[0,1,"<a href=\"AbstractUser.php.html#202\">App\\Entity\\AbstractUser::setExpiredToken<\/a>"],[0,1,"<a href=\"Address.php.html#61\">App\\Entity\\Address::getId<\/a>"],[100,2,"<a href=\"Address.php.html#66\">App\\Entity\\Address::getStreet<\/a>"],[100,1,"<a href=\"Address.php.html#71\">App\\Entity\\Address::setStreet<\/a>"],[100,2,"<a href=\"Address.php.html#78\">App\\Entity\\Address::getPostalCode<\/a>"],[100,1,"<a href=\"Address.php.html#83\">App\\Entity\\Address::setPostalCode<\/a>"],[100,2,"<a href=\"Address.php.html#90\">App\\Entity\\Address::getCity<\/a>"],[100,1,"<a href=\"Address.php.html#95\">App\\Entity\\Address::setCity<\/a>"],[100,2,"<a href=\"Address.php.html#102\">App\\Entity\\Address::getCountry<\/a>"],[100,1,"<a href=\"Address.php.html#107\">App\\Entity\\Address::setCountry<\/a>"],[100,2,"<a href=\"Address.php.html#114\">App\\Entity\\Address::getAddressCpl<\/a>"],[100,2,"<a href=\"Address.php.html#119\">App\\Entity\\Address::setAddressCpl<\/a>"],[100,2,"<a href=\"Address.php.html#126\">App\\Entity\\Address::getCustomer<\/a>"],[100,2,"<a href=\"Address.php.html#131\">App\\Entity\\Address::setCustomer<\/a>"],[100,1,"<a href=\"Address.php.html#138\">App\\Entity\\Address::__toString<\/a>"],[100,1,"<a href=\"Booking.php.html#90\">App\\Entity\\Booking::__construct<\/a>"],[100,2,"<a href=\"Booking.php.html#98\">App\\Entity\\Booking::getId<\/a>"],[100,2,"<a href=\"Booking.php.html#106\">App\\Entity\\Booking::getStartDate<\/a>"],[100,1,"<a href=\"Booking.php.html#118\">App\\Entity\\Booking::setStartDate<\/a>"],[100,2,"<a href=\"Booking.php.html#129\">App\\Entity\\Booking::getEndDate<\/a>"],[100,1,"<a href=\"Booking.php.html#141\">App\\Entity\\Booking::setEndDate<\/a>"],[100,1,"<a href=\"Booking.php.html#152\">App\\Entity\\Booking::getRoom<\/a>"],[100,2,"<a href=\"Booking.php.html#162\">App\\Entity\\Booking::setRoom<\/a>"],[100,2,"<a href=\"Booking.php.html#172\">App\\Entity\\Booking::getCustomer<\/a>"],[100,2,"<a href=\"Booking.php.html#182\">App\\Entity\\Booking::setCustomer<\/a>"],[100,1,"<a href=\"Booking.php.html#192\">App\\Entity\\Booking::getBookingOptions<\/a>"],[100,2,"<a href=\"Booking.php.html#203\">App\\Entity\\Booking::getRoomOptionsAsHashedArray<\/a>"],[100,2,"<a href=\"Booking.php.html#223\">App\\Entity\\Booking::addBookingOption<\/a>"],[100,2,"<a href=\"Booking.php.html#238\">App\\Entity\\Booking::removeBookingOption<\/a>"],[100,2,"<a href=\"Booking.php.html#255\">App\\Entity\\Booking::getOrder<\/a>"],[100,2,"<a href=\"Booking.php.html#265\">App\\Entity\\Booking::setOrder<\/a>"],[100,2,"<a href=\"Booking.php.html#280\">App\\Entity\\Booking::getTotalHTWithoutOptions<\/a>"],[100,2,"<a href=\"Booking.php.html#292\">App\\Entity\\Booking::setTotalHTWithoutOptions<\/a>"],[100,2,"<a href=\"Booking.php.html#303\">App\\Entity\\Booking::getTotalHT<\/a>"],[100,2,"<a href=\"Booking.php.html#315\">App\\Entity\\Booking::setTotalHT<\/a>"],[0,1,"<a href=\"BookingOptions.php.html#54\">App\\Entity\\BookingOptions::getId<\/a>"],[100,2,"<a href=\"BookingOptions.php.html#59\">App\\Entity\\BookingOptions::getQuantity<\/a>"],[100,2,"<a href=\"BookingOptions.php.html#64\">App\\Entity\\BookingOptions::setQuantity<\/a>"],[100,1,"<a href=\"BookingOptions.php.html#71\">App\\Entity\\BookingOptions::getRoomOption<\/a>"],[100,1,"<a href=\"BookingOptions.php.html#76\">App\\Entity\\BookingOptions::setRoomOption<\/a>"],[0,1,"<a href=\"BookingOptions.php.html#83\">App\\Entity\\BookingOptions::getBooking<\/a>"],[100,1,"<a href=\"BookingOptions.php.html#88\">App\\Entity\\BookingOptions::setBooking<\/a>"],[0,1,"<a href=\"BookingOptions.php.html#100\">App\\Entity\\BookingOptions::getLabel<\/a>"],[0,1,"<a href=\"BookingOptions.php.html#110\">App\\Entity\\BookingOptions::getDescription<\/a>"],[0,1,"<a href=\"BookingOptions.php.html#120\">App\\Entity\\BookingOptions::getPrice<\/a>"],[100,2,"<a href=\"BookingOptions.php.html#125\">App\\Entity\\BookingOptions::getTotal<\/a>"],[100,2,"<a href=\"BookingOptions.php.html#130\">App\\Entity\\BookingOptions::setTotal<\/a>"],[0,1,"<a href=\"BookingOptions.php.html#140\">App\\Entity\\BookingOptions::jsonSerialize<\/a>"],[100,5,"<a href=\"Customer.php.html#41\">App\\Entity\\Customer::__construct<\/a>"],[100,1,"<a href=\"Customer.php.html#51\">App\\Entity\\Customer::getAddresses<\/a>"],[100,2,"<a href=\"Customer.php.html#56\">App\\Entity\\Customer::addAddress<\/a>"],[100,3,"<a href=\"Customer.php.html#66\">App\\Entity\\Customer::removeAddress<\/a>"],[100,1,"<a href=\"Customer.php.html#82\">App\\Entity\\Customer::getBookings<\/a>"],[100,2,"<a href=\"Customer.php.html#87\">App\\Entity\\Customer::addBooking<\/a>"],[100,3,"<a href=\"Customer.php.html#97\">App\\Entity\\Customer::removeBooking<\/a>"],[100,1,"<a href=\"Customer.php.html#113\">App\\Entity\\Customer::getRoles<\/a>"],[100,6,"<a href=\"Employee.php.html#27\">App\\Entity\\Employee::__construct<\/a>"],[100,2,"<a href=\"Employee.php.html#33\">App\\Entity\\Employee::getRole<\/a>"],[100,1,"<a href=\"Employee.php.html#41\">App\\Entity\\Employee::getRoles<\/a>"],[100,2,"<a href=\"Employee.php.html#46\">App\\Entity\\Employee::setRole<\/a>"],[0,1,"<a href=\"Order.php.html#45\">App\\Entity\\Order::getId<\/a>"],[0,2,"<a href=\"Order.php.html#50\">App\\Entity\\Order::getTotalHT<\/a>"],[0,1,"<a href=\"Order.php.html#55\">App\\Entity\\Order::setTotalHT<\/a>"],[0,2,"<a href=\"Order.php.html#62\">App\\Entity\\Order::getDate<\/a>"],[0,1,"<a href=\"Order.php.html#67\">App\\Entity\\Order::setDate<\/a>"],[100,2,"<a href=\"Order.php.html#74\">App\\Entity\\Order::getBooking<\/a>"],[100,1,"<a href=\"Order.php.html#79\">App\\Entity\\Order::setBooking<\/a>"],[0,2,"<a href=\"Order.php.html#86\">App\\Entity\\Order::getAddress<\/a>"],[0,1,"<a href=\"Order.php.html#91\">App\\Entity\\Order::setAddress<\/a>"],[100,1,"<a href=\"Role.php.html#32\">App\\Entity\\Role::__construct<\/a>"],[0,1,"<a href=\"Role.php.html#37\">App\\Entity\\Role::getId<\/a>"],[100,2,"<a href=\"Role.php.html#42\">App\\Entity\\Role::getLabel<\/a>"],[100,1,"<a href=\"Role.php.html#47\">App\\Entity\\Role::setLabel<\/a>"],[100,1,"<a href=\"Room.php.html#103\">App\\Entity\\Room::__construct<\/a>"],[100,1,"<a href=\"Room.php.html#108\">App\\Entity\\Room::getId<\/a>"],[100,2,"<a href=\"Room.php.html#113\">App\\Entity\\Room::getName<\/a>"],[0,1,"<a href=\"Room.php.html#118\">App\\Entity\\Room::setName<\/a>"],[100,2,"<a href=\"Room.php.html#125\">App\\Entity\\Room::getCapacity<\/a>"],[0,1,"<a href=\"Room.php.html#130\">App\\Entity\\Room::setCapacity<\/a>"],[100,2,"<a href=\"Room.php.html#137\">App\\Entity\\Room::getDescription<\/a>"],[0,1,"<a href=\"Room.php.html#142\">App\\Entity\\Room::setDescription<\/a>"],[100,2,"<a href=\"Room.php.html#149\">App\\Entity\\Room::getStatus<\/a>"],[0,1,"<a href=\"Room.php.html#154\">App\\Entity\\Room::setStatus<\/a>"],[100,2,"<a href=\"Room.php.html#161\">App\\Entity\\Room::getHourlyPrice<\/a>"],[33.33333333333333,1,"<a href=\"Room.php.html#173\">App\\Entity\\Room::setHourlyPrice<\/a>"],[100,2,"<a href=\"Room.php.html#181\">App\\Entity\\Room::getDailyPrice<\/a>"],[33.33333333333333,1,"<a href=\"Room.php.html#193\">App\\Entity\\Room::setDailyPrice<\/a>"],[100,2,"<a href=\"Room.php.html#201\">App\\Entity\\Room::getWeeklyPrice<\/a>"],[33.33333333333333,1,"<a href=\"Room.php.html#213\">App\\Entity\\Room::setWeeklyPrice<\/a>"],[100,2,"<a href=\"Room.php.html#221\">App\\Entity\\Room::getMonthlyPrice<\/a>"],[33.33333333333333,1,"<a href=\"Room.php.html#233\">App\\Entity\\Room::setMonthlyPrice<\/a>"],[100,1,"<a href=\"Room.php.html#244\">App\\Entity\\Room::getBookings<\/a>"],[100,2,"<a href=\"Room.php.html#249\">App\\Entity\\Room::addBooking<\/a>"],[100,3,"<a href=\"Room.php.html#259\">App\\Entity\\Room::removeBooking<\/a>"],[100,2,"<a href=\"Room.php.html#272\">App\\Entity\\Room::getRoomType<\/a>"],[100,2,"<a href=\"Room.php.html#277\">App\\Entity\\Room::setRoomType<\/a>"],[100,1,"<a href=\"Room.php.html#287\">App\\Entity\\Room::getFeaturedImage<\/a>"],[0,1,"<a href=\"Room.php.html#292\">App\\Entity\\Room::setFeaturedImage<\/a>"],[66.66666666666666,2,"<a href=\"Room.php.html#304\">App\\Entity\\Room::checkPrice<\/a>"],[100,1,"<a href=\"RoomOption.php.html#51\">App\\Entity\\RoomOption::__construct<\/a>"],[0,1,"<a href=\"RoomOption.php.html#56\">App\\Entity\\RoomOption::getId<\/a>"],[0,2,"<a href=\"RoomOption.php.html#61\">App\\Entity\\RoomOption::getLabel<\/a>"],[0,1,"<a href=\"RoomOption.php.html#66\">App\\Entity\\RoomOption::setLabel<\/a>"],[0,2,"<a href=\"RoomOption.php.html#73\">App\\Entity\\RoomOption::getDescription<\/a>"],[0,1,"<a href=\"RoomOption.php.html#78\">App\\Entity\\RoomOption::setDescription<\/a>"],[0,2,"<a href=\"RoomOption.php.html#85\">App\\Entity\\RoomOption::getPrice<\/a>"],[50,2,"<a href=\"RoomOption.php.html#90\">App\\Entity\\RoomOption::setPrice<\/a>"],[100,1,"<a href=\"RoomOption.php.html#103\">App\\Entity\\RoomOption::getRoomTypes<\/a>"],[100,2,"<a href=\"RoomOption.php.html#108\">App\\Entity\\RoomOption::addRoomType<\/a>"],[100,2,"<a href=\"RoomOption.php.html#117\">App\\Entity\\RoomOption::removeRoomType<\/a>"],[0,1,"<a href=\"RoomOption.php.html#129\">App\\Entity\\RoomOption::jsonSerialize<\/a>"],[0,1,"<a href=\"RoomOption.php.html#136\">App\\Entity\\RoomOption::anonymousFunction:136#542<\/a>"],[100,1,"<a href=\"RoomType.php.html#42\">App\\Entity\\RoomType::__construct<\/a>"],[100,1,"<a href=\"RoomType.php.html#48\">App\\Entity\\RoomType::getId<\/a>"],[100,2,"<a href=\"RoomType.php.html#53\">App\\Entity\\RoomType::getLabel<\/a>"],[0,1,"<a href=\"RoomType.php.html#58\">App\\Entity\\RoomType::setLabel<\/a>"],[100,1,"<a href=\"RoomType.php.html#68\">App\\Entity\\RoomType::getRoomOptions<\/a>"],[0,1,"<a href=\"RoomType.php.html#73\">App\\Entity\\RoomType::setRoomOptions<\/a>"],[100,2,"<a href=\"RoomType.php.html#80\">App\\Entity\\RoomType::addRoomOption<\/a>"],[100,2,"<a href=\"RoomType.php.html#90\">App\\Entity\\RoomType::removeRoomOption<\/a>"],[100,1,"<a href=\"RoomType.php.html#103\">App\\Entity\\RoomType::getRooms<\/a>"],[100,2,"<a href=\"RoomType.php.html#108\">App\\Entity\\RoomType::addRoom<\/a>"],[100,3,"<a href=\"RoomType.php.html#118\">App\\Entity\\RoomType::removeRoom<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>
