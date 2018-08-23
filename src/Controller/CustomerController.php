@@ -285,7 +285,7 @@ class CustomerController extends Controller
                     } else {
                         $this->addFlash('error', 'Les mots de passes ne sont pas identiques');
 
-                        return $this->render('/profile/profile_register.html.twig', [
+                        return $this->render('/profile/profile_password_reset.html.twig', [
                             'form' => $form->createView(),
                         ]);
                     }
