@@ -13,6 +13,7 @@ use App\Form\RoomOptionFormType;
 use App\Managers\RoomOptionManager;
 use App\Repository\RoomOptionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -39,13 +40,13 @@ class RoomOptionController extends Controller
     }
 
     /**
-     * @Route("/add", name="room_option_add", methods={"POST"})
+     * @Route("/add", name="room_option_add", methods={"GET", "POST"})
      * @Security("has_role('ROLE_ADMIN')")
      *
      * @param Request           $request
      * @param RoomOptionManager $roomOptionManager
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function addRoomOption(Request $request, RoomOptionManager $roomOptionManager)
     {
@@ -64,7 +65,7 @@ class RoomOptionController extends Controller
         }
 
         return $this->render('admin/room_option/form.html.twig', [
-            'titleform' => 'Creation d\'une nouvelle pièce',
+            'titleform' => 'Creation d\'une nouvelle option',
             'form' => $form->createView(),
         ]);
     }
@@ -126,9 +127,9 @@ class RoomOptionController extends Controller
      * @param RoomOption        $roomOption
      * @param RoomOptionManager $roomOptionManager
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
-    public function deleteRoomOption(RoomOption $roomOption, RoomOptionManager $roomOptionManager): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function deleteRoomOption(RoomOption $roomOption, RoomOptionManager $roomOptionManager): RedirectResponse
     {
         $roomOptionManager->deleteRoomOption($roomOption);
 

@@ -13,22 +13,33 @@ Accueil Room Option
 {% block main_content %}
     <div class="container-fluid">
         <div class="row">
-            <h4 class="c-grey-900 mT-10 mB-30">{{ 'admin.titles.roomsOption-list'|trans }}</h4>
+            <div class="col-lg-12">
+                {% for message in app.flashes('success')  %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('error')  %}
+                    <div class="alert alert-danger">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="c-grey-900 mT-10 mB-30">{{ 'admin.titles.roomsOption-list'|trans }}</h4>
+            </div>
+            <div class="col-md-6 text-sm-right">
+                <a href="{{ path('room_option_add') }}" class="btn btn-success">
+                    <i class="pr-2 ti-plus"></i>{{ 'admin.roomOptions.btn.add'|trans }}
+                </a>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-lg-12 ">
                 <div class="bgc-white bd bdrs-3 p-20">
-                    {% for message in app.flashes('success')  %}
-                        <div class="alert alert-success">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                    {% for message in app.flashes('error')  %}
-                        <div class="alert alert-danger">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                    <a href="{{ path('room_option_add') }}" class="btn btn-success">
-                        <i class="pr-2 ti-plus"></i>
-                        Ajouter une pièce</a>
+
                     <table id="dataTable" class="table table-striped table-hover table-bordered dataTable">
                         <thead>
                         <tr>

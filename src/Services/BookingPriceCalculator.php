@@ -46,11 +46,13 @@ class BookingPriceCalculator
      */
     public function calculateTotalPrice(Booking $booking): int
     {
+        // get number of business days
         $days = $this->getBusinessDaysCount($booking->getStartDate(), $booking->getEndDate());
+        // calculate total HT price without options
         $price = $this->calculateTotalPriceWithoutOptions($booking);
-
+        // get the booking options
         $options = $booking->getBookingOptions();
-
+        // get the total price of booking options
         /** @var BookingOptions $option */
         foreach ($options as $option) {
             $optionTotal = $option->getPrice() * $option->getQuantity() * $days;
