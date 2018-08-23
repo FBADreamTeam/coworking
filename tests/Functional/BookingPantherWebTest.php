@@ -33,7 +33,7 @@ class BookingPantherWebTest extends PantherTestCase
         $client = static::createPantherClient();
         $client->followRedirects();
         $crawler = $client->request('GET', '/booking');
-
+        sleep(8);
         // click next day by default
         $crawler->findElement(WebDriverBy::className('fc-next-button'))->click();
         $client->wait(5, 1000)->until(
