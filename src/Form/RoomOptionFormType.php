@@ -23,7 +23,7 @@ class RoomOptionFormType extends AbstractType
     {
         $builder->add('label', TextType::class, [
                     'required' => true,
-                    'label' => 'Nom de la pièce',
+                    'label' => 'Nom de l\'option',
                     'attr' => [
                     ],
                 ])

@@ -7,6 +7,7 @@ use App\Form\RoomFormType;
 use App\Managers\RoomManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Asset\Packages;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,14 +31,14 @@ class RoomController extends Controller
     }
 
     /**
-     * @Route("/add", name="room_add", methods={"POST"})
+     * @Route("/add", name="room_add", methods={"GET", "POST"})
      * @Security("has_role('ROLE_ADMIN')")
      *
      * @param Request     $request
      * @param RoomManager $roomManager
      * @param Packages    $packages
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return RedirectResponse|Response
      */
     public function addRoom(Request $request, RoomManager $roomManager, Packages $packages)
     {
@@ -117,9 +118,9 @@ class RoomController extends Controller
      * @param Room        $room
      * @param RoomManager $roomManager
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
-    public function deleteRoom(Room $room, RoomManager $roomManager): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function deleteRoom(Room $room, RoomManager $roomManager): RedirectResponse
     {
         $roomManager->deleteRoom($room);
 

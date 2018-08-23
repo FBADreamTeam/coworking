@@ -45,6 +45,9 @@ admin:
       hourly_price: 'Tarif horaire'
       weekly_price: 'Tarif hebdomadaire'
       action: 'Actions'
+  roomOptions:
+    btn:
+      add: 'Ajouter une option'
 admin.forms.room.type: 'Type de pièce'
 admin.forms.room.name: 'Nom de la pièce'
 admin.forms.room.capacity: 'Capacité'
